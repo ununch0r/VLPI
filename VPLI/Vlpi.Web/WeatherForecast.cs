@@ -1,6 +1,6 @@
 using System;
 
-namespace App.Web
+namespace Vlpi.Web
 {
     public class WeatherForecast
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace App.Web.Controllers
+namespace Vlpi.Web.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -1,0 +1,59 @@
+{
+    "SystemName": "ВНС",
+    "Requirements": {
+      "RequirementGroup": [
+        {
+          "RequirementType": 1,
+          "Group": 1,
+          "PossibleAnswers": [
+            "Повинна бути можливість переглядати лекції",
+            "Необхідно надати можливість переглядати лекції",
+            "Побтрібно забезпечити перегляд лекцій"
+          ]
+        },
+        {
+          "RequirementType": 1,
+          "Group": 2,
+          "PossibleAnswers": [
+            "Повинна бути можливість додавати лекції",
+            "Необхідно надати можливість додавати лекції",
+            "Побтрібно забезпечити додавати лекції"
+          ]
+        },
+        {
+          "RequirementType": 2,
+          "Group": 3,
+          "PossibleAnswers": [
+            "Кнопка виходу повинна знаходитись у правому верхньому куті",
+            "Кнопка виходу має розташовуватись справа зверху"
+          ]
+        }
+      ]
+    }
+}
+
+{
+    "CorrectRequirements": {
+      "CorrectRequirements":[12,14,15]
+    },
+    "WrongRequirements": {
+      "Requirement": [
+        {
+          "Id": 11,
+          "AcceptableModifications":[
+              "sdfsdf",
+              "sdfsdf",
+              "sdfsdf"
+            ]
+        },
+        {
+          "Id": 13,
+          "AcceptableModifications":  [
+              "modified text 1",
+              "modified text 2",
+              "modified text 3"
+            ]
+        }
+      ]
+    }
+}
