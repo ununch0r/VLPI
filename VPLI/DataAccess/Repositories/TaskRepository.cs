@@ -24,6 +24,8 @@ namespace DataAccess.Repositories
         public async System.Threading.Tasks.Task<Task> GetAsync(int id)
         {
             return await _context.Task
+                .Include(t=>t.Requirement)
+                .Include(t=> t.TaskTip)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(t => t.Id == id);
         }

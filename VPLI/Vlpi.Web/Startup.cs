@@ -22,9 +22,8 @@ namespace Vlpi.Web
         {
             services.AddControllers();
             services.AddServices();
-
             services.AddSwagger();
-
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<VlpiContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
         }
