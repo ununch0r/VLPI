@@ -26,13 +26,11 @@ namespace Core.Entities
         public short TypeId { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
+        public string StandardAnswer { get; set; }
 
         [ForeignKey(nameof(TypeId))]
         [InverseProperty(nameof(TaskType.Task))]
         public virtual TaskType Type { get; set; }
-        [ForeignKey(nameof(Id))]
-        [InverseProperty(nameof(Entities.StandardAnswer.Task))]
-        public virtual StandardAnswer StandardAnswer { get; set; }
         [InverseProperty("Task")]
         public virtual ICollection<Requirement> Requirement { get; set; }
         [InverseProperty("Task")]

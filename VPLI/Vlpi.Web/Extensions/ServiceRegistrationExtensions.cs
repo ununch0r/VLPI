@@ -12,6 +12,7 @@ namespace Vlpi.Web.Extensions
         {
             //repositories
             services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             //managers
             services.AddTransient<ITaskManager, TaskManager>();

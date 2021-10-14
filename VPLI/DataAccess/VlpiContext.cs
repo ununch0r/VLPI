@@ -22,7 +22,6 @@ namespace DataAccess
         public virtual DbSet<Requirement> Requirement { get; set; }
         public virtual DbSet<RequirementType> RequirementType { get; set; }
         public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<StandardAnswer> StandardAnswer { get; set; }
         public virtual DbSet<Task> Task { get; set; }
         public virtual DbSet<TaskTip> TaskTip { get; set; }
         public virtual DbSet<TaskType> TaskType { get; set; }
@@ -41,21 +40,8 @@ namespace DataAccess
                     .HasConstraintName("FK_RequirementAnalysisTaskContent_Task");
             });
 
-            modelBuilder.Entity<StandardAnswer>(entity =>
-            {
-                entity.Property(e => e.TaskId).ValueGeneratedNever();
-            });
-
             modelBuilder.Entity<Task>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
-                entity.HasOne(d => d.StandardAnswer)
-                    .WithOne(p => p.Task)
-                    .HasForeignKey<Task>(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Task_StandardAnswer");
-
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Task)
                     .HasForeignKey(d => d.TypeId)

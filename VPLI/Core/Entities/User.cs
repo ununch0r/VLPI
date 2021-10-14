@@ -27,6 +27,7 @@ namespace Core.Entities
         [Required]
         [StringLength(255)]
         public string Email { get; set; }
+        //TODO: typo
         [Required]
         [StringLength(128)]
         public string HashedPasswrod { get; set; }

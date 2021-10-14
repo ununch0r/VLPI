@@ -12,9 +12,9 @@ namespace Vlpi.Web.ViewModels
         public short TypeId { get; set; }
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
+        public string StandardAnswer { get; set; }
 
         public IList<CreateRequirementViewModel> Requirement { get; set; }
-        public CreateStandardAnswerViewModel StandardAnswer { get; set; }
         public IList<CreateTaskTipViewModel> TaskTip { get; set; }
     }
 }
