@@ -11,6 +11,11 @@ namespace Vlpi.Web.Mapper
             CreateMap<Requirement, RequirementViewModel>();
             CreateMap<TaskTip, TaskTipViewModel>();
             CreateMap<Task, TaskViewModel>();
+
+            CreateMap<CreateRequirementViewModel, Requirement>();
+            CreateMap<CreateStandardAnswerViewModel, StandardAnswer>();
+            CreateMap<CreateTaskTipViewModel, TaskTip>();
+            CreateMap<CreateTaskViewModel, Task>();
         }
     }
 }

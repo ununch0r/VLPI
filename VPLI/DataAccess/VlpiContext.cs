@@ -50,7 +50,7 @@ namespace DataAccess
             {
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-                entity.HasOne(d => d.IdNavigation)
+                entity.HasOne(d => d.StandardAnswer)
                     .WithOne(p => p.Task)
                     .HasForeignKey<Task>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)

@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using AutoMapper;
 using Core.Managers;
 using Microsoft.AspNetCore.Mvc;
 using Vlpi.Web.ViewModels;
+using Task = Core.Entities.Task;
 
 namespace Vlpi.Web.Controllers
 {
@@ -26,6 +28,15 @@ namespace Vlpi.Web.Controllers
             var taskEntity = await _taskManager.GetAsync(id);
             var taskViewModel = _mapper.Map<TaskViewModel>(taskEntity);
             return Ok(taskViewModel);
+        }
+
+        [HttpPost]
+        [Route("")]
+        public async Task<IActionResult> CreateTask([FromBody] [Required] CreateTaskViewModel createTaskViewModel)
+        {
+            var taskEntity = _mapper.Map<Task>(createTaskViewModel);
+            await _taskManager.AddAsync(taskEntity);
+            return Ok();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Core.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Vlpi.Web.ViewModels
@@ -14,8 +13,8 @@ namespace Vlpi.Web.ViewModels
         public string Description { get; set; }
         public string PhotoUrl { get; set; }
 
-        public IList<Requirement> Requirement { get; set; }
-        public IList<StandardAnswer> StandardAnswer { get; set; }
-        public IList<TaskTip> TaskTip { get; set; }
+        public IList<CreateRequirementViewModel> Requirement { get; set; }
+        public CreateStandardAnswerViewModel StandardAnswer { get; set; }
+        public IList<CreateTaskTipViewModel> TaskTip { get; set; }
     }
 }

@@ -33,7 +33,8 @@ namespace DataAccess.Repositories
         public async System.Threading.Tasks.Task<IList<Task>> ListAsync()
         {
             return await _context.Task
-                .Include(t => t.StandardAnswer)
+                .Include(t => t.Requirement)
+                .Include(t => t.TaskTip)
                 .AsNoTracking()
                 .ToListAsync();
         }

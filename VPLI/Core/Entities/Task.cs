@@ -31,8 +31,8 @@ namespace Core.Entities
         [InverseProperty(nameof(TaskType.Task))]
         public virtual TaskType Type { get; set; }
         [ForeignKey(nameof(Id))]
-        [InverseProperty(nameof(StandardAnswer.Task))]
-        public virtual StandardAnswer IdNavigation { get; set; }
+        [InverseProperty(nameof(Entities.StandardAnswer.Task))]
+        public virtual StandardAnswer StandardAnswer { get; set; }
         [InverseProperty("Task")]
         public virtual ICollection<Requirement> Requirement { get; set; }
         [InverseProperty("Task")]
