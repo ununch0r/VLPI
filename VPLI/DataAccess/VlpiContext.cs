@@ -1,6 +1,10 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
+
 namespace DataAccess
 {
     public partial class VlpiContext : DbContext
@@ -28,15 +32,8 @@ namespace DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ExecutionMode>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
-
             modelBuilder.Entity<Requirement>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Task)
                     .WithMany(p => p.Requirement)
                     .HasForeignKey(d => d.TaskId)
@@ -44,30 +41,20 @@ namespace DataAccess
                     .HasConstraintName("FK_RequirementAnalysisTaskContent_Task");
             });
 
-            modelBuilder.Entity<RequirementType>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
-
-            modelBuilder.Entity<Role>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
-
             modelBuilder.Entity<StandardAnswer>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.HasOne(d => d.Task)
-                    .WithMany(p => p.StandardAnswer)
-                    .HasForeignKey(d => d.TaskId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_StandartAnswer_Task");
+                entity.Property(e => e.TaskId).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Task>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.Task)
+                    .HasForeignKey<Task>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Task_StandardAnswer");
 
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Task)
@@ -78,8 +65,6 @@ namespace DataAccess
 
             modelBuilder.Entity<TaskTip>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Task)
                     .WithMany(p => p.TaskTip)
                     .HasForeignKey(d => d.TaskId)
@@ -87,20 +72,8 @@ namespace DataAccess
                     .HasConstraintName("FK_TaskTip_Task");
             });
 
-            modelBuilder.Entity<TaskType>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
-
             modelBuilder.Entity<UserAnswer>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Task)
                     .WithMany(p => p.UserAnswer)
                     .HasForeignKey(d => d.TaskId)

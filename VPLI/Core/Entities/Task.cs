@@ -13,7 +13,6 @@ namespace Core.Entities
         public Task()
         {
             Requirement = new HashSet<Requirement>();
-            StandardAnswer = new HashSet<StandardAnswer>();
             TaskTip = new HashSet<TaskTip>();
             UserAnswer = new HashSet<UserAnswer>();
         }
@@ -31,10 +30,11 @@ namespace Core.Entities
         [ForeignKey(nameof(TypeId))]
         [InverseProperty(nameof(TaskType.Task))]
         public virtual TaskType Type { get; set; }
+        [ForeignKey(nameof(Id))]
+        [InverseProperty(nameof(StandardAnswer.Task))]
+        public virtual StandardAnswer IdNavigation { get; set; }
         [InverseProperty("Task")]
         public virtual ICollection<Requirement> Requirement { get; set; }
-        [InverseProperty("Task")]
-        public virtual ICollection<StandardAnswer> StandardAnswer { get; set; }
         [InverseProperty("Task")]
         public virtual ICollection<TaskTip> TaskTip { get; set; }
         [InverseProperty("Task")]

@@ -1,0 +1,21 @@
+﻿using Core.Entities;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Vlpi.Web.ViewModels
+{
+    public class CreateTaskViewModel
+    {
+        [Required]
+        [StringLength(255)]
+        public string Objective { get; set; }
+        public int Complexity { get; set; }
+        public short TypeId { get; set; }
+        public string Description { get; set; }
+        public string PhotoUrl { get; set; }
+
+        public IList<Requirement> Requirement { get; set; }
+        public IList<StandardAnswer> StandardAnswer { get; set; }
+        public IList<TaskTip> TaskTip { get; set; }
+    }
+}
