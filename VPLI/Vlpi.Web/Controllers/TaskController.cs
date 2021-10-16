@@ -10,6 +10,7 @@ namespace Vlpi.Web.Controllers
 {
     [ApiController]
     [Route("api/task")]
+    [Produces("application/json")]
     public class TaskController : ControllerBase
     {
         private readonly ITaskManager _taskManager;
@@ -23,7 +24,7 @@ namespace Vlpi.Web.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             var taskEntity = await _taskManager.GetAsync(id);
             var taskViewModel = _mapper.Map<TaskViewModel>(taskEntity);
@@ -32,7 +33,7 @@ namespace Vlpi.Web.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> CreateTask([FromBody] [Required] CreateTaskViewModel createTaskViewModel)
+        public async Task<IActionResult> CreateTaskAsync([FromBody] [Required] CreateTaskViewModel createTaskViewModel)
         {
             var taskEntity = _mapper.Map<Task>(createTaskViewModel);
             await _taskManager.AddAsync(taskEntity);
