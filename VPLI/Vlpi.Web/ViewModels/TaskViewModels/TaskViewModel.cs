@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Vlpi.Web.ViewModels
+namespace Vlpi.Web.ViewModels.TaskViewModels
 {
     public class TaskViewModel
     {

@@ -1,4 +1,4 @@
-﻿namespace Vlpi.Web.ViewModels
+﻿namespace Vlpi.Web.ViewModels.TaskViewModels
 {
     public class TaskTipViewModel
     {

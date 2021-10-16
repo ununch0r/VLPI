@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
-namespace Core.Repositories
+namespace Core.Managers
 {
-    public interface IUserRepository
+    public interface IUserManager
     {
         Task AddAsync(User user);
         Task<User> GetAsync(int id);

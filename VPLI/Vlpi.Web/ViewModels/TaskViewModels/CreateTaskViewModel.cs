@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Vlpi.Web.ViewModels
+namespace Vlpi.Web.ViewModels.TaskViewModels
 {
     public class CreateTaskViewModel
     {

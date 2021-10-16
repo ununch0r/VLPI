@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Entities;
 using Vlpi.Web.ViewModels;
+using Vlpi.Web.ViewModels.TaskViewModels;
 
 namespace Vlpi.Web.Mapper
 {

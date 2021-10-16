@@ -4,6 +4,7 @@ using AutoMapper;
 using Core.Managers;
 using Microsoft.AspNetCore.Mvc;
 using Vlpi.Web.ViewModels;
+using Vlpi.Web.ViewModels.TaskViewModels;
 using Task = Core.Entities.Task;
 
 namespace Vlpi.Web.Controllers
