@@ -16,6 +16,7 @@ namespace Vlpi.Web.Extensions
 
             //managers
             services.AddTransient<ITaskManager, TaskManager>();
+            services.AddTransient<IUserManager, UserManager>();
         }
     }
 }

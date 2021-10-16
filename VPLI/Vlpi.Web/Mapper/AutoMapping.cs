@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Core.Entities;
-using Vlpi.Web.ViewModels;
 using Vlpi.Web.ViewModels.TaskViewModels;
+using Vlpi.Web.ViewModels.UserViewModels;
 
 namespace Vlpi.Web.Mapper
 {
@@ -16,6 +16,9 @@ namespace Vlpi.Web.Mapper
             CreateMap<CreateRequirementViewModel, Requirement>();
             CreateMap<CreateTaskTipViewModel, TaskTip>();
             CreateMap<CreateTaskViewModel, Task>();
+
+            CreateMap<User, UserViewModel>();
+            CreateMap<UserViewModel, User>();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Core.Entities;
 using Core.Managers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 
 namespace Vlpi.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -61,6 +62,15 @@ namespace Vlpi.Web.Controllers
             var user = await _userManager.GetAsync(userId);
             var userViewModel = _mapper.Map<UserViewModel>(user);
             return Ok(userViewModel);
+        }
+
+        [Route("register")]
+        [HttpPost]
+        public async Task<IActionResult> RegisterUserAsync([FromBody] UserViewModel userViewModel)
+        {
+            var user = _mapper.Map<User>(userViewModel);
+            await _userManager.AddAsync(user);
+            return Ok();
         }
 
         private async Task<UserViewModel> AuthenticateUser(string email, string password)
