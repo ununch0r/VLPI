@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Tile } from '../shared/models/tile.model';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
+
+  tiles: Tile[] = [
+    {header: 'Requirement Analysis', text: 'Test your requirement analysis skills', navigation: '/requirements'},
+    {header: 'Design', text: 'Test your design skills', navigation: '/design'},
+    {header: 'Modelling', text: 'Test your modelling skills', navigation: '/modelling'},
+    {header: 'Coding', text: 'Test your coding skills', navigation: '/coding'},
+    {header: 'Testing', text: 'Test your testing skills', navigation: '/testing'},
+    ];
+
+    goToModule(navigationPath: string){
+      console.log(navigationPath);
+      this.router.navigate([navigationPath]);
+    }
 }

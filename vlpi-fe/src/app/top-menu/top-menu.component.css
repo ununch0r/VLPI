@@ -1,12 +1,3 @@
-:host{
-    width: 100%;
-    height: 75px;
-    background-color: #679186;
-    display: block;
-    line-height: 75px;
-    color: #BBD4CE;
-}
-
 .app-name{
     font-size: 48px;
     margin-left: 15px;

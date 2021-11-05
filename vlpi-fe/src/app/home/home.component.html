@@ -1,8 +1,11 @@
-<mat-grid-list cols="2" rowHeight="100px">
-    <mat-grid-tile>
-        <mat-card class="module-card"></mat-card>
+<div style="height: 30px;"></div>
+
+<mat-grid-list cols="3" rowHeight="250px" gutterSize="20px" class="list">
+    <mat-grid-tile *ngFor="let tile of tiles" class="rounded-item" (click)="goToModule(tile.navigation)">
+        <h1>{{tile.header}}</h1>
+        <mat-grid-tile-footer class="rounded-item footer">
+            <p>{{tile.text}}</p>
+        </mat-grid-tile-footer>
     </mat-grid-tile>
-    <mat-grid-tile>B</mat-grid-tile>
-    <mat-grid-tile>C</mat-grid-tile>
-    <mat-grid-tile>D</mat-grid-tile>
-  </mat-grid-list> 
+</mat-grid-list> 
+
