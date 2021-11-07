@@ -29,5 +29,15 @@ namespace Business.Managers
         {
             return await _userRepository.AuthenticateUserAsync(email, password);
         }
+
+        public async Task AddUserRolesAsync(int userId, string[] roles)
+        {
+            await _userRepository.AddUserRolesAsync(userId, roles);
+        }
+
+        public async Task RemoveUserRolesAsync(int userId, string[] roles)
+        {
+            await _userRepository.RemoveUserRolesAsync(userId, roles);
+        }
     }
 }

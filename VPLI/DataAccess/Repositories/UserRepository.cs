@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Core.Repositories;
 using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,6 +47,41 @@ namespace DataAccess.Repositories
                 .SingleOrDefaultAsync(u =>
                     u.Email == email && u.HashedPasswrod== GetHashedPassword(password));
             return user;
+        }
+
+        public async Task AddUserRolesAsync(int userId, string[] roles)
+        {
+            var user = await _context.User
+                .Include(user => user.UserRole)
+                .ThenInclude(userRole => userRole.Role)
+                .SingleOrDefaultAsync(user => user.Id == userId);
+
+            var newRoles = roles
+                .Where(role => !user.UserRole.Select(ur => ur.Role.Name).Contains(role));
+
+            foreach (var newRole in newRoles)
+            {
+                var roleToAdd = await _context.Role.SingleOrDefaultAsync(role => role.Name == newRole);
+                var userRoleToAdd = new UserRole {RoleId = roleToAdd.Id, UserId = userId};
+
+                await _context.UserRole.AddAsync(userRoleToAdd);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveUserRolesAsync(int userId, string[] roles)
+        {
+            var user = await _context.User
+                .Include(u => u.UserRole)
+                .ThenInclude(userRole => userRole.Role)
+                .SingleOrDefaultAsync(u => u.Id == userId);
+
+            var rolesToRemove = user.UserRole.Where(userRole => roles.Contains(userRole.Role.Name)).ToList();
+
+            _context.UserRole.RemoveRange(rolesToRemove);
+
+            await _context.SaveChangesAsync();
         }
 
         private string GetHashedPassword(string passwordHash)

@@ -64,6 +64,22 @@ namespace Vlpi.Web.Controllers
             return Ok(userViewModel);
         }
 
+        [Route("user/{id}/roles")]
+        [HttpPost]
+        public async Task<IActionResult> AddUserRoles(int userId, [FromBody] string[] roles)
+        {
+            await _userManager.AddUserRolesAsync(userId, roles);
+            return Ok();
+        }
+
+        [Route("user/{id}/roles")]
+        [HttpDelete]
+        public async Task<IActionResult> RemoveUserRoles(int userId, [FromBody] string[] roles)
+        {
+            await _userManager.RemoveUserRolesAsync(userId, roles);
+            return Ok();
+        }
+
         [Route("register")]
         [HttpPost]
         public async Task<IActionResult> RegisterUserAsync([FromBody] UserViewModel userViewModel)
