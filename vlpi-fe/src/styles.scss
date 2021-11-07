@@ -64,3 +64,46 @@ body{
     margin: 0px;
     height: 100%;
 }
+
+.list{
+  margin: 0% 15%;
+}
+
+.rounded-item{
+  border-radius: 50px;
+}
+
+.footer{
+  height: 100px !important;
+  font-size: 20px;
+}
+
+mat-grid-tile{
+  cursor: pointer;
+  background-color: $my-primary-color;
+}
+
+input[type=checkbox] {
+  transform: scale(3);
+}
+
+/* width */
+::-webkit-scrollbar {
+  margin: 10px;
+  padding: 10px;
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  margin: 20px 0px;
+  border-radius: 10px;
+  background: #BBD4CE;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #679186;
+  background-clip: padding-box;
+}

@@ -1,0 +1,55 @@
+@import "../../../styles.scss";
+
+.row {
+    display: flex;
+    height: 90%;
+  }
+  
+.column {
+    flex: 50%;
+}
+
+.header{
+  display: flex;
+  height: 10%;
+  align-items: center;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.hints{
+  float: right;
+  margin-right: 30px;
+}
+
+input {
+  vertical-align: middle;
+}
+
+label {  
+  margin-right: 20px;
+  vertical-align: middle;
+}
+
+.list{
+  margin: 0% 25%;
+}
+
+mat-list{
+  overflow: auto !important;
+  max-height: 98.5%;
+  margin: 0% 15%;
+  direction: rtl;
+}
+
+mat-list-item{
+  background-color: #BBD4CE;
+  margin-bottom: 10px;
+  height: 100px !important;
+  min-width: 50% !important;
+  border-radius: 50px;
+  direction: ltr;
+  font-size: 36px !important;
+  font-weight: bold;
+  cursor: pointer;
+}
