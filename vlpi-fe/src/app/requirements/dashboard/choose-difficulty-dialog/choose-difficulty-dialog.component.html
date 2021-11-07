@@ -1,0 +1,18 @@
+<mat-dialog-content class="big-radio">
+
+    <label id="group-label">Select difficulty:</label>
+    <mat-radio-group
+        aria-labelledby="group-label"
+        class="radio-group"
+        [(ngModel)]="selectedMode">
+        <mat-radio-button class="radio-button" *ngFor="let mode of executionModes" [value]="mode">
+        {{mode.name}}
+        </mat-radio-button>
+    </mat-radio-group>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button mat-secondary" (click)="onOk()">Ok</button>
+    <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+</mat-dialog-actions>

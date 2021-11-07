@@ -2,59 +2,10 @@
 @use '@angular/material' as mat;
 
 @include mat.core();
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 $my-primary-color: #679186;
-
-$my-green-palette: (
-  50: #e6f1ef,
-  100: #c1ddd8,
-  200: #9dc8c0,
-  300: #7FB2A7,
-  400: #6FA296,
-  500: #679186,
-  600: #60847A,
-  700: #58746b,
-  800: #51645e,
-  900: #454646,
-  A100: #b9f6ca,
-  A200: #69f0ae,
-  A400: #00e676,
-  A700: #00c853,
-  contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: rgba(black, 0.87),
-    400: rgba(black, 0.87),
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-    A100: rgba(black, 0.87),
-    A200: white,
-    A400: white,
-    A700: white,
-  )
-);
-
-$my-primary: mat.define-palette($my-green-palette, 500);
-$my-accent: mat.define-palette(mat.$teal-palette, A200, A100, A400);
-
-$my-theme: mat.define-light-theme((
- color: (
-   primary: $my-primary,
-   accent: $my-accent,
- )
-));
-
-// Emit theme-dependent styles for common features used across multiple components.
-@include mat.core-theme($my-theme);
-
-// Emit styles for MatButton based on `$my-theme`. Because the configuration
-// passed to `define-light-theme` omits typography, `button-theme` will not
-// emit any typography styles.
-@include mat.button-theme($my-theme);
+$my-secondary-color: #BBD4CE;
 
 html{
   height: 100%;
@@ -106,4 +57,22 @@ input[type=checkbox] {
   border-radius: 10px;
   background: #679186;
   background-clip: padding-box;
+}
+
+.mat-primary{
+  background-color: $my-primary-color !important;
+  color: $my-secondary-color !important;
+}
+
+.mat-secondary{
+  color: $my-primary-color !important;
+  background-color: $my-secondary-color !important;
+}
+
+.mat-radio-inner-circle{
+  background:$my-primary-color !important;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color: $my-primary-color !important;
 }

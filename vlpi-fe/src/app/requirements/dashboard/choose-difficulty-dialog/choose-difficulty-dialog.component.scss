@@ -1,0 +1,54 @@
+@import "../../../../styles.scss";
+
+#group-label{
+    font-weight: bold;
+    color: #BBD4CE;
+    text-align: center;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .radio-button {
+    margin: 15px;
+    background-color: white;
+    border-radius: 50px;
+    color: $my-primary-color;
+    padding: 0 10px;
+  }
+
+mat-dialog-container{
+    font-size: 36px;
+    justify-content: center;
+    background-color: $my-primary-color !important;
+    border-radius: 50px !important;
+}
+
+.big-radio .mat-radio-container{
+    height: 30px !important;
+    width: 30px !important;
+  }
+  .big-radio .mat-radio-outer-circle{
+    height: 30px !important;
+    width: 30px !important;
+  }
+  .big-radio .mat-radio-inner-circle{
+    height: 30px;
+    width: 30px;
+  }
+  .big-radio .mat-radio-button .mat-radio-ripple{
+    height: 60px; 
+    width: 60px; 
+    left: calc(50% - 30px); 
+    top: calc(50% - 30px); 
+  }
+
+  button{
+      font-size: 36px !important;
+      margin: 0 20px !important;
+      min-width: 100px !important;
+      min-height: 50px !important;
+      border-radius: 25px !important;
+  }
