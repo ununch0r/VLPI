@@ -19,6 +19,21 @@ namespace Business.Managers
             await _taskRepository.AddAsync(task);
         }
 
+        public async System.Threading.Tasks.Task UpdateAsync(int taskId, Task task)
+        {
+            foreach (var requirement in task.Requirement)
+            {
+                requirement.TaskId = taskId;
+            }
+
+            foreach (var taskTip in task.TaskTip)
+            {
+                taskTip.TaskId = taskId;
+            }
+
+            await _taskRepository.UpdateAsync(taskId, task);
+        }
+
         public async System.Threading.Tasks.Task<Task> GetAsync(int id)
         {
             return await _taskRepository.GetAsync(id);

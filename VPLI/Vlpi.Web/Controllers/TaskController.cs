@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Core.Managers;
 using Microsoft.AspNetCore.Mvc;
-using Vlpi.Web.ViewModels;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Vlpi.Web.ViewModels.TaskViewModels;
 using Task = Core.Entities.Task;
 
@@ -32,6 +32,16 @@ namespace Vlpi.Web.Controllers
             return Ok(taskViewModel);
         }
 
+        [HttpGet]
+        [Route("")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var tasks = await _taskManager.ListAsync();
+            var taskViewModels = _mapper.Map<IEnumerable<TaskViewModel>>(tasks);
+            return Ok(taskViewModels);
+        }
+
+
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> CreateTaskAsync([FromBody] [Required] CreateTaskViewModel createTaskViewModel)
@@ -39,6 +49,14 @@ namespace Vlpi.Web.Controllers
             var taskEntity = _mapper.Map<Task>(createTaskViewModel);
             await _taskManager.AddAsync(taskEntity);
             return Ok();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await _taskManager.DeleteAsync(id);
+            return NoContent();
         }
     }
 }
