@@ -1,6 +1,6 @@
-﻿namespace Vlpi.Web.ViewModels.AnswerViewModels
+﻿namespace Core.Entities.Custom.AnswerModels
 {
-    public class ModifiedRequirementViewModel
+    public class ModifiedRequirement
     {
         public int Id { get; set; }
         public string ModifiedRequirementStatement { get; set; }
