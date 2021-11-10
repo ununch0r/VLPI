@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Core.Entities.Custom.AnswerModels;
+using Core.Entities.Custom.Answer;
 using Core.Entities.Custom.AnswerResult;
 
 namespace Core.Managers

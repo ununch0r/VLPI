@@ -1,4 +1,4 @@
-﻿namespace Core.Entities.Custom.AnswerModels
+﻿namespace Core.Entities.Custom.Answer
 {
     public class ModifiedRequirement
     {

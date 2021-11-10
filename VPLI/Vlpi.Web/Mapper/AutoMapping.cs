@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Core.Entities;
-using Core.Entities.Custom.AnswerModels;
+using Core.Entities.Custom.Answer;
 using Core.Entities.Custom.AnswerResult;
+using Core.Entities.Custom.Statistic;
 using Vlpi.Web.ViewModels.AnswerResultViewModels;
 using Vlpi.Web.ViewModels.AnswerViewModels;
+using Vlpi.Web.ViewModels.StatisticViewModels;
 using Vlpi.Web.ViewModels.TaskViewModels;
 using Vlpi.Web.ViewModels.UserViewModels;
 using Vlpi.Web.ViewModels.UtilViewModels;
@@ -23,6 +25,7 @@ namespace Vlpi.Web.Mapper
             CreateMap<AnalysisTaskResult, AnalysisTaskResultViewModel>();
             CreateMap<WritingTaskResult, WritingTaskResultViewModel>();
             CreateMap<WrittenRequirementTemplateAnswer, WrittenRequirementTemplateAnswerViewModel>();
+            CreateMap<TaskStatistic, TaskStatisticViewModel>();
 
             CreateMap<CreateRequirementViewModel, Requirement>();
             CreateMap<CreateTaskTipViewModel, TaskTip>();

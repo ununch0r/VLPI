@@ -2,7 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Core.Entities.Custom.AnswerModels;
+using Core.Entities.Custom.Answer;
 using Core.Managers;
 using Microsoft.AspNetCore.Http;
 using Vlpi.Web.ViewModels.AnswerResultViewModels;

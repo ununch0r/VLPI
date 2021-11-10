@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Core.Entities.Custom.AnswerModels
+namespace Core.Entities.Custom.Answer
 {
     public class AnalysisAnswer : Answer
     {
