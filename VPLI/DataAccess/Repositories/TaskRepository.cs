@@ -8,9 +8,9 @@ namespace DataAccess.Repositories
 {
     public class TaskRepository : ITaskRepository
     {
-        private readonly VlpiContext _context;
+        private readonly VLPIContext _context;
 
-        public TaskRepository(VlpiContext context)
+        public TaskRepository(VLPIContext context)
         {
             _context = context;
         }

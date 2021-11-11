@@ -9,9 +9,9 @@ namespace DataAccess.Repositories
 {
     public class ExecutionModeRepository : IExecutionModeRepository
     {
-        private readonly VlpiContext _context;
+        private readonly VLPIContext _context;
 
-        public ExecutionModeRepository(VlpiContext context)
+        public ExecutionModeRepository(VLPIContext context)
         {
             _context = context;
         }

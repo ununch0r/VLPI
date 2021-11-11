@@ -12,9 +12,9 @@ namespace DataAccess.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly VlpiContext _context;
+        private readonly VLPIContext _context;
 
-        public UserRepository(VlpiContext context)
+        public UserRepository(VLPIContext context)
         {
             _context = context;
         }

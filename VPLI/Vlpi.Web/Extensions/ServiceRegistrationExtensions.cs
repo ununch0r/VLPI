@@ -22,7 +22,7 @@ namespace Vlpi.Web.Extensions
             services.AddTransient<ITaskManager, TaskManager>();
             services.AddTransient<IUserManager, UserManager>();
             services.AddTransient<IAnswerManager, AnswerManager>();
-            services.AddTransient<IExecutionModeManager, IExecutionModeManager>();
+            services.AddTransient<IExecutionModeManager, ExecutionModeManager>();
             services.AddTransient<IRequirementManager, RequirementManager>();
             services.AddTransient<IStatisticManager, StatisticManager>();
 

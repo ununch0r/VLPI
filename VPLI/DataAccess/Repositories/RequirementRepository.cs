@@ -8,9 +8,9 @@ namespace DataAccess.Repositories
 {
     public class RequirementRepository : IRequirementRepository
     {
-        private readonly VlpiContext _context;
+        private readonly VLPIContext _context;
 
-        public RequirementRepository(VlpiContext context)
+        public RequirementRepository(VLPIContext context)
         {
             _context = context;
         }

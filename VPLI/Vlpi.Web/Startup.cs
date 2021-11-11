@@ -27,7 +27,7 @@ namespace Vlpi.Web
             services.AddServices();
             services.AddSwagger();
             services.AddAutoMapper(typeof(Startup));
-            services.AddDbContext<VlpiContext>(options =>
+            services.AddDbContext<VLPIContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
             var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(

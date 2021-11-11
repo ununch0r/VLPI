@@ -7,9 +7,9 @@ namespace DataAccess.Repositories
 {
     public class AnswerRepository : IAnswerRepository
     {
-        private readonly VlpiContext _context;
+        private readonly VLPIContext _context;
 
-        public AnswerRepository(VlpiContext context)
+        public AnswerRepository(VLPIContext context)
         {
             _context = context;
         }
