@@ -24,5 +24,15 @@ namespace Business.Managers
         {
             throw new NotImplementedException();
         }
+
+        public Task<GenericUserStatistic> GetGenericUserStatisticAsync(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ICollection<UserTaskStatistic>> GetUserStatisticAsync(int userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Core.Managers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Vlpi.Web.ViewModels.StatisticViewModels;
 
@@ -14,12 +16,14 @@ namespace Vlpi.Web.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IStatisticManager _statisticManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public StatisticsController(
-            IMapper mapper, IStatisticManager statisticManager)
+            IMapper mapper, IStatisticManager statisticManager, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _statisticManager = statisticManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -38,6 +42,35 @@ namespace Vlpi.Web.Controllers
             var tasksStatistic = await _statisticManager.GetStatisticByModuleAsync();
             var taskStatisticViewModels = _mapper.Map<ICollection<TaskStatisticViewModel>>(tasksStatistic);
             return Ok(taskStatisticViewModels);
+        }
+
+        [HttpGet]
+        [Route("admin/user/{id}")]
+        public async Task<IActionResult> GetGenericUserStatisticForAdminAsync(int id)
+        {
+            var userStatistic = await _statisticManager.GetGenericUserStatisticAsync(id);
+            var userStatisticViewModel = _mapper.Map<GenericUserStatisticViewModel>(userStatistic);
+            return Ok(userStatisticViewModel);
+        }
+
+        [HttpGet]
+        [Route("user")]
+        public async Task<IActionResult> GetUserStatisticAsync()
+        {
+            var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userStatisticAsync = await _statisticManager.GetUserStatisticAsync(userId);
+            var userTaskStatisticViewModels = _mapper.Map<ICollection<UserTaskStatisticViewModel>>(userStatisticAsync);
+            return Ok(userTaskStatisticViewModels);
+        }
+
+        [HttpGet]
+        [Route("user/generic")]
+        public async Task<IActionResult> GetGenericUserStatistic()
+        {
+            var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userStatistic = await _statisticManager.GetGenericUserStatisticAsync(userId);
+            var userStatisticViewModel = _mapper.Map<GenericUserStatisticViewModel>(userStatistic);
+            return Ok(userStatisticViewModel);
         }
     }
 }

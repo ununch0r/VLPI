@@ -26,6 +26,10 @@ namespace Vlpi.Web.Mapper
             CreateMap<WritingTaskResult, WritingTaskResultViewModel>();
             CreateMap<WrittenRequirementTemplateAnswer, WrittenRequirementTemplateAnswerViewModel>();
             CreateMap<TaskStatistic, TaskStatisticViewModel>();
+            CreateMap<GenericUserStatistic, GenericUserStatisticViewModel>();
+            CreateMap<UserStatistic, UserStatisticViewModel>();
+            CreateMap<UserTaskStatistic, UserTaskStatisticViewModel>();
+
 
             CreateMap<CreateRequirementViewModel, Requirement>();
             CreateMap<CreateTaskTipViewModel, TaskTip>();
