@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { SimpleTask } from 'src/app/shared/models/simple-task.model';
 import { Tile } from 'src/app/shared/models/tile.model';
+import { TaskWebService } from '../web-services/task-web.service';
 import { ChooseDifficultyDialogComponent } from './choose-difficulty-dialog/choose-difficulty-dialog.component';
 
 @Component({
@@ -16,10 +17,12 @@ export class DashboardComponent implements OnInit {
   checked = true;
   constructor(
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private taskService: TaskWebService
     ) { }
 
   ngOnInit(): void {
+    this.taskService.getConfig().subscribe(tasks => console.log(tasks));
   }
 
 

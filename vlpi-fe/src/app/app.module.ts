@@ -13,6 +13,9 @@ import { TopMenuComponent } from './top-menu/top-menu.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { RequirementsModule } from './requirements/requirements.module';
+import { environment } from 'src/environments/environment';
+import { BaseUrlInterceptor } from './shared/interceptors/base-url.interceptor';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,16 +25,24 @@ import { RequirementsModule } from './requirements/requirements.module';
     FooterComponent
   ],
   imports: [
-    RequirementsModule,
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     CommonModule,
+    RequirementsModule,
     MatButtonModule,
     MatGridListModule,
     MatCardModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BaseUrlInterceptor,
+      multi: true,
+    },
+    { provide: "BASE_API_URL", useValue: environment.apiUrl }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

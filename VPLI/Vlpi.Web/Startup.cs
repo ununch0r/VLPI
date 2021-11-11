@@ -23,12 +23,20 @@ namespace Vlpi.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
+
+            services.AddHttpContextAccessor();
+
             services.AddServices();
+
             services.AddSwagger();
+
             services.AddAutoMapper(typeof(Startup));
+
             services.AddDbContext<VLPIContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
+
             var authOptions = Configuration.GetSection("Auth").Get<AuthOptions>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
                 options =>
@@ -68,8 +76,13 @@ namespace Vlpi.Web
             });
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
+
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
 
             app.UseAuthentication();
             app.UseAuthorization();
