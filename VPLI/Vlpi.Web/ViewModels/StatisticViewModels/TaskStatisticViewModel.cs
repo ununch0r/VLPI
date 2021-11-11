@@ -3,7 +3,6 @@
     public class TaskStatisticViewModel
     {
         public int Id { get; set; }
-        public int Order { get; set; }
         public string Objective { get; set; }
         public int Complexity { get; set; }
         public int UserAnswersCount { get; set; }

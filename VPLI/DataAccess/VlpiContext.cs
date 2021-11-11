@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
 {
-    public partial class VlpiContext : DbContext
+    public partial class VLPIContext : DbContext
     {
-        public VlpiContext()
+        public VLPIContext()
         {
         }
 
-        public VlpiContext(DbContextOptions<VlpiContext> options)
+        public VLPIContext(DbContextOptions<VLPIContext> options)
             : base(options)
         {
         }
@@ -31,17 +31,43 @@ namespace DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ExecutionMode>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+            });
+
             modelBuilder.Entity<Requirement>(entity =>
             {
+                entity.Property(e => e.Description).IsRequired();
+
                 entity.HasOne(d => d.Task)
                     .WithMany(p => p.Requirement)
                     .HasForeignKey(d => d.TaskId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RequirementAnalysisTaskContent_Task");
+            });
+
+            modelBuilder.Entity<RequirementType>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Task>(entity =>
             {
+                entity.Property(e => e.Objective)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.Task)
                     .HasForeignKey(d => d.TypeId)
@@ -51,25 +77,54 @@ namespace DataAccess
 
             modelBuilder.Entity<TaskTip>(entity =>
             {
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
                 entity.HasOne(d => d.Task)
                     .WithMany(p => p.TaskTip)
                     .HasForeignKey(d => d.TaskId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TaskTip_Task");
+            });
+
+            modelBuilder.Entity<TaskType>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(128);
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.HashedPasswrod)
+                    .IsRequired()
+                    .HasMaxLength(128);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<UserAnswer>(entity =>
             {
+                entity.Property(e => e.Answer).IsRequired();
+
                 entity.HasOne(d => d.Task)
                     .WithMany(p => p.UserAnswer)
                     .HasForeignKey(d => d.TaskId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserAnswer_Task");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserAnswer)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserAnswer_User");
             });
 
