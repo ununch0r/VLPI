@@ -40,21 +40,10 @@ export class DashboardComponent implements OnInit {
     this.tasksObs = this.taskSyncService.simpleTaskObs;
   }
 
-
   tiles: Tile[] = [
     {header: 'Statistics', text: 'Check your statistics', navigation: '/statistics'},
     {header: 'Administration', text: 'Manage tasks and users', navigation: '/administration'}
     ];
-
-  tasks: SimpleTask[] =[
-    {id:1, order: 1, type: "Writing Requirements"},
-    {id:2, order: 2, type: "Requirements Analysis"},
-    {id:3, order: 3, type: "Writing Requirements"},
-    {id:4, order: 4, type: "Requirements Analysis"},
-    {id:5, order: 5, type: "Requirements Analysis"},
-    {id:6, order: 6, type: "Writing Requirements"},
-    {id:7, order: 7, type: "Writing Requirements"},
-  ]
 
     goToSubModule(navigationPath: string){
       this.router.navigate([navigationPath]);
