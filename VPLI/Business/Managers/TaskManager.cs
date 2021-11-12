@@ -1,17 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using Core.Managers;
 using Core.Repositories;
 using Core.Entities;
+using Core.Entities.Custom.Task;
 
 namespace Business.Managers
 {
     public class TaskManager : ITaskManager
     {
         private readonly ITaskRepository _taskRepository;
-
-        public TaskManager(ITaskRepository taskRepository)
+        private readonly IMapper _mapper;
+        public TaskManager(ITaskRepository taskRepository, IMapper mapper)
         {
             _taskRepository = taskRepository;
+            _mapper = mapper;
         }
 
         public async System.Threading.Tasks.Task AddAsync(Task task)
@@ -39,9 +43,18 @@ namespace Business.Managers
             return await _taskRepository.GetAsync(id);
         }
 
-        public async System.Threading.Tasks.Task<IList<Task>> ListAsync()
+        public async System.Threading.Tasks.Task<IList<TaskCustomModel>> ListAsync()
         {
-            return await _taskRepository.ListAsync();
+            var tasks =  await _taskRepository.ListAsync();
+            var customTasks = _mapper.Map<IList<TaskCustomModel>>(tasks).OrderBy(task => task.Complexity).ToList();
+            var order = 1;
+            foreach (var taskViewModel in customTasks)
+            {
+                taskViewModel.Order = order;
+                order++;
+            }
+
+            return customTasks;
         }
 
         public async System.Threading.Tasks.Task DeleteAsync(int id)

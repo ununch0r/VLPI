@@ -3,6 +3,7 @@ using Core.Managers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Vlpi.Web.ViewModels.TaskViewModels;
 using Task = Core.Entities.Task;
@@ -37,7 +38,9 @@ namespace Vlpi.Web.Controllers
         public async Task<IActionResult> GetAllAsync()
         {
             var tasks = await _taskManager.ListAsync();
-            var taskViewModels = _mapper.Map<IEnumerable<TaskViewModel>>(tasks);
+            var taskViewModels = _mapper.Map<IEnumerable<TaskViewModel>>(tasks).OrderBy(model => model.Complexity);
+
+
             return Ok(taskViewModels);
         }
 

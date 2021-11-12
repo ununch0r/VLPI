@@ -12,7 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 
 import { ChooseDifficultyDialogComponent } from './dashboard/choose-difficulty-dialog/choose-difficulty-dialog.component';
-import { TaskWebService } from './web-services/task-web.service';
+import { TaskWebService } from './web-services/task.web-service';
+import { TaskSyncService } from './services/task.sync-service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { TaskWebService } from './web-services/task-web.service';
     MatRadioModule
   ],
   providers: [
-    TaskWebService
+    TaskWebService,
+    TaskSyncService
   ],
   entryComponents:[
     ChooseDifficultyDialogComponent

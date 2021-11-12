@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 
 import { SimpleTask } from 'src/app/shared/models/simple-task.model';
 import { Tile } from 'src/app/shared/models/tile.model';
-import { TaskWebService } from '../web-services/task-web.service';
+import { TaskSyncService } from '../services/task.sync-service';
+import { TaskWebService } from '../web-services/task.web-service';
 import { ChooseDifficultyDialogComponent } from './choose-difficulty-dialog/choose-difficulty-dialog.component';
 
 @Component({
@@ -15,14 +17,27 @@ import { ChooseDifficultyDialogComponent } from './choose-difficulty-dialog/choo
 export class DashboardComponent implements OnInit {
 
   checked = true;
+  tasksObs: Observable<SimpleTask[]>;
+
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private taskService: TaskWebService
+    private taskService: TaskWebService,
+    private taskSyncService: TaskSyncService
     ) { }
 
   ngOnInit(): void {
-    this.taskService.getConfig().subscribe(tasks => console.log(tasks));
+    this.initializeTasks();
+    this.loadTasks();
+  }
+
+  private initializeTasks():void{
+    this.taskService.getTasks().pipe(tap(console.log)).subscribe(tasks => 
+      this.taskSyncService.reloadTasks(tasks));
+  }
+
+  private loadTasks(): void{
+    this.tasksObs = this.taskSyncService.simpleTaskObs;
   }
 
 

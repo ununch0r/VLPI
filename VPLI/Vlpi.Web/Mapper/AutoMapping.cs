@@ -3,6 +3,7 @@ using Core.Entities;
 using Core.Entities.Custom.Answer;
 using Core.Entities.Custom.AnswerResult;
 using Core.Entities.Custom.Statistic;
+using Core.Entities.Custom.Task;
 using Vlpi.Web.ViewModels.AnswerResultViewModels;
 using Vlpi.Web.ViewModels.AnswerViewModels;
 using Vlpi.Web.ViewModels.StatisticViewModels;
@@ -29,6 +30,9 @@ namespace Vlpi.Web.Mapper
             CreateMap<GenericUserStatistic, GenericUserStatisticViewModel>();
             CreateMap<UserStatistic, UserStatisticViewModel>();
             CreateMap<UserTaskStatistic, UserTaskStatisticViewModel>();
+            CreateMap<TaskType, TaskTypeViewModel>();
+            CreateMap<Task, TaskCustomModel>();
+            CreateMap<TaskCustomModel, TaskViewModel>();
 
 
             CreateMap<CreateRequirementViewModel, Requirement>();
