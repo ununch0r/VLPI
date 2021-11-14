@@ -1,5 +1,5 @@
 export interface Tile{
-    header: string,
+    header: string | null,
     text: string,
     navigation: string
 }

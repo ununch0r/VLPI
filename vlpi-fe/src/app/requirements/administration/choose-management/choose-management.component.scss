@@ -1,0 +1,7 @@
+mat-tab-group{
+    background-color: white !important;
+}
+
+.remove-border-bottom ::ng-deep .mat-tab-header {
+    border-bottom: none;
+}

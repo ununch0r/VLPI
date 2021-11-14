@@ -10,15 +10,30 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { ChooseDifficultyDialogComponent } from './dashboard/choose-difficulty-dialog/choose-difficulty-dialog.component';
 import { TaskWebService } from './web-services/task.web-service';
 import { TaskSyncService } from './services/task.sync-service';
+import { ChooseManagementComponent } from './administration/choose-management/choose-management.component';
+import { RouterModule, Routes } from '@angular/router';
+import { UserManagementComponent } from './administration/user-management/user-management.component';
+import { TaskManagementComponent } from './administration/task-management/task-management.component';
+
+const routes: Routes = [
+  { path: 'administration', component: ChooseManagementComponent , children:[
+    {path: 'user', component:UserManagementComponent},
+    {path: 'task', component:TaskManagementComponent}
+  ]}
+];
 
 @NgModule({
   declarations: [
     DashboardComponent,
     ChooseDifficultyDialogComponent,
+    ChooseManagementComponent,
+    UserManagementComponent,
+    TaskManagementComponent,
   ],
   imports: [
     CommonModule,
@@ -31,7 +46,9 @@ import { TaskSyncService } from './services/task.sync-service';
     MatCardModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTabsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [
     TaskWebService,

@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
 
   tiles: Tile[] = [
     {header: 'Statistics', text: 'Check your statistics', navigation: '/statistics'},
-    {header: 'Administration', text: 'Manage tasks and users', navigation: '/administration'}
+    {header: 'Administration', text: 'Manage tasks and users', navigation: '/administration/user'}
     ];
 
     goToSubModule(navigationPath: string){
