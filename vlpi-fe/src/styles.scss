@@ -6,6 +6,7 @@
 
 $my-primary-color: #679186;
 $my-secondary-color: #BBD4CE;
+$my-dark-color: #405a53;
 
 html{
   height: 100%;
@@ -14,6 +15,7 @@ html{
 body{
     margin: 0px;
     height: 100%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
 }
 
 .list{
@@ -27,6 +29,14 @@ body{
 .footer{
   height: 100px !important;
   font-size: 20px;
+}
+
+.tile-text{
+  color: $my-secondary-color;
+}
+
+.tile-header{
+  color: $my-dark-color;
 }
 
 mat-grid-tile{
@@ -75,4 +85,8 @@ input[type=checkbox] {
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
   border-color: $my-primary-color !important;
+}
+
+.task-title{
+  color: $my-dark-color;
 }

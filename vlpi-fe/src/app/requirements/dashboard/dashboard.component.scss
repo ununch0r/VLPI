@@ -15,6 +15,7 @@
   align-items: center;
   font-size: 36px;
   font-weight: bold;
+  color: $my-dark-color;
 }
 
 .hints{
@@ -24,6 +25,7 @@
 
 input {
   vertical-align: middle;
+  background-color: $my-primary-color;
 }
 
 label {  
@@ -52,4 +54,5 @@ mat-list-item{
   font-size: 36px !important;
   font-weight: bold;
   cursor: pointer;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
 }

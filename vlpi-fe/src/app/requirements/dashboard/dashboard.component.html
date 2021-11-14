@@ -13,16 +13,16 @@
     <div class="column">
         <mat-list role="list">
             <mat-list-item mat-button role="listitem" *ngFor="let task of tasksObs | async" (click)="chooseDifficulty(task.id)">
-                    {{task.order}}. {{task.type}}
+                <p class="task-title">{{task.order}}. {{task.type}}</p>
             </mat-list-item>
           </mat-list>
     </div>
     <div class="column">
         <mat-grid-list cols="1" rowHeight="240px" gutterSize="20px" class="list">
             <mat-grid-tile *ngFor="let tile of tiles" class="rounded-item" (click)="goToSubModule(tile.navigation)">
-                <h1>{{tile.header}}</h1>
+                <h1 class="tile-header">{{tile.header}}</h1>
                 <mat-grid-tile-footer class="rounded-item footer">
-                    <p>{{tile.text}}</p>
+                    <p class="tile-text">{{tile.text}}</p>
                 </mat-grid-tile-footer>
             </mat-grid-tile>
         </mat-grid-list> 

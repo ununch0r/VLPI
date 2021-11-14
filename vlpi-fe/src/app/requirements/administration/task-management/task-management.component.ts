@@ -17,7 +17,6 @@ export class TaskManagementComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private taskService: TaskWebService,
     private taskSyncService: TaskSyncService,
     private pageNameService: PageNameSyncService
     ) { }
@@ -33,12 +32,15 @@ export class TaskManagementComponent implements OnInit {
   }
 
   private initializeTasks():void{
-    this.taskService.getTasks().pipe(tap(console.log)).subscribe(tasks => 
-      this.taskSyncService.reloadTasks(tasks));
+      this.taskSyncService.reloadTasks();
   }
 
   private loadTasks(): void{
     this.tasksObs = this.taskSyncService.tasksObs;
+  }
+
+  deleteTask(taskId: number){
+    this.taskSyncService.deleteTask(taskId);
   }
 
 }

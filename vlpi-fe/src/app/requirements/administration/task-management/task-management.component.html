@@ -3,12 +3,12 @@
     <mat-list-item mat-button role="listitem" *ngFor="let task of tasksObs | async">
         <div class="list-item">
             <div class="task-name">
-                {{task.order}}. {{task.type.name}}
+                <p class="task-title">{{task.order}}. {{task.type.name}}</p>
             </div>
             <div class="icon-display">
                 <mat-icon>bar_chart</mat-icon>
                 <mat-icon>edit</mat-icon>
-                <mat-icon>delete_outline</mat-icon>
+                <mat-icon (click)="deleteTask(task.id)">delete_outline</mat-icon>
             </div>
         </div>
     </mat-list-item>

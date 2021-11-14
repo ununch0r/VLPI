@@ -39,8 +39,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private initializeTasks():void{
-    this.taskService.getTasks().pipe(tap(console.log)).subscribe(tasks => 
-      this.taskSyncService.reloadTasks(tasks));
+    this.taskSyncService.reloadTasks();
   }
 
   private loadTasks(): void{
