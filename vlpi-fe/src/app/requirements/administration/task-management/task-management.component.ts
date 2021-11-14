@@ -43,4 +43,8 @@ export class TaskManagementComponent implements OnInit {
     this.taskSyncService.deleteTask(taskId);
   }
 
+  editTask(taskId: number){
+    this.router.navigate(['edit-task', taskId]);
+  }
+
 }

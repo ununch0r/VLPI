@@ -7,7 +7,7 @@
             </div>
             <div class="icon-display">
                 <mat-icon>bar_chart</mat-icon>
-                <mat-icon>edit</mat-icon>
+                <mat-icon (click)="editTask(task.id)">edit</mat-icon>
                 <mat-icon (click)="deleteTask(task.id)">delete_outline</mat-icon>
             </div>
         </div>

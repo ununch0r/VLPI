@@ -20,11 +20,14 @@ import { ChooseManagementComponent } from './administration/choose-management/ch
 import { RouterModule, Routes } from '@angular/router';
 import { UserManagementComponent } from './administration/user-management/user-management.component';
 import { TaskManagementComponent } from './administration/task-management/task-management.component';
+import { EditTaskComponent } from './administration/task-management/edit-task/edit-task.component';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent},
   { path: 'user', component: UserManagementComponent },
-  { path: 'task', component: TaskManagementComponent }
+  { path: 'task', component: TaskManagementComponent },
+  { path: 'edit-task', component: EditTaskComponent },
+  { path: 'edit-task/:id', component: EditTaskComponent },
 ];
 
 @NgModule({
@@ -34,6 +37,7 @@ const routes: Routes = [
     ChooseManagementComponent,
     UserManagementComponent,
     TaskManagementComponent,
+    EditTaskComponent,
   ],
   imports: [
     CommonModule,
