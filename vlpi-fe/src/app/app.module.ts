@@ -16,6 +16,7 @@ import { RequirementsModule } from './requirements/requirements.module';
 import { environment } from 'src/environments/environment';
 import { BaseUrlInterceptor } from './shared/interceptors/base-url.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PageNameSyncService } from './shared/services/page-name.sync-service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
       useClass: BaseUrlInterceptor,
       multi: true,
     },
-    { provide: "BASE_API_URL", useValue: environment.apiUrl }
+    { provide: "BASE_API_URL", useValue: environment.apiUrl },
+    PageNameSyncService
 ],
   bootstrap: [AppComponent]
 })

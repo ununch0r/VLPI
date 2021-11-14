@@ -1,0 +1,63 @@
+
+  
+  mat-list{
+    overflow: auto !important;
+    max-height: 80%;
+    margin: 0% 20%;
+    direction: rtl;
+  }
+  
+  mat-list-item{
+    background-color: #BBD4CE;
+    margin-bottom: 10px;
+    height: 80px !important;
+    min-width: 50% !important;
+    border-radius: 50px;
+    direction: ltr;
+    font-size: 36px !important;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+.list-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.icon-display{
+    width: 25%;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+    margin-right: 5%;
+}
+
+.icon-display>mat-icon {
+    transform: scale(3);
+ }
+
+ .task-name{
+     width: 30%;
+     font-size: larger;
+     margin-left: 5%;
+     width: 65%;
+ }
+
+ .button-container{
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 100%;
+     height: 15%;
+}
+
+.add-button{
+    font-size: 36px !important;
+    min-width: 120px !important;
+    height: 70% !important;
+    border-radius: 25px !important;
+}

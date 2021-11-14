@@ -1,1 +1,19 @@
-<p>task-management works!</p>
+<div style="height: 5%"></div>
+<mat-list role="list">
+    <mat-list-item mat-button role="listitem" *ngFor="let task of tasksObs | async">
+        <div class="list-item">
+            <div class="task-name">
+                {{task.order}}. {{task.type.name}}
+            </div>
+            <div class="icon-display">
+                <mat-icon>bar_chart</mat-icon>
+                <mat-icon>edit</mat-icon>
+                <mat-icon>delete_outline</mat-icon>
+            </div>
+        </div>
+    </mat-list-item>
+</mat-list>
+
+<div class="button-container">
+    <button mat-raised-button color="primary" class="add-button">Add</button>
+</div>

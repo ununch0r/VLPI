@@ -1,9 +1,7 @@
-<mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedTabIndex" 
-               (selectedTabChange)="onTabChanged($event);" class="remove-border-bottom">
-    <mat-tab label="User management">
-        <router-outlet></router-outlet>
-    </mat-tab>
-    <mat-tab label="Task management">
-        <router-outlet></router-outlet>
-    </mat-tab>
-  </mat-tab-group>
+<div class="container">
+    <div *ngFor="let tile of tiles" class="tile-item" (click)="goToManagement(tile.navigation)">
+        <h1>{{tile.header}}</h1>
+        <p>{{tile.text}}</p>
+    </div>
+</div>
+

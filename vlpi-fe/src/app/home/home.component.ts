@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Tile } from '../shared/models/tile.model';
+import { PageNameSyncService } from '../shared/services/page-name.sync-service';
 
 @Component({
   selector: 'app-home',
@@ -9,11 +10,16 @@ import { Tile } from '../shared/models/tile.model';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+     private pageNameService: PageNameSyncService) { }
 
   ngOnInit(): void {
+    this.setPageName();
   }
 
+  private setPageName(){
+    this.pageNameService.setPageName("Main dashboard");
+  }
 
   tiles: Tile[] = [
     {header: 'Requirement Analysis', text: 'Test your requirement analysis skills', navigation: '/requirements'},

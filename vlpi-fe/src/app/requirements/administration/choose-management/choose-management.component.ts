@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Tile } from 'src/app/shared/models/tile.model';
+import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 
 @Component({
   selector: 'app-choose-management',
@@ -9,18 +10,23 @@ import { Tile } from 'src/app/shared/models/tile.model';
 })
 export class ChooseManagementComponent implements OnInit {
 
-  managementAreas: Tile[] = [
-    {header: null, text: 'User Management', navigation: 'user'},
-    {header: null, text: 'Task Management', navigation: 'task'}
+  tiles: Tile[] = [
+    {header: 'User Management', text: 'User Management', navigation: 'user'},
+    {header: 'Task Management', text: 'Task Management', navigation: 'task'}
   ]
 
-  selectedTabIndex: number = 0;
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  selectedTabIndex: number;
+  constructor(private router: Router,private pageNameService: PageNameSyncService) { }
 
   ngOnInit(): void {
+    this.setPageName();
   }
 
-  onTabChanged($event) : void{
-    this.router.navigate([this.managementAreas[this.selectedTabIndex].navigation], { relativeTo: this.route });
+  private setPageName(){
+    this.pageNameService.setPageName("Management selection");
+  }
+
+  goToManagement(navigationPart : string) : void{
+    this.router.navigate([navigationPart]);
   }
 }

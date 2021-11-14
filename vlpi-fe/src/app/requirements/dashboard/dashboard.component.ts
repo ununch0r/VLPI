@@ -5,6 +5,7 @@ import { Observable, tap } from 'rxjs';
 
 import { SimpleTask } from 'src/app/shared/models/simple-task.model';
 import { Tile } from 'src/app/shared/models/tile.model';
+import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { TaskSyncService } from '../services/task.sync-service';
 import { TaskWebService } from '../web-services/task.web-service';
 import { ChooseDifficultyDialogComponent } from './choose-difficulty-dialog/choose-difficulty-dialog.component';
@@ -23,12 +24,18 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private taskService: TaskWebService,
-    private taskSyncService: TaskSyncService
+    private taskSyncService: TaskSyncService,
+    private pageNameService: PageNameSyncService
     ) { }
 
   ngOnInit(): void {
     this.initializeTasks();
     this.loadTasks();
+    this.setPageName();
+  }
+
+  private setPageName(){
+    this.pageNameService.setPageName("Requirements analysis module");
   }
 
   private initializeTasks():void{
@@ -42,7 +49,7 @@ export class DashboardComponent implements OnInit {
 
   tiles: Tile[] = [
     {header: 'Statistics', text: 'Check your statistics', navigation: '/statistics'},
-    {header: 'Administration', text: 'Manage tasks and users', navigation: '/administration/user'}
+    {header: 'Administration', text: 'Manage tasks and users', navigation: '/administration'}
     ];
 
     goToSubModule(navigationPath: string){
