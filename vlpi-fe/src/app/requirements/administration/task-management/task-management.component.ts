@@ -47,4 +47,7 @@ export class TaskManagementComponent implements OnInit {
     this.router.navigate(['edit-task', taskId]);
   }
 
+  addTask(){
+    this.router.navigate(['edit-task']);
+  }
 }
