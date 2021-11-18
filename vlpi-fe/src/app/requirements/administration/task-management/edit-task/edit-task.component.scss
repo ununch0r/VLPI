@@ -2,10 +2,22 @@
 
 .form-container{
     margin: 0px 20%;
-    background-color: $my-primary-color;
+    padding: 20px;
+    max-height: 85%;
+    overflow: auto;
+    direction: rtl;
 }
 
-input[type=text], select, textarea {
+.direction-ltr{
+    background-color: $my-secondary-color;    
+    direction: ltr;
+    padding: 20px;
+    border-radius: 50px;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+input[type=text],input[type=number], select, textarea {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -13,13 +25,26 @@ input[type=text], select, textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    border-radius: 50px;
+    color: $my-dark-color;
+    font-size: 24px;
 }
 
 label {
     padding: 12px 12px 12px 0;
     display: inline-block;
+    font-size: 36px;
+    color: $my-dark-color;
   }
 
-.row {
-display: flex;
+button{
+    padding: 10px;
+    font-size: 36px !important;
+    min-width: 120px !important;
+    border-radius: 25px !important;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+}
+
+.tips{
+ min-width: 100%;
 }

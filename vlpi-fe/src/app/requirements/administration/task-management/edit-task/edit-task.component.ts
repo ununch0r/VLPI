@@ -45,8 +45,23 @@ export class EditTaskComponent implements OnInit {
     })
   }
 
-  onSubmit(){
+  onDeleteTip(index: number){
 
+  }
+
+  onAddTip(){
+    (<FormArray>this.taskForm.get('tips')).push(
+      new FormGroup({
+        'description': new FormControl(''),
+        'order': new FormControl(1, [
+           Validators.pattern(/^[1-9]+[0-9]*$/)
+          ])
+      })
+    )
+  }
+
+  onSubmit(){
+    console.log(this.taskForm.value);
   }
 
 }

@@ -90,3 +90,33 @@ input[type=checkbox] {
 .task-title{
   color: $my-dark-color;
 }
+
+.row {
+  display: flex;
+  min-width: 100%;
+}
+
+.col{
+  display: flex;
+  align-items: center;
+}
+
+.col-25{
+  min-width: 25%;
+}
+
+.col-50{
+  min-width: 50%;
+}
+
+.col-75{
+  min-width: 75%;
+}
+
+.justify-center{
+  justify-content: center;
+}
+
+.justify-end{
+  justify-content: end;
+}
