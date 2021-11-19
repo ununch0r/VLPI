@@ -6,7 +6,8 @@
                 <label for="name" class="col col-25">Objective:</label>
                 <div class="col col-75">
                     <textarea
-                    type="text" 
+                    style="margin-right: 12px;"
+                    type="text"
                     id="name"
                     rows="2"
                     class="form-control"
@@ -14,14 +15,26 @@
                 </textarea>
                 </div>
             </div>
-            <div class="row">
+            <div class="row justify-around">
                 <label for="complexity" class="col col-25">Complexity:</label>
-                <div class="col col-25">
+                <div class="col">
                     <input 
+                    style="max-width: max-content; margin-right: 20px;"
                     type="number" 
                     id="complexity"
                     class="form-control"
                     formControlName="complexity">
+                </div>
+                <div class="col justify-center">
+                    <label for="typeId" style="margin-left: 20px;" class="col col-25">Type:</label>
+                    <div class="col">
+                        <input 
+                        style="max-width:max-content"
+                        type="number" 
+                        id="typeId"
+                        class="form-control"
+                        formControlName="typeId">
+                    </div>
                 </div>
             </div>
 
@@ -51,6 +64,7 @@
             <div class="row justify-end">
                 <div class="col  col-25 justify-center">
                     <button mat-raised-button 
+                    style="margin-top: 10px"
                     type="button"
                     (click)="onAddTip()"
                     color="primary">

@@ -21,6 +21,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserManagementComponent } from './administration/user-management/user-management.component';
 import { TaskManagementComponent } from './administration/task-management/task-management.component';
 import { EditTaskComponent } from './administration/task-management/edit-task/edit-task.component';
+import { EditWritingComponent } from './administration/task-management/edit-task/edit-writing/edit-writing.component';
+import { EditAnalysisComponent } from './administration/task-management/edit-task/edit-analysis/edit-analysis.component';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent},
@@ -38,6 +40,8 @@ const routes: Routes = [
     UserManagementComponent,
     TaskManagementComponent,
     EditTaskComponent,
+    EditWritingComponent,
+    EditAnalysisComponent,
   ],
   imports: [
     CommonModule,
