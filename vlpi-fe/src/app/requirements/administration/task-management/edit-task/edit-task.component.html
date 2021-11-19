@@ -1,89 +1,94 @@
 <div style="height: 30px;"></div>
-<div class="form-container">
-    <div class="direction-ltr">
-        <form [formGroup] = "taskForm" (ngSubmit)="onSubmit()" class="task-form">
-            <div class="row">
-                <label for="name" class="col col-25">Objective:</label>
-                <div class="col col-75">
-                    <textarea
-                    style="margin-right: 12px;"
-                    type="text"
-                    id="name"
-                    rows="2"
-                    class="form-control"
-                    formControlName="objective">
-                </textarea>
-                </div>
-            </div>
-            <div class="row justify-around">
-                <label for="complexity" class="col col-25">Complexity:</label>
-                <div class="col">
-                    <input 
-                    style="max-width: max-content; margin-right: 20px;"
-                    type="number" 
-                    id="complexity"
-                    class="form-control"
-                    formControlName="complexity">
-                </div>
-                <div class="col justify-center">
-                    <label for="typeId" style="margin-left: 20px;" class="col col-25">Type:</label>
-                    <div class="col">
-                        <input 
-                        style="max-width:max-content"
-                        type="number" 
-                        id="typeId"
+<ng-container *ngIf="step === 1">
+    <div class="form-container">
+        <div class="direction-ltr">
+            <form [formGroup] = "taskForm" (ngSubmit)="onSubmit()" class="task-form">
+                <div class="row">
+                    <label for="name" class="col col-25">Objective:</label>
+                    <div class="col col-75">
+                        <textarea
+                        type="text"
+                        id="name"
+                        rows="2"
                         class="form-control"
-                        formControlName="typeId">
+                        formControlName="objective">
+                    </textarea>
                     </div>
                 </div>
-            </div>
-
-            <hr>
-
-            <div class="row">
-                <div class="tips" formArrayName="tips">
-                    <div class="row"
-                        *ngFor="let tips of taskForm.get('tips')['controls']; let i = index"
-                        [formGroupName]="i"
-                        style="margin-top: 10px;">
-                        <div class="col col-75">
+                <div class="row justify-around">
+                    <div class="col col-50 justify-between">
+                        <label for="complexity" class="col col-50">Complexity:</label>
+                        <div class="col col-50">
                             <input 
-                                type="text" 
-                                class="form-control"
-                                formControlName="description">
+                            style="max-width: 80%;"
+                            type="number" 
+                            id="complexity"
+                            class="form-control"
+                            formControlName="complexity">
                         </div>
-                        <div class="col col-25 justify-center">
-                            <button type="button"
-                             mat-raised-button
-                             color="warn"
-                             (click)="onDeleteTip(i)">X</button>
+                    </div>
+                    <div class="col col-50 justify-between">
+                        <label for="typeId" class="col col-25">Type:</label>
+                        <div class="col col-75">
+                            <select formControlName="typeId" class="form-control">
+                                <option *ngFor="let type of types" [ngValue]="type.id">
+                                    {{ type.name }}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row justify-end">
-                <div class="col  col-25 justify-center">
-                    <button mat-raised-button 
-                    style="margin-top: 10px"
-                    type="button"
-                    (click)="onAddTip()"
-                    color="primary">
-                    Add tip</button>
+    
+                <hr>
+    
+                <div class="row">
+                    <div class="tips" formArrayName="tips">
+                        <div class="row"
+                            *ngFor="let tips of taskForm.get('tips')['controls']; let i = index"
+                            [formGroupName]="i"
+                            style="margin-top: 10px;">
+                            <div class="col col-75">
+                                <input 
+                                    type="text" 
+                                    class="form-control"
+                                    formControlName="description">
+                            </div>
+                            <div class="col col-25 justify-center">
+                                <button type="button"
+                                 mat-raised-button
+                                 color="warn"
+                                 (click)="onDeleteTip(i)">X</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <hr>
-
-            <div class="row justify-center">
-                <div class="col">
-                    <button mat-raised-button
-                     color="primary"
-                    class="submit" >
-                     Submit
-                    </button>
+                <div class="row justify-end">
+                    <div class="col  col-25 justify-center">
+                        <button mat-raised-button 
+                        style="margin-top: 10px"
+                        type="button"
+                        (click)="onAddTip()"
+                        color="primary">
+                        Add tip</button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
-</div>
-
+    
+                <hr>
+    
+                <div class="row justify-center">
+                    <div class="col">
+                        <button mat-raised-button
+                        [disabled]="!taskForm.valid"
+                        color="primary"
+                        class="submit" >
+                         Next
+                         <mat-icon>arrow_forward</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>    
+</ng-container>
+<ng-container *ngIf="step === 2">
+    <app-edit-writing></app-edit-writing>
+</ng-container>

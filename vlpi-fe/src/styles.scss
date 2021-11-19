@@ -101,6 +101,12 @@ input[type=checkbox] {
   align-items: center;
 }
 
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched{
+    border: 1px solid red;
+}
+
 .col-25{
   min-width: 25%;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { TaskType } from 'src/app/shared/models/task-type.model';
 
 @Component({
   selector: 'app-edit-task',
@@ -9,8 +10,10 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class EditTaskComponent implements OnInit {
   id: number;
+  step: number;
   editMode: boolean = false;
   taskForm : FormGroup;
+  types: TaskType[] = [{name: 'Writing requirements', id: 1}, {name: 'Requirements analysis', id:2}];
 
 
   constructor(
@@ -18,6 +21,7 @@ export class EditTaskComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.step = 1;
     this.route.params.subscribe(
       (params: Params) => {
         this.id = +params['id'];
@@ -46,7 +50,7 @@ export class EditTaskComponent implements OnInit {
   }
 
   onDeleteTip(index: number){
-
+    (<FormArray>this.taskForm.get('tips')).removeAt(index);
   }
 
   onAddTip(){
@@ -61,7 +65,7 @@ export class EditTaskComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.taskForm.value);
+    this.step = 2;
   }
 
 }

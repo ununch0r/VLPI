@@ -29,7 +29,9 @@ const routes: Routes = [
   { path: 'user', component: UserManagementComponent },
   { path: 'task', component: TaskManagementComponent },
   { path: 'edit-task', component: EditTaskComponent },
+  { path: 'edit-task/writing', component: EditWritingComponent },
   { path: 'edit-task/:id', component: EditTaskComponent },
+  { path: 'edit-task/:id/writing', component: EditWritingComponent },
 ];
 
 @NgModule({

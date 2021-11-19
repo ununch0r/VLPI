@@ -28,6 +28,15 @@ input[type=text],input[type=number], select, textarea {
     color: $my-dark-color;
     font-size: 24px;
 }
+select{
+    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right white;
+    -webkit-appearance: none;
+    background-position-x: 95%;
+}
+
+mat-icon {
+    transform: scale(1.5);
+ }
 
 label {
     padding: 12px 12px 12px 0;
@@ -42,6 +51,11 @@ button{
     min-width: 120px !important;
     border-radius: 25px !important;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+}
+
+button[disabled=true]{
+    background-color: grey !important;
+    color: lightgray !important;
 }
 
 .tips{
