@@ -16,6 +16,10 @@
                 </div>
     
                 <hr>
+
+                <div class="row justify-center section-header">
+                    Correct requirenemts
+                </div>
     
                 <div class="row">
                     <div class="requirements" formArrayName="correctRequirements">
@@ -38,7 +42,10 @@
                     </div>
                 </div>
                 <div class="row justify-end">
-                    <div class="col  col-25 justify-center">
+                    <div class="col col-75 tip" *ngIf="showTip('correctRequirements')">
+                        Click 'Add' to add a new correct requirement
+                    </div>
+                    <div class="col col-25 justify-center">
                         <button mat-raised-button 
                         style="margin-top: 10px"
                         type="button"
@@ -49,6 +56,11 @@
                 </div>
     
                 <hr>
+
+                <div class="row justify-center section-header">
+                    Wrong requirenemts
+                </div>
+
                 <div class="row">
                     <div class="requirements" formArrayName="wrongRequirements">
                         <div class="row"
@@ -70,6 +82,9 @@
                     </div>
                 </div>
                 <div class="row justify-end">
+                    <div class="col col-75 tip" *ngIf="showTip('wrongRequirements')">
+                        Click 'Add' to add a new wrong requirement
+                    </div>
                     <div class="col  col-25 justify-center">
                         <button mat-raised-button 
                         style="margin-top: 10px"

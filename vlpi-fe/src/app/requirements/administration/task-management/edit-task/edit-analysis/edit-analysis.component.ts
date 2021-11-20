@@ -50,4 +50,8 @@ private setPageName(){
     console.log(this.analysisForm.valid);
   }
 
+  showTip(arrayName) : boolean{
+    return (<FormArray>this.analysisForm.get(arrayName)).length < 1;
+  }
+
 }

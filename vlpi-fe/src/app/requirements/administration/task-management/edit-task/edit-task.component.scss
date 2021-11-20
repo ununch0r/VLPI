@@ -62,3 +62,15 @@ button[disabled=true]{
  min-width: 100%;
 }
 
+.tip{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+    font-size: 24px;
+    color: $my-dark-color;
+}
+
+.section-header{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+    font-size: 36px;
+    text-align: center;
+    color: $my-dark-color;
+}

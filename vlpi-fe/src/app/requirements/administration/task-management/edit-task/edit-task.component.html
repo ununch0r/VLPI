@@ -39,6 +39,10 @@
                 </div>
     
                 <hr>
+
+                <div class="row justify-center section-header">
+                    Tips
+                </div>
     
                 <div class="row">
                     <div class="tips" formArrayName="tips">
@@ -62,6 +66,9 @@
                     </div>
                 </div>
                 <div class="row justify-end">
+                    <div class="col col-75 tip" *ngIf="showTip()">
+                        Click 'Add' to add a new tip
+                    </div>
                     <div class="col  col-25 justify-center">
                         <button mat-raised-button 
                         style="margin-top: 10px"

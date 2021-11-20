@@ -80,4 +80,8 @@ export class EditTaskComponent implements OnInit {
     }
   }
 
+  showTip() : boolean{
+    return (<FormArray>this.taskForm.get('tips')).length < 1;
+  }
+
 }
