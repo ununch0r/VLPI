@@ -1,1 +1,98 @@
-<p>edit-analysis works!</p>
+<ng-container>
+    <div class="form-container">
+        <div class="direction-ltr">
+            <form [formGroup] = "analysisForm" (ngSubmit)="onSubmit()" class="analysis-form">
+                <div class="row">
+                    <label for="description" class="col col-25">Description:</label>
+                    <div class="col col-75">
+                        <textarea
+                        type="text"
+                        id="description"
+                        rows="2"
+                        class="form-control"
+                        formControlName="description">
+                    </textarea>
+                    </div>
+                </div>
+    
+                <hr>
+    
+                <div class="row">
+                    <div class="requirements" formArrayName="correctRequirements">
+                        <div class="row"
+                            *ngFor="let requirement of analysisForm.get('correctRequirements')['controls']; let i = index"
+                            [formGroupName]="i"
+                            style="margin-top: 10px;">
+                            <div class="col col-75">
+                                <input 
+                                    type="text" 
+                                    class="form-control">
+                            </div>
+                            <div class="col col-25 justify-center">
+                                <button type="button"
+                                    mat-raised-button
+                                    color="warn"
+                                    (click)="onDeleteRequirement(i, 'correctRequirements')">X</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-end">
+                    <div class="col  col-25 justify-center">
+                        <button mat-raised-button 
+                        style="margin-top: 10px"
+                        type="button"
+                        (click)="onAddRequirement('correctRequirements')"
+                        color="primary">
+                        Add</button>
+                    </div>
+                </div>
+    
+                <hr>
+                <div class="row">
+                    <div class="requirements" formArrayName="wrongRequirements">
+                        <div class="row"
+                            *ngFor="let requirement of analysisForm.get('wrongRequirements')['controls']; let i = index"
+                            [formGroupName]="i"
+                            style="margin-top: 10px;">
+                            <div class="col col-75">
+                                <input 
+                                    type="text" 
+                                    class="form-control">
+                            </div>
+                            <div class="col col-25 justify-center">
+                                <button type="button"
+                                    mat-raised-button
+                                    color="warn"
+                                    (click)="onDeleteRequirement(i, 'wrongRequirements')">X</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-end">
+                    <div class="col  col-25 justify-center">
+                        <button mat-raised-button 
+                        style="margin-top: 10px"
+                        type="button"
+                        (click)="onAddRequirement('wrongRequirements')"
+                        color="primary">
+                        Add</button>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row justify-center">
+                    <div class="col">
+                        <button mat-raised-button
+                        [disabled]="!analysisForm.valid"
+                        color="primary"
+                        class="submit" >
+                         Create
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> 
+</ng-container>

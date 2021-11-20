@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskType } from 'src/app/shared/models/task-type.model';
+import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 
 @Component({
   selector: 'app-edit-task',
@@ -10,24 +11,33 @@ import { TaskType } from 'src/app/shared/models/task-type.model';
 })
 export class EditTaskComponent implements OnInit {
   id: number;
-  step: number;
   editMode: boolean = false;
   taskForm : FormGroup;
   types: TaskType[] = [{name: 'Writing requirements', id: 1}, {name: 'Requirements analysis', id:2}];
 
+  step: number;
+  taskType: number;
 
   constructor(
     private route: ActivatedRoute,
+    private pageNameService: PageNameSyncService
   ) { }
 
   ngOnInit(): void {
     this.step = 1;
+    this.taskType = 0;
+
     this.route.params.subscribe(
       (params: Params) => {
         this.id = +params['id'];
         this.editMode = params['id'] != null;
         this.initForm();
       })
+      this.setPageName();
+    }
+  
+  private setPageName(){
+    this.pageNameService.setPageName("Task editor");
   }
 
   private initForm(){
@@ -37,14 +47,11 @@ export class EditTaskComponent implements OnInit {
     let tips = new FormArray([]);
 
     //let photoUrl: string;
-    //let requirements = new FormArray([]);
-    //let description: string;
 
     this.taskForm = new FormGroup({
       'objective' : new FormControl(objective, [Validators.required]),
       'complexity' : new FormControl(complexity, [Validators.required]),
-      //'description' : new FormControl(description),
-      'typeId' : new FormControl(null, [Validators.required]),
+      'typeId' : new FormControl(typeId, [Validators.required]),
       'tips' : tips
     })
   }
@@ -65,7 +72,12 @@ export class EditTaskComponent implements OnInit {
   }
 
   onSubmit(){
-    this.step = 2;
+    if(this.editMode){
+
+    }else{
+      this.step = 2;
+      this.taskType = this.taskForm.value.typeId
+    }
   }
 
 }

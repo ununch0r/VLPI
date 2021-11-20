@@ -1,0 +1,64 @@
+@import "../../../../../../styles.scss";
+
+.form-container{
+    margin: 0px 20%;
+    padding: 20px;
+    max-height: 85%;
+    overflow: auto;
+    direction: rtl;
+}
+
+.direction-ltr{
+    background-color: $my-secondary-color;    
+    direction: ltr;
+    padding: 20px;
+    border-radius: 50px;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+input[type=text],input[type=number], select, textarea {
+    width: 100%;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border-radius: 50px;
+    color: $my-dark-color;
+    font-size: 24px;
+}
+select{
+    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right white;
+    -webkit-appearance: none;
+    background-position-x: 95%;
+}
+
+mat-icon {
+    transform: scale(1.5);
+ }
+
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+    font-size: 36px;
+    color: $my-dark-color;
+  }
+
+button{
+    padding: 10px;
+    font-size: 36px !important;
+    min-width: 120px !important;
+    border-radius: 25px !important;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+}
+
+button[disabled=true]{
+    background-color: grey !important;
+    color: lightgray !important;
+}
+
+.requirements{
+ min-width: 100%;
+}
+
