@@ -1,0 +1,39 @@
+<div class="form-container justify-center">
+    <div class="form-content">
+        <form [formGroup] = "loginForm" (ngSubmit)="onSubmit()" class="login-form">
+            <div class="row justify-center header">
+                LOGIN
+            </div>
+
+            <div class="row input-container">
+                <input
+                    type="text"
+                    id="email"
+                    rows="2"
+                    class="form-control"
+                    formControlName="email"/>
+            </div>
+            <div class="row input-container">
+                <input
+                    type="text"
+                    id="password"
+                    rows="2"
+                    class="form-control"
+                    formControlName="password"/>
+            </div>
+
+            <div class="row justify-center button-container">
+                    <button mat-raised-button
+                    [disabled]="!loginForm.valid"
+                    color="primary"
+                    class="submit" >
+                     Submit
+                    </button>
+            </div>
+
+            <div class="row justify-center">
+                Don’t have an account? Click here!
+            </div>
+        </form>
+    </div>
+</div>

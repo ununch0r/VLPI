@@ -17,13 +17,18 @@ import { environment } from 'src/environments/environment';
 import { BaseUrlInterceptor } from './shared/interceptors/base-url.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PageNameSyncService } from './shared/services/page-name.sync-service';
+import { RegistrationComponent } from './auth/registration/registration.component';
+import { AuthorizationComponent } from './auth/authorization/authorization.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopMenuComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    RegistrationComponent,
+    AuthorizationComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +39,8 @@ import { PageNameSyncService } from './shared/services/page-name.sync-service';
     MatButtonModule,
     MatGridListModule,
     MatCardModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
