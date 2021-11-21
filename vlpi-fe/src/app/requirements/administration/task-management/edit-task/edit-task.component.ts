@@ -13,7 +13,7 @@ import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-serv
   templateUrl: './edit-task.component.html',
   styleUrls: ['./edit-task.component.scss']
 })
-export class EditTaskComponent implements OnInit, OnDestroy {
+export class EditTaskComponent implements OnInit {
   id: number;
   createTask: CreateTask
   editMode: boolean = false;
@@ -33,7 +33,6 @@ export class EditTaskComponent implements OnInit, OnDestroy {
     this.taskType = 0;
 
     this.route.params
-    .pipe(takeUntil(this.destroySubj))
     .subscribe(
       (params: Params) => {
         this.id = +params['id'];
@@ -42,11 +41,6 @@ export class EditTaskComponent implements OnInit, OnDestroy {
       })
       this.setPageName();
     }
-
-  destroySubj: Subject<any>;
-  ngOnDestroy(): void {
-    this.destroySubj.next(null);
-  }
   
   private setPageName(){
     this.pageNameService.setPageName("Task editor");

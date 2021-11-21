@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Token } from '../models/token.model';
 
-export const ACCESS_TOKEN_KEY = 'dishshop_access_token'
+export const ACCESS_TOKEN_KEY = 'vlpi_access_token'
 
 @Injectable({
   providedIn: 'root'

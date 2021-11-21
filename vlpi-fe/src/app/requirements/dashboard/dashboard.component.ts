@@ -23,7 +23,6 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private taskService: TaskWebService,
     private taskSyncService: TaskSyncService,
     private pageNameService: PageNameSyncService
     ) { }
