@@ -25,12 +25,12 @@ export class EditAnalysisComponent implements OnInit {
 
     this.initForm();
     this.setPageName();
-    console.log(this.analysisTask)
   }
 
-private setPageName(){
-  this.pageNameService.setPageName("Analysis task creation");
-}
+  private setPageName(){
+    this.pageNameService.setPageName("Analysis task creation");
+  }
+  
   initForm() {
     let description = '';
     let correctRequirements = new FormArray([]);

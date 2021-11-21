@@ -7,14 +7,16 @@
 
             <div class="row input-container">
                 <input
+                    placeholder="Email..."
                     type="text"
                     id="email"
                     rows="2"
                     class="form-control"
-                    formControlName="email"/>
+                    formControlName="login"/>
             </div>
             <div class="row input-container">
                 <input
+                    placeholder="Password..."
                     type="text"
                     id="password"
                     rows="2"
@@ -32,7 +34,7 @@
             </div>
 
             <div class="row justify-center">
-                Don’t have an account? Click here!
+                <p>Don’t have an account? Click <a (click)="onRegistration()" class="registration-link"> here</a>!</p>
             </div>
         </form>
     </div>

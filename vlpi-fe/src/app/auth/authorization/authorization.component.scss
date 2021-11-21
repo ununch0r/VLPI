@@ -56,3 +56,14 @@ button[disabled=true]{
     background-color: grey !important;
     color: lightgray !important;
 }
+
+.registration-link{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+p{
+    color: $my-dark-color;
+    margin: 0px;
+    padding: 0px;
+}

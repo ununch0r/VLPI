@@ -20,6 +20,12 @@ import { PageNameSyncService } from './shared/services/page-name.sync-service';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { AuthorizationComponent } from './auth/authorization/authorization.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { JwtModule } from '@auth0/angular-jwt';
+import { ACCESS_TOKEN_KEY } from './shared/services/auth.service';
+
+export function tokenGetter(){
+  return localStorage.getItem(ACCESS_TOKEN_KEY)
+}
 
 @NgModule({
   declarations: [
@@ -40,7 +46,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatGridListModule,
     MatCardModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        allowedDomains: ['localhost:44310']
+      }
+    })
   ],
   providers: [
     {
