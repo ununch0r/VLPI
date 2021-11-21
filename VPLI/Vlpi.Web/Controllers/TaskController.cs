@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Entities.Custom.Task;
 using Vlpi.Web.ViewModels.TaskViewModels;
 using Task = Core.Entities.Task;
 
@@ -51,6 +52,15 @@ namespace Vlpi.Web.Controllers
         {
             var taskEntity = _mapper.Map<Task>(createTaskViewModel);
             await _taskManager.AddAsync(taskEntity);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("analysis")]
+        public async Task<IActionResult> CreateAnalysisTaskAsync([FromBody][Required] CreateAnalysisTaskViewModel createTaskViewModel)
+        {
+            var taskEntity = _mapper.Map<CreateAnalysisTaskModel>(createTaskViewModel);
+            await _taskManager.AddAnalysisAsync(taskEntity);
             return Ok();
         }
 

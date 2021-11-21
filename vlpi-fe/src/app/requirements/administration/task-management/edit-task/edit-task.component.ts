@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { AnalysisTask } from 'src/app/shared/models/analysis-task.model';
+import { CreateTask } from 'src/app/shared/models/create-task.model';
+import { TaskTip } from 'src/app/shared/models/task-tip.model';
 import { TaskType } from 'src/app/shared/models/task-type.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 
@@ -11,6 +14,7 @@ import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-serv
 })
 export class EditTaskComponent implements OnInit {
   id: number;
+  createTask: CreateTask
   editMode: boolean = false;
   taskForm : FormGroup;
   types: TaskType[] = [{name: 'Writing requirements', id: 1}, {name: 'Requirements analysis', id:2}];
@@ -61,10 +65,11 @@ export class EditTaskComponent implements OnInit {
   }
 
   onAddTip(){
+    let length = (<FormArray>this.taskForm.get('tips')).length;
     (<FormArray>this.taskForm.get('tips')).push(
       new FormGroup({
         'description': new FormControl(''),
-        'order': new FormControl(1, [
+        'order': new FormControl(length + 1, [
            Validators.pattern(/^[1-9]+[0-9]*$/)
           ])
       })
@@ -75,8 +80,25 @@ export class EditTaskComponent implements OnInit {
     if(this.editMode){
 
     }else{
-      this.step = 2;
-      this.taskType = this.taskForm.value.typeId
+      this.initCreateTaskModel();
+      console.log(this.createTask);
+      this.proccedWithCreation();
+    }
+  }
+
+  proccedWithCreation(){
+    this.step = 2;
+    this.taskType = this.taskForm.value.typeId;
+  }
+
+  initCreateTaskModel(){
+    let formTips = (<FormArray>this.taskForm.get('tips'));
+    let taskTips : TaskTip[] = formTips.value.map(tip => ({ description: tip.description, order: tip.order } as TaskTip))
+    this.createTask = {
+      objective: this.taskForm.value.objective,
+      typeId: this.taskForm.value.typeId,
+      complexity: this.taskForm.value.complexity,
+      taskTip: taskTips
     }
   }
 

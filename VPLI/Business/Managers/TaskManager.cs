@@ -1,26 +1,69 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using AutoMapper;
+using Core.Entities;
+using Core.Entities.Custom.AnswerTemplates;
+using Core.Entities.Custom.Task;
 using Core.Managers;
 using Core.Repositories;
-using Core.Entities;
-using Core.Entities.Custom.Task;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Managers
 {
     public class TaskManager : ITaskManager
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly IRequirementManager _requirementManager;
         private readonly IMapper _mapper;
-        public TaskManager(ITaskRepository taskRepository, IMapper mapper)
+        public TaskManager(ITaskRepository taskRepository, IMapper mapper, IRequirementManager requirementManager)
         {
             _taskRepository = taskRepository;
             _mapper = mapper;
+            _requirementManager = requirementManager;
         }
 
         public async System.Threading.Tasks.Task AddAsync(Task task)
         {
             await _taskRepository.AddAsync(task);
+        }
+
+        public async System.Threading.Tasks.Task AddAnalysisAsync(CreateAnalysisTaskModel task)
+        {
+            try
+            {
+                var taskModel = _mapper.Map<Task>(task);
+                var addedTask = await _taskRepository.AddAsync(taskModel);
+
+                foreach (var correctRequirement in task.CorrectRequirements)
+                {
+                    correctRequirement.TaskId = addedTask.Id;
+                }
+                var correctRequirements = await _requirementManager.AddBulk(task.CorrectRequirements);
+
+                foreach (var wrongRequirement in task.WrongRequirements)
+                {
+                    wrongRequirement.TaskId = addedTask.Id;
+                }
+                var wrongRequirements = await _requirementManager.AddBulk(task.WrongRequirements);
+
+                var standardAnswer = new RequirementsAnalysisTaskTemplateAnswer
+                {
+                    CorrectRequirementIds = correctRequirements.Select(requirement => requirement.Id),
+                    ModifiedRequirements = wrongRequirements.Select(requirement => new ModifiedWrongRequirementTemplate
+                    {
+                        Id = requirement.Id
+                    })
+                };
+
+                var serializedStandardAnswer = JsonConvert.SerializeObject(standardAnswer);
+                await _taskRepository.AddStandardAnswerAsync(addedTask.Id, serializedStandardAnswer);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public async System.Threading.Tasks.Task UpdateAsync(int taskId, Task task)

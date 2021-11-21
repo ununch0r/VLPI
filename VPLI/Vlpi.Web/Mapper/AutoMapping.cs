@@ -33,6 +33,7 @@ namespace Vlpi.Web.Mapper
             CreateMap<TaskType, TaskTypeViewModel>();
             CreateMap<Task, TaskCustomModel>();
             CreateMap<TaskCustomModel, TaskViewModel>();
+            CreateMap<CreateAnalysisTaskModel, Task>();
 
 
             CreateMap<CreateRequirementViewModel, Requirement>();
@@ -44,6 +45,7 @@ namespace Vlpi.Web.Mapper
             CreateMap<WritingAnswerViewModel, WritingAnswer>();
             CreateMap<WritingRequirementViewModel, WritingRequirement>();
             CreateMap<UserViewModel, User>();
+            CreateMap<CreateAnalysisTaskViewModel, CreateAnalysisTaskModel>();
         }
     }
 }

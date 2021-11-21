@@ -7,5 +7,6 @@ namespace Core.Managers
     public interface IRequirementManager
     {
         Task<IList<RequirementType>> GetRequirementTypesAsync();
+        Task<IList<Requirement>> AddBulk(IList<Requirement> requirements);
     }
 }

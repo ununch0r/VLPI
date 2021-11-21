@@ -16,10 +16,11 @@ namespace DataAccess.Repositories
         }
 
 
-        public async System.Threading.Tasks.Task AddAsync(Task task)
+        public async System.Threading.Tasks.Task<Task> AddAsync(Task task)
         {
             await _context.Task.AddAsync(task);
             await _context.SaveChangesAsync();
+            return task;
         }
 
         public async System.Threading.Tasks.Task UpdateAsync(int taskId, Task task)
@@ -68,6 +69,13 @@ namespace DataAccess.Repositories
         {
             var taskToBeRemoved = await _context.Task.SingleOrDefaultAsync(t => t.Id == id);
             _context.Task.Remove(taskToBeRemoved);
+            await _context.SaveChangesAsync();
+        }
+
+        public async System.Threading.Tasks.Task AddStandardAnswerAsync(int taskId, string standardAnswer)
+        {
+            var taskToUpdate = await _context.Task.SingleOrDefaultAsync(t => t.Id == taskId);
+            taskToUpdate.StandardAnswer = standardAnswer;
             await _context.SaveChangesAsync();
         }
     }

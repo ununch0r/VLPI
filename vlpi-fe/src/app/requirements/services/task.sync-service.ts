@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, Observable, Subject, tap } from 'rxjs';
+import { AnalysisTask } from 'src/app/shared/models/analysis-task.model';
 import { SimpleTask } from 'src/app/shared/models/simple-task.model';
 import { Task } from 'src/app/shared/models/task.model';
 import { TaskWebService } from '../web-services/task.web-service';
@@ -32,6 +33,9 @@ export class TaskSyncService {
       this.reloadTasks());
   }
 
-  
+  createAnalysisTask(task: AnalysisTask){
+    this.taskWebService.createAnalysisTask(task).subscribe(result => 
+      this.reloadTasks());
+  }
   
 }

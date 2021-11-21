@@ -9,6 +9,6 @@ export interface Task{
     description : string;
     photoUrl: string;
     type: TaskType;
-    Requirement: Requirement[];
-    TaskTip: TaskTip[];
+    requirement: Requirement[];
+    taskTip: TaskTip[];
 }

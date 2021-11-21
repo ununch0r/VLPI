@@ -100,5 +100,5 @@
     <app-edit-writing></app-edit-writing>
 </ng-container>
 <ng-container *ngIf="step === 2 && taskType === 2">
-    <app-edit-analysis></app-edit-analysis>
+    <app-edit-analysis [analysisTask]="createTask"></app-edit-analysis>
 </ng-container>
