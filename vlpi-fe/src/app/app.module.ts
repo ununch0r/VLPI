@@ -22,6 +22,10 @@ import { AuthorizationComponent } from './auth/authorization/authorization.compo
 import { ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ACCESS_TOKEN_KEY } from './shared/services/auth.service';
+import { UserSyncService } from './shared/services/user.sync.service';
+import { UserWebService } from './shared/web-services/user.web-service';
+import { UserResolverService } from './shared/resolvers/user-resolver.service';
+import { MatIconModule } from '@angular/material/icon';
 
 export function tokenGetter(){
   return localStorage.getItem(ACCESS_TOKEN_KEY)
@@ -45,6 +49,7 @@ export function tokenGetter(){
     MatButtonModule,
     MatGridListModule,
     MatCardModule,
+    MatIconModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     JwtModule.forRoot({
@@ -61,7 +66,10 @@ export function tokenGetter(){
       multi: true,
     },
     { provide: "BASE_API_URL", useValue: environment.apiUrl },
-    PageNameSyncService
+    PageNameSyncService,
+    UserSyncService,
+    UserWebService,
+    UserResolverService
 ],
   bootstrap: [AppComponent]
 })

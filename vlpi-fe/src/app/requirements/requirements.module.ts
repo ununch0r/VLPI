@@ -23,15 +23,17 @@ import { TaskManagementComponent } from './administration/task-management/task-m
 import { EditTaskComponent } from './administration/task-management/edit-task/edit-task.component';
 import { EditWritingComponent } from './administration/task-management/edit-task/edit-writing/edit-writing.component';
 import { EditAnalysisComponent } from './administration/task-management/edit-task/edit-analysis/edit-analysis.component';
+import { AuthGuardService } from '../auth/auth-guard.service';
+import { UserResolverService } from '../shared/resolvers/user-resolver.service';
 
 const routes: Routes = [
-  { path: 'administration', component: ChooseManagementComponent},
-  { path: 'user', component: UserManagementComponent },
-  { path: 'task', component: TaskManagementComponent },
-  { path: 'edit-task', component: EditTaskComponent },
-  { path: 'edit-task/writing', component: EditWritingComponent },
-  { path: 'edit-task/:id', component: EditTaskComponent },
-  { path: 'edit-task/:id/writing', component: EditWritingComponent },
+  { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
+  { path: 'user', component: UserManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
+  { path: 'task', component: TaskManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
+  { path: 'edit-task', component: EditTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
+  { path: 'edit-task/writing', component: EditWritingComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
+  { path: 'edit-task/:id', component: EditTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
+  { path: 'edit-task/:id/writing', component: EditWritingComponent, canActivate:[AuthGuardService],resolve:[UserResolverService] },
 ];
 
 @NgModule({

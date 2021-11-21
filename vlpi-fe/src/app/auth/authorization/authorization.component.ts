@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
+import { UserSyncService } from 'src/app/shared/services/user.sync.service';
 
 @Component({
   selector: 'app-authorization',
@@ -15,7 +17,8 @@ export class AuthorizationComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private pageNameService: PageNameSyncService
+    private pageNameService: PageNameSyncService,
+    private userSyncService: UserSyncService
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +39,10 @@ export class AuthorizationComponent implements OnInit {
   onSubmit(){
     this.authService.login(this.loginForm.value.login, this.loginForm.value.password)
     .subscribe({
-      next: _ => this.router.navigate(['']),
+      next: _ => {
+        this.userSyncService.setCurrentUser();
+        this.router.navigate([''])
+      },
       error: _ => (console.log)
     });
   }

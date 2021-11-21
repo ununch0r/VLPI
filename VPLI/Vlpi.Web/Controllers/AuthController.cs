@@ -98,28 +98,42 @@ namespace Vlpi.Web.Controllers
 
         private string GenerateJwt(UserViewModel user)
         {
-            var authParams = _authOptions.Value;
 
-            var securityKey = authParams.GetSymmetricSecurityKey();
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
+            try
             {
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Name, user.FirstName),
-                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString())
-            };
-            claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role)));
+                var authParams = _authOptions.Value;
 
-            var token = new JwtSecurityToken(
-                authParams.Issuer,
-                authParams.Audience,
-                claims,
-                expires: DateTime.Now.AddSeconds(authParams.TokenLifetime),
-                signingCredentials: credentials
-            );
+                var securityKey = authParams.GetSymmetricSecurityKey();
+                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+                var claims = new List<Claim>
+                {
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Name, user.FirstName),
+                    new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString())
+                };
+
+                if (user.Roles != null)
+                {
+                    claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role)));
+                }
+
+                var token = new JwtSecurityToken(
+                    authParams.Issuer,
+                    authParams.Audience,
+                    claims,
+                    expires: DateTime.Now.AddSeconds(authParams.TokenLifetime),
+                    signingCredentials: credentials
+                );
+
+                return new JwtSecurityTokenHandler().WriteToken(token);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
     }
 }

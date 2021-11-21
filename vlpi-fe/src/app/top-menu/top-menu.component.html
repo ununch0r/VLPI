@@ -1,5 +1,10 @@
 <div class="container">
     <div class="app-name" (click)="navigateToHome()">VLPI</div>
     <div class="page-name">{{pageNameObs | async}}</div>
-    <div class="account">Account</div>
+    <div class="account">
+        {{userNameObs | async}}
+        <mat-icon *ngIf="isUserAuthorizedObs | async" (click)="logout()">
+            logout
+        </mat-icon>
+    </div>
 </div>

@@ -84,13 +84,18 @@ namespace DataAccess.Repositories
             await _context.SaveChangesAsync();
         }
 
-        private string GetHashedPassword(string passwordHash)
+        private string GetHashedPassword(string input)
         {
-            var data = Encoding.ASCII.GetBytes(passwordHash);
-            var md5 = new MD5CryptoServiceProvider();
-            var md5data = md5.ComputeHash(data);
-            var hashedPassword = Encoding.ASCII.GetString(md5data);
-            return hashedPassword;
+            using MD5 md5 = MD5.Create();
+            var inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+            var hashBytes = md5.ComputeHash(inputBytes);
+
+            var sb = new StringBuilder();
+            foreach (var b in hashBytes)
+            {
+                sb.Append(b.ToString("X2"));
+            }
+            return sb.ToString();
         }
     }
 }

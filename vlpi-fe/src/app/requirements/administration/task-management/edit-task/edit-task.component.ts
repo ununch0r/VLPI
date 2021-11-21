@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { pipe, Subject, take, takeUntil } from 'rxjs';
 import { AnalysisTask } from 'src/app/shared/models/analysis-task.model';
 import { CreateTask } from 'src/app/shared/models/create-task.model';
 import { TaskTip } from 'src/app/shared/models/task-tip.model';
@@ -12,7 +13,7 @@ import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-serv
   templateUrl: './edit-task.component.html',
   styleUrls: ['./edit-task.component.scss']
 })
-export class EditTaskComponent implements OnInit {
+export class EditTaskComponent implements OnInit, OnDestroy {
   id: number;
   createTask: CreateTask
   editMode: boolean = false;
@@ -31,7 +32,9 @@ export class EditTaskComponent implements OnInit {
     this.step = 1;
     this.taskType = 0;
 
-    this.route.params.subscribe(
+    this.route.params
+    .pipe(takeUntil(this.destroySubj))
+    .subscribe(
       (params: Params) => {
         this.id = +params['id'];
         this.editMode = params['id'] != null;
@@ -39,6 +42,11 @@ export class EditTaskComponent implements OnInit {
       })
       this.setPageName();
     }
+
+  destroySubj: Subject<any>;
+  ngOnDestroy(): void {
+    this.destroySubj.next(null);
+  }
   
   private setPageName(){
     this.pageNameService.setPageName("Task editor");
@@ -81,7 +89,6 @@ export class EditTaskComponent implements OnInit {
 
     }else{
       this.initCreateTaskModel();
-      console.log(this.createTask);
       this.proccedWithCreation();
     }
   }
