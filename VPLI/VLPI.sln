@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31129.286
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{A357253F-86FF-4E88-81F5-9CCFB7CF3489}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{A357253F-86FF-4E88-81F5-9CCFB7CF3489}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{9CFB8577-6C01-4CE5-ACCA-57841CB6460C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{9CFB8577-6C01-4CE5-ACCA-57841CB6460C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{64F6DD7E-23AB-4EFB-BD90-FFCB05DEF6BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{64F6DD7E-23AB-4EFB-BD90-FFCB05DEF6BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vlpi.Web", "Vlpi.Web\Vlpi.Web.csproj", "{585E573B-2359-4925-93EC-B7F1D1B687D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vlpi.Web", "Vlpi.Web\Vlpi.Web.csproj", "{585E573B-2359-4925-93EC-B7F1D1B687D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VLPI_Testing", "VLPI_Testing\VLPI_Testing.csproj", "{15583F00-AFCF-4D43-AE39-87BE162C30EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{585E573B-2359-4925-93EC-B7F1D1B687D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{585E573B-2359-4925-93EC-B7F1D1B687D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{585E573B-2359-4925-93EC-B7F1D1B687D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15583F00-AFCF-4D43-AE39-87BE162C30EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15583F00-AFCF-4D43-AE39-87BE162C30EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15583F00-AFCF-4D43-AE39-87BE162C30EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15583F00-AFCF-4D43-AE39-87BE162C30EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
