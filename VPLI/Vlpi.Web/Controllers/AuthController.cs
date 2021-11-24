@@ -82,11 +82,20 @@ namespace Vlpi.Web.Controllers
 
         [Route("register")]
         [HttpPost]
-        public async Task<IActionResult> RegisterUserAsync([FromBody] UserViewModel userViewModel)
+        public async Task<IActionResult> RegisterUserAsync([FromBody] CreateUserViewModel userViewModel)
         {
             var user = _mapper.Map<User>(userViewModel);
             await _userManager.AddAsync(user);
-            return Ok();
+
+            var createdUser = await AuthenticateUser(userViewModel.Email, userViewModel.Password);
+
+            if (user != null)
+            {
+                var token = GenerateJwt(createdUser);
+                return Ok(new { access_token = token });
+            }
+
+            return Unauthorized();
         }
 
         private async Task<UserViewModel> AuthenticateUser(string email, string password)
@@ -98,42 +107,32 @@ namespace Vlpi.Web.Controllers
 
         private string GenerateJwt(UserViewModel user)
         {
+            var authParams = _authOptions.Value;
 
-            try
-            {
-                var authParams = _authOptions.Value;
+            var securityKey = authParams.GetSymmetricSecurityKey();
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-                var securityKey = authParams.GetSymmetricSecurityKey();
-                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-                var claims = new List<Claim>
+            var claims = new List<Claim>
                 {
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                     new Claim(JwtRegisteredClaimNames.Name, user.FirstName),
                     new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString())
                 };
 
-                if (user.Roles != null)
-                {
-                    claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role)));
-                }
-
-                var token = new JwtSecurityToken(
-                    authParams.Issuer,
-                    authParams.Audience,
-                    claims,
-                    expires: DateTime.Now.AddSeconds(authParams.TokenLifetime),
-                    signingCredentials: credentials
-                );
-
-                return new JwtSecurityTokenHandler().WriteToken(token);
-            }
-            catch (Exception e)
+            if (user.Roles != null)
             {
-                Console.WriteLine(e);
-                throw;
+                claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role)));
             }
 
+            var token = new JwtSecurityToken(
+                authParams.Issuer,
+                authParams.Audience,
+                claims,
+                expires: DateTime.Now.AddSeconds(authParams.TokenLifetime),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

@@ -12,7 +12,7 @@ import { UserSyncService } from 'src/app/shared/services/user.sync.service';
   styleUrls: ['./authorization.component.scss']
 })
 export class AuthorizationComponent implements OnInit {
-  loginForm: FormGroup;  
+  loginForm: FormGroup;
 
   constructor(
     private router: Router,
