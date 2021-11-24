@@ -16,7 +16,10 @@ using Vlpi.Web.Controllers;
 using Vlpi.Web.Mapper;
 using Vlpi.Web.ViewModels.TaskViewModels;
 using System.Data.Entity.Infrastructure;
+using Core.Entities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MockQueryable.Moq;
+using Task = System.Threading.Tasks.Task;
 
 namespace VLPI_Testing
 {
@@ -24,7 +27,8 @@ namespace VLPI_Testing
     {
         private static IMapper _mapper;
         private Mock<VLPIContext> databaseContextMockup;
-
+        private Mock<VLPIContext> databaseUserContextMockup;
+        private Mock<VLPIContext> databaseRequirementContextMockup;
         [SetUp]
         public void Setup()
         {
@@ -37,13 +41,72 @@ namespace VLPI_Testing
             }
 
             databaseContextMockup = GetMock();
+            databaseUserContextMockup = GetUserMock();
+            databaseRequirementContextMockup = GetRequirementMock();
         }
 
+        public Mock<VLPIContext> GetUserMock()
+        {
+            var data = new List<User>
+            {
+                new()
+                {
+                    Id = 1,
+                    FirstName = "Andrii",
+                    LastName = "Harashchak",
+                    Email = "andrii@vlpi.com",
+                    HashedPasswrod = "5f4dcc3b5aa765d61d8327deb882cf99".ToUpper(),
+                    UserRole = new List<UserRole>
+                    {
+                        new UserRole
+                        {
+                            Role = new Role
+                            {
+                                Id = 1,
+                                Name = "admin"
+                            },
+                        }
+                    }
+                }
+            };
+            var mock = data.AsQueryable().BuildMockDbSet();
+            mock
+                .Setup(_ => _.AddAsync(It.IsAny<User>(), It.IsAny<System.Threading.CancellationToken>()))
+                .Callback((User model, CancellationToken token) => { data.Add(model); })
+                .Returns((User model, CancellationToken token) => new ValueTask<EntityEntry<User>>());
+
+            mock.Setup(m => m.Remove(It.IsAny<User>())).Callback<User>((entity) => data.Remove(entity));
+            var mockContext = new Mock<VLPIContext>();
+            mockContext.Setup(c => c.User).Returns(mock.Object);
+            return mockContext;
+        }
+        public Mock<VLPIContext> GetRequirementMock()
+        {
+            var data = new List<Requirement>
+            {
+                new()
+                {
+                    Id = 1,
+                    TaskId = 1,
+                    Description = "req description"
+                }
+            };
+            var mock = data.AsQueryable().BuildMockDbSet();
+            mock
+                .Setup(_ => _.AddAsync(It.IsAny<Requirement>(), It.IsAny<System.Threading.CancellationToken>()))
+                .Callback((Requirement model, CancellationToken token) => { data.Add(model); })
+                .Returns((User model, CancellationToken token) => new ValueTask<EntityEntry<Requirement>>());
+
+            mock.Setup(m => m.Remove(It.IsAny<Requirement>())).Callback<Requirement>((entity) => data.Remove(entity));
+            //var mockContext = new Mock<VLPIContext>();
+            databaseContextMockup.Setup(c => c.Requirement).Returns(mock.Object);
+            return databaseContextMockup;
+        }
         public Mock<VLPIContext> GetMock()
         {
             var data = new List<Core.Entities.Task>
             {
-                new Core.Entities.Task()
+                new ()
                 {
                     Id = 1,
                     Complexity = 1,
@@ -53,7 +116,7 @@ namespace VLPI_Testing
                     StandardAnswer = "Answer",
                     TypeId = 1
                 }
-            }.AsQueryable();
+            };
             //var mockSet = new Mock<DbSet<Core.Entities.Task>>();
             //mockSet.As<IDbAsyncEnumerable<Core.Entities.Task>>()
             //    .Setup(m => m.GetAsyncEnumerator())
@@ -70,31 +133,40 @@ namespace VLPI_Testing
             //mockContext.Setup(c => c.Task).Returns(mockSet.Object);
             //return mockContext;
             var mock = data.AsQueryable().BuildMockDbSet();
+            //mock.Setup(d => d.Add(It.IsAny<Core.Entities.Task>())).Callback<Core.Entities.Task>((s) => data.Add(s));
+            mock
+                .Setup(_ => _.AddAsync(It.IsAny<Core.Entities.Task>(), It.IsAny<System.Threading.CancellationToken>()))
+                .Callback((Core.Entities.Task model, CancellationToken token) => { data.Add(model); })
+                .Returns((Core.Entities.Task model, CancellationToken token) => new ValueTask<EntityEntry<Core.Entities.Task>>());
+
+            mock.Setup(m => m.Remove(It.IsAny<Core.Entities.Task>())).Callback<Core.Entities.Task>((entity) => data.Remove(entity));
             var mockContext = new Mock<VLPIContext>();
             mockContext.Setup(c => c.Task).Returns(mock.Object);
             return mockContext;
         }
-
+        //1
         [Test]
         public async Task TaskPostTest()
         {
-            TaskController controller =
-                new TaskController(
-                    new TaskManager(new TaskRepository(databaseContextMockup.Object), _mapper,
-                        new RequirementManager(new RequirementRepository(databaseContextMockup.Object))), _mapper);
-            CreateTaskViewModel newTask = new CreateTaskViewModel();
-            newTask.Complexity = 1;
-            newTask.Description = "Some description";
-            newTask.Objective = "objective";
-            newTask.StandardAnswer = "standart answer";
-            newTask.TypeId = 1;
-
-            var result = await controller.CreateTaskAsync(newTask);
-            Assert.True(result is OkObjectResult);
+            TaskManager manager = GetTaskManager();
+            Core.Entities.Task newTask = new Core.Entities.Task()
+            {
+                Id = 2,
+                Complexity = 1,
+                Description = "Some description",
+                Objective = "objective",
+                StandardAnswer = "standart answer",
+                TypeId = 2,
+            };
+            await manager.AddAsync(newTask);
+            var result = await manager.GetAsync(2);
+            bool areEqual = CompareTasks(newTask, result);
+            Assert.True(areEqual);
+            //Assert.AreEqual(2 ,result.Count);
         }
-
+        //2
         [Test]
-        public async Task TaskManagerTest()
+        public async Task GetTaskUsingManagerTest()
         {
             var manager = GetTaskManager();
             var expectedresult = new Core.Entities.Task()
@@ -109,12 +181,125 @@ namespace VLPI_Testing
             Assert.True(equal);
         }
 
+        //3
+        [Test]
+        public async Task DeleteTaskTest()
+        {
+            var taskId = 1;
+            var manager = GetTaskManager();
+
+            await manager.DeleteAsync(taskId);
+            var task = await manager.GetAsync(1);
+
+            Assert.Null(task);
+        }
+
+        //4
+        [Test]
+        public async Task RegisterUserTask()
+        {
+            try
+            {
+                var manager = GetUserManager();
+            var user = new User
+            {
+                Id = 2,
+                FirstName = "Andrii2",
+                LastName = "Harashchak2",
+                Email = "andrii2@vlpi.com",
+                HashedPasswrod = "password",
+                UserRole = new List<UserRole>
+                {
+                    new ()
+                    {
+                        Role = new()
+                        {
+                            Id = 1,
+                            Name = "admin"
+                        },
+                    }
+                }
+            };
+            await manager.AddAsync(user);
+            //var users = manager.
+            var User = await manager.GetAsync(2);
+            //var UsersCount = databaseUserContextMockup.Object.User.Count();
+            //Assert.AreEqual(2, UsersCount);
+            Assert.NotNull(User);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+            }
+        }
+
+        [Test]
+        public async Task LoginTest()
+        {
+            var manager = GetUserManager();
+            string email = "andrii@vlpi.com";
+            string password = "password";
+            
+            var user = await manager.AuthenticateUserAsync(email, password);
+            bool ok;
+            if (user != null)
+            {
+                ok = user.Email == email;
+            }
+            else
+            {
+                ok = false;
+            }
+            Assert.True(ok);
+        }
+
+        [Test]
+        public async Task AddRequirementTest()
+        {
+            var manager = GetRequirementsManager();
+            var requirements = new List<Requirement>
+            {
+                new()
+                {
+                    Id = 1,
+                    TaskId = 1,
+                    Description = "some desc",
+                },
+                new()
+                {
+                    Id = 2,
+                    TaskId = 1,
+                    Description = "some desc 2"
+                }
+            };
+            await manager.AddBulk(requirements);
+
+            var task =  databaseRequirementContextMockup.Object.Task.FirstOrDefault(t => t.Id == 1);
+            if (task != null)
+            {
+                var reqs = task.Requirement;
+                Assert.NotNull(reqs);
+            }
+            else
+            {
+                Assert.True(false);
+            }
+
+        }
         public TaskManager GetTaskManager()
         {
             return new TaskManager(new TaskRepository(databaseContextMockup.Object), _mapper,
                 new RequirementManager(new RequirementRepository(databaseContextMockup.Object)));
         }
-
+        public UserManager GetUserManager()
+        {
+            return new UserManager(new UserRepository(databaseUserContextMockup.Object));
+        }
+        public RequirementManager GetRequirementsManager()
+        {
+            return new RequirementManager(new RequirementRepository(databaseRequirementContextMockup.Object));
+        }
         private bool CompareTasks(Core.Entities.Task task1, Core.Entities.Task task2)
         {
             return task1.Id == task2.Id && task1.Complexity == task2.Complexity &&
