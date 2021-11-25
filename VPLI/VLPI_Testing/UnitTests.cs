@@ -57,7 +57,7 @@ namespace VLPI_Testing
                     FirstName = "Andrii",
                     LastName = "Harashchak",
                     Email = "andrii@vlpi.com",
-                    HashedPasswrod = "5f4dcc3b5aa765d61d8327deb882cf99".ToUpper(),
+                    Password = "5f4dcc3b5aa765d61d8327deb882cf99".ToUpper(),
                     UserRole = new List<UserRole>
                     {
                         new UserRole
@@ -192,40 +192,22 @@ namespace VLPI_Testing
         [Test]
         public async Task RegisterUserTask()
         {
-            try
-            {
-                var manager = GetUserManager();
+            int userId = 1;
+            var manager = GetUserManager();
             var user = new User
             {
-                Id = 2,
+                Id = userId,
                 FirstName = "Andrii2",
                 LastName = "Harashchak2",
                 Email = "andrii2@vlpi.com",
-                HashedPasswrod = "password",
-                UserRole = new List<UserRole>
-                {
-                    new ()
-                    {
-                        Role = new()
-                        {
-                            Id = 1,
-                            Name = "admin"
-                        },
-                    }
-                }
+                Password = "password",
+                
             };
             await manager.AddAsync(user);
-            //var users = manager.
-            var User = await manager.GetAsync(2);
-            //var UsersCount = databaseUserContextMockup.Object.User.Count();
-            //Assert.AreEqual(2, UsersCount);
-            Assert.NotNull(User);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+ 
+            var User = await manager.GetAsync(userId);
 
-            }
+            Assert.NotNull(User);
         }
         //5
         [Test]
