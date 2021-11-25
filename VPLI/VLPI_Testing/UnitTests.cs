@@ -119,21 +119,6 @@ namespace VLPI_Testing
                     TypeId = 1
                 }
             };
-            //var mockSet = new Mock<DbSet<Core.Entities.Task>>();
-            //mockSet.As<IDbAsyncEnumerable<Core.Entities.Task>>()
-            //    .Setup(m => m.GetAsyncEnumerator())
-            //    .Returns(new TestDbAsyncEnumerator<Core.Entities.Task>(data.GetEnumerator()));
-
-            //mockSet.As<IQueryable<Core.Entities.Task>>()
-            //    .Setup(m => m.Provider)
-            //    .Returns(new TestDbAsyncQueryProvider<Core.Entities.Task>(data.Provider));
-
-            //mockSet.As<IQueryable<Core.Entities.Task>>().Setup(m => m.Expression).Returns(data.Expression);
-            //mockSet.As<IQueryable<Core.Entities.Task>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            //mockSet.As<IQueryable<Core.Entities.Task>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            //var mockContext = new Mock<VLPIContext>();
-            //mockContext.Setup(c => c.Task).Returns(mockSet.Object);
-            //return mockContext;
             var mock = data.AsQueryable().BuildMockDbSet();
             //mock.Setup(d => d.Add(It.IsAny<Core.Entities.Task>())).Callback<Core.Entities.Task>((s) => data.Add(s));
             mock
@@ -150,36 +135,43 @@ namespace VLPI_Testing
         [Test]
         public async Task TaskPostTest()
         {
+            int taskId = 2;
             TaskManager manager = GetTaskManager();
             Core.Entities.Task newTask = new Core.Entities.Task()
             {
-                Id = 2,
+                Id = taskId,
                 Complexity = 1,
                 Description = "Some description",
                 Objective = "objective",
                 StandardAnswer = "standart answer",
                 TypeId = 2,
             };
+
+
             await manager.AddAsync(newTask);
-            var result = await manager.GetAsync(2);
+            var result = await manager.GetAsync(taskId);
+
+
             bool areEqual = CompareTasks(newTask, result);
             Assert.True(areEqual);
-            //Assert.AreEqual(2 ,result.Count);
         }
         //2
         [Test]
         public async Task GetTaskUsingManagerTest()
         {
+            int taskId = 1;
             var manager = GetTaskManager();
-            var expectedresult = new Core.Entities.Task()
+            var expectedResult = new Core.Entities.Task()
             {
-                Id = 1,
+                Id = taskId,
                 Complexity = 1,
                 Description = "Description"
             };
 
-            var result = await manager.GetAsync(1);
-            bool equal = CompareTasks(expectedresult, result);
+            var result = await manager.GetAsync(taskId);
+
+
+            bool equal = CompareTasks(expectedResult, result);
             Assert.True(equal);
         }
 
@@ -244,15 +236,9 @@ namespace VLPI_Testing
             string password = "password";
             
             var user = await manager.AuthenticateUserAsync(email, password);
-            bool ok;
-            if (user != null)
-            {
-                ok = user.Email == email;
-            }
-            else
-            {
-                ok = false;
-            }
+            
+            
+            bool ok = (user!=null)? user.Email==email : false;
             Assert.True(ok);
         }
         //6
@@ -275,6 +261,8 @@ namespace VLPI_Testing
                     Description = "some desc 2"
                 }
             };
+
+
             await manager.AddBulk(requirements);
 
             var task =  databaseRequirementContextMockup.Object.Task.FirstOrDefault(t => t.Id == 1);
@@ -432,3 +420,20 @@ namespace VLPI_Testing
         }
     }
 }
+
+
+//var mockSet = new Mock<DbSet<Core.Entities.Task>>();
+//mockSet.As<IDbAsyncEnumerable<Core.Entities.Task>>()
+//    .Setup(m => m.GetAsyncEnumerator())
+//    .Returns(new TestDbAsyncEnumerator<Core.Entities.Task>(data.GetEnumerator()));
+
+//mockSet.As<IQueryable<Core.Entities.Task>>()
+//    .Setup(m => m.Provider)
+//    .Returns(new TestDbAsyncQueryProvider<Core.Entities.Task>(data.Provider));
+
+//mockSet.As<IQueryable<Core.Entities.Task>>().Setup(m => m.Expression).Returns(data.Expression);
+//mockSet.As<IQueryable<Core.Entities.Task>>().Setup(m => m.ElementType).Returns(data.ElementType);
+//mockSet.As<IQueryable<Core.Entities.Task>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+//var mockContext = new Mock<VLPIContext>();
+//mockContext.Setup(c => c.Task).Returns(mockSet.Object);
+//return mockContext;
