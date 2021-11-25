@@ -1,0 +1,60 @@
+<div class="header-container">
+    <div class="description-container">
+        <p>
+            sdfkklsdjkldsfjkl; sakdflh kasdf sadkf hassdf sdf jklsdjfkl sdljkf ljksdf jklsdjkl fjksd kjlfsdlkjdkljf hdsajkf hasdkjlf hasdjkfl hasdkjlfh asdjkf hasdjklf hasdjklf hasdkjlf hadskjlf hdskjlafh kjsadfh lkjsdfh hjklsdaf
+        </p>
+    </div>
+    <div class="actions-container">
+        <div class="action">
+            <p class="timer">04:00</p>
+        </div>
+        <button mat-raised-button color="secondary" class="action hint-button">Show hint</button>
+        <button mat-raised-button color="primary" class="action complete-button">Complete</button>
+    </div>
+</div>
+
+<div cdkDropListGroup class="drag-container">
+    <div class="requirements-container">
+        <h2>Input</h2>
+    
+        <div>
+            <div cdkDropList
+                    #inputList="cdkDropList"
+                    [cdkDropListData]="rawRequirements"
+                    class="requirements-list"
+                    (cdkDropListDropped)="drop($event)">
+
+                <div class="requirement-box" *ngFor="let requirement of rawRequirements" cdkDrag>
+                    {{requirement}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="requirements-container central-requirements-container">
+        <h2>Correct</h2>
+    
+        <div
+        cdkDropList
+        #correctList="cdkDropList"
+        [cdkDropListData]="correctRequirements"
+        class="requirements-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="requirement-box" *ngFor="let requirement of correctRequirements" cdkDrag>{{requirement}}</div>
+        </div>
+    </div>
+
+    <div class="requirements-container">
+        <h2>Wrong</h2>
+    
+        <div
+        cdkDropList
+        #wrongList="cdkDropList"
+        [cdkDropListData]="wrongRequirements"
+        class="requirements-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="requirement-box" *ngFor="let requirement of wrongRequirements" cdkDrag>{{requirement}}</div>
+        </div>
+    </div>
+</div>

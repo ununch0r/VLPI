@@ -12,7 +12,7 @@
 <div class="row">
     <div class="column">
         <mat-list role="list">
-            <mat-list-item mat-button role="listitem" *ngFor="let task of tasksObs | async" (click)="chooseDifficulty(task.id)">
+            <mat-list-item mat-button role="listitem" *ngFor="let task of tasksObs | async" (click)="chooseDifficulty(task.id, task.type)">
                 <p class="task-title">{{task.order}}. {{task.type}}</p>
             </mat-list-item>
           </mat-list>

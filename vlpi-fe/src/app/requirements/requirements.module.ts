@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 import { ChooseDifficultyDialogComponent } from './dashboard/choose-difficulty-dialog/choose-difficulty-dialog.component';
 import { TaskWebService } from './web-services/task.web-service';
@@ -25,6 +26,7 @@ import { EditWritingComponent } from './administration/task-management/edit-task
 import { EditAnalysisComponent } from './administration/task-management/edit-task/edit-analysis/edit-analysis.component';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import { UserResolverService } from '../shared/resolvers/user-resolver.service';
+import { AnalysisTaskComponent } from './tasks/analysis-task/analysis-task.component';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
@@ -34,6 +36,7 @@ const routes: Routes = [
   { path: 'edit-task/writing', component: EditWritingComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
   { path: 'edit-task/:id', component: EditTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
   { path: 'edit-task/:id/writing', component: EditWritingComponent, canActivate:[AuthGuardService],resolve:[UserResolverService] },
+  { path: 'analysis-task/:id', component: AnalysisTaskComponent, canActivate:[AuthGuardService],resolve:[UserResolverService] },
 ];
 
 @NgModule({
@@ -46,6 +49,7 @@ const routes: Routes = [
     EditTaskComponent,
     EditWritingComponent,
     EditAnalysisComponent,
+    AnalysisTaskComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +65,7 @@ const routes: Routes = [
     MatRadioModule,
     MatTabsModule,
     MatIconModule,
+    DragDropModule,
     RouterModule.forRoot(routes)
   ],
   providers: [

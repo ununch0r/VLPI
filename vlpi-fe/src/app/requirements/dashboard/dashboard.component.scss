@@ -41,7 +41,6 @@ mat-list{
   overflow: auto !important;
   max-height: 98.5%;
   margin: 0% 15%;
-  direction: rtl;
 }
 
 mat-list-item{
@@ -50,7 +49,6 @@ mat-list-item{
   height: 100px !important;
   min-width: 50% !important;
   border-radius: 50px;
-  direction: ltr;
   font-size: 36px !important;
   font-weight: bold;
   cursor: pointer;

@@ -54,11 +54,15 @@ export class DashboardComponent implements OnInit {
       this.router.navigate([navigationPath]);
     }
 
-    chooseDifficulty(id : number){
+    chooseDifficulty(taskId: number, taskType: string){
       const dialogRef = this.dialog.open(ChooseDifficultyDialogComponent);
 
-      dialogRef.afterClosed().subscribe(result => 
-        console.log(result)
-        );
+      dialogRef.afterClosed().subscribe(result => {
+          if(!!result){
+            if(taskType == 'Requirement analysis'){
+              this.router.navigate(['analysis-task', taskId]);
+            }
+        }
+      });
     }
 }
