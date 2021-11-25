@@ -17,6 +17,8 @@ using Vlpi.Web.Mapper;
 using Vlpi.Web.ViewModels.TaskViewModels;
 using System.Data.Entity.Infrastructure;
 using Core.Entities;
+using Core.Entities.Custom.Answer;
+using Core.Entities.Custom.Statistic;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MockQueryable.Moq;
 using Task = System.Threading.Tasks.Task;
@@ -233,7 +235,7 @@ namespace VLPI_Testing
 
             }
         }
-
+        //5
         [Test]
         public async Task LoginTest()
         {
@@ -253,7 +255,7 @@ namespace VLPI_Testing
             }
             Assert.True(ok);
         }
-
+        //6
         [Test]
         public async Task AddRequirementTest()
         {
@@ -285,8 +287,112 @@ namespace VLPI_Testing
             {
                 Assert.True(false);
             }
-
         }
+        //7
+        [Test]
+        public async Task VerifyAnswerTaskType1()
+        {
+            int expectedScore = 100;
+            var manager = GetAnswersManager();
+            var answer = new WritingAnswer
+            {
+                SystemName = "VLPI",
+                Requirements = new List<WritingRequirement>()
+                {
+                    new ()
+                    {
+                        RequirementStatement = "Statement",
+                        RequirementTypeId = 1
+                    }
+                }
+            };
+
+
+            var result = await manager.VerifyWritingAnswerAsync(1, answer);
+            int score = result.Score;
+            
+
+
+            Assert.AreEqual(expectedScore, score);
+        }
+
+        //8
+        [Test]
+        public async Task VerifyAnswerTaskType2()
+        {
+            int expectedScore = 100;
+            var manager = GetAnswersManager();
+            var answer = new AnalysisAnswer
+            {
+                CorrectRequirements = new List<int>{1,2,3,4},
+                WrongRequirements = new List<ModifiedRequirement>
+                {
+                    new()
+                    {
+                        Id = 5,
+                        ModifiedRequirementStatement = "Statement1"
+                    },
+                    new()
+                    {
+                        Id = 6,
+                        ModifiedRequirementStatement = "Statement2"
+                    }
+                }
+            };
+
+
+            var result = await manager.VerifyAnalysisAnswerAsync(1, answer);
+            int score = result.Score;
+
+
+
+            Assert.AreEqual(expectedScore, score);
+        }
+
+        //9
+        [Test]
+        public async Task GenerateTaskStats()
+        {
+            int taskId = 1;
+            var manager = GetStatisticManager();
+            var expectedStatistic = new TaskStatistic()
+            {
+                TaskId = taskId,
+                Objective = "Objective",
+                Complexity = 1,
+                UserAnswersCount = 1,
+                AverageScore = 80.5,
+                AverageTime = 30
+            };
+
+
+            var statistic = await manager.GetStatisticByTaskAsync(taskId);
+
+
+            bool ok = CompareTaskStats(expectedStatistic, statistic);
+            Assert.IsTrue(ok);
+        }
+
+        //10
+        [Test]
+        public async Task GetStatisticForUser()
+        {
+            int userId = 1;
+            var manager = GetStatisticManager();
+            GenericUserStatistic expectedResult = new GenericUserStatistic()
+            {
+                Attempts = 2,
+                AverageScore = 100,
+                AverageTime = 30,
+                PassedAttempts = 1
+            };
+
+            var userStats = await manager.GetGenericUserStatisticAsync(userId);
+
+            bool equal = CompareUserStats(expectedResult, userStats);
+            Assert.IsTrue(equal);
+        }
+
         public TaskManager GetTaskManager()
         {
             return new TaskManager(new TaskRepository(databaseContextMockup.Object), _mapper,
@@ -300,10 +406,29 @@ namespace VLPI_Testing
         {
             return new RequirementManager(new RequirementRepository(databaseRequirementContextMockup.Object));
         }
+        public AnswerManager GetAnswersManager()
+        {
+            return new AnswerManager(new AnswerRepository(databaseRequirementContextMockup.Object), GetTaskManager());
+        }
+        public StatisticManager GetStatisticManager()
+        {
+            return new StatisticManager(GetTaskManager());
+        }
         private bool CompareTasks(Core.Entities.Task task1, Core.Entities.Task task2)
         {
             return task1.Id == task2.Id && task1.Complexity == task2.Complexity &&
                    task1.Description == task2.Description;
+        }
+
+        private bool CompareTaskStats(TaskStatistic stat1, TaskStatistic stat2)
+        {
+            return stat1.TaskId == stat2.TaskId && stat1.Complexity == stat2.Complexity && stat1.AverageScore ==stat2.AverageScore && stat1.AverageTime ==stat2.AverageTime && stat1.UserAnswersCount== stat2.UserAnswersCount;
+        }
+
+        private bool CompareUserStats(GenericUserStatistic stat1, GenericUserStatistic stat2)
+        {
+            return stat1.AverageScore == stat2.AverageScore && stat1.PassedAttempts == stat2.PassedAttempts &&
+                   stat1.AverageTime == stat2.AverageTime && stat1.Attempts == stat2.Attempts;
         }
     }
 }
