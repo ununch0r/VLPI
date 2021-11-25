@@ -104,7 +104,7 @@ namespace DataAccess
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.HashedPasswrod)
+                entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(128);
 

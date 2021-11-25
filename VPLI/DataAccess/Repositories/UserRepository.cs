@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Core.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -28,7 +29,15 @@ namespace DataAccess.Repositories
                 throw new Exception($"Email: '{user.Email}' is already registered.");
             }
 
-            user.HashedPasswrod = GetHashedPassword(user.HashedPasswrod);
+            user.UserRole = new List<UserRole>
+            {
+                new UserRole
+                {
+                    RoleId = 1
+                }
+            };
+            user.Password = GetHashedPassword(user.Password);
+
             await _context.AddAsync(user);
             await _context.SaveChangesAsync();
         }
@@ -45,7 +54,7 @@ namespace DataAccess.Repositories
             var user = await _context.User
                 .Include(u => u.UserRole)
                 .SingleOrDefaultAsync(u =>
-                    u.Email == email && u.HashedPasswrod== GetHashedPassword(password));
+                    u.Email == email && u.Password== GetHashedPassword(password));
             return user;
         }
 

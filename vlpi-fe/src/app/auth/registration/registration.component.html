@@ -1,0 +1,59 @@
+<div class="form-container justify-center">
+    <div class="form-content">
+        <form [formGroup] = "registerForm" (ngSubmit)="onSubmit()" class="login-form">
+            <div class="row justify-center header">
+                Registration
+            </div>
+
+            <div class="row input-container">
+                <input
+                    placeholder="First name..."
+                    type="text"
+                    id="firstName"
+                    class="form-control"
+                    formControlName="firstName"/>
+            </div>
+            <div class="row input-container">
+                <input
+                    placeholder="Last name..."
+                    type="text"
+                    id="lastName"
+                    class="form-control"
+                    formControlName="lastName"/>
+            </div>
+            <div class="row input-container">
+                <input
+                    placeholder="Email..."
+                    type="text"
+                    id="email"
+                    class="form-control"
+                    formControlName="email"/>
+            </div>
+            <div class="row input-container">
+                <input
+                    placeholder="Password..."
+                    type="password"
+                    id="password"
+                    class="form-control"
+                    formControlName="password"/>
+            </div>
+            <div class="row input-container">
+                <input
+                    placeholder="Confirm password..."
+                    type="password"
+                    id="confirmPassword"
+                    class="form-control"
+                    formControlName="confirmPassword"/>
+            </div>
+
+            <div class="row justify-center button-container">
+                    <button mat-raised-button
+                    [disabled]="!registerForm.valid"
+                    color="primary"
+                    class="submit" >
+                     Submit
+                    </button>
+            </div>
+        </form>
+    </div>
+</div>

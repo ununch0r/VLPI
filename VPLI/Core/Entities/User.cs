@@ -18,7 +18,7 @@ namespace Core.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string HashedPasswrod { get; set; }
+        public string Password { get; set; }
 
         public virtual ICollection<UserAnswer> UserAnswer { get; set; }
         public virtual ICollection<UserRole> UserRole { get; set; }
