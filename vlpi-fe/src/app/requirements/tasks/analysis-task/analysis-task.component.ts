@@ -19,9 +19,8 @@ export class AnalysisTaskComponent implements OnInit {
   taskObs: Observable<Task>;
   executionMode: ExecutionMode;
 
-
-  rawRequirements = ['Get tosdk;; lfsl;kl ;asfl ;djjl ;fksdajl ;k ;ljkfsl ;jkfdj ;lkfaskj ;dllkj; work', 'Pick up groceries', 'Pick up groceries', 'Pick up groceries', 'Pick up groceries',  'Pick up groceries', 'Pick up groceries', 'Pick up groceries','Pick up groceries', 'Pick up groceries', 'Go home', 'Fall asleep'];
-  correctRequirements : Requirement[] = [];
+  inputRequrements: Requirement[] = [];
+  correctRequirements: Requirement[] = [];
   wrongRequirements: Requirement[] = [];
 
   constructor(
@@ -37,6 +36,10 @@ export class AnalysisTaskComponent implements OnInit {
     this.setPageName();
   }
 
+  private setPageName(){
+    this.pageNameService.setPageName("Requirements analysis task");
+  }
+
   trackTask(){
     this.route.params
     .subscribe(
@@ -49,6 +52,7 @@ export class AnalysisTaskComponent implements OnInit {
   initExecution(){
     this.setupTask();
     this.setupExecutionMode();
+    this.setupInputRequirements();
   }
 
   setupTask(){
@@ -57,12 +61,13 @@ export class AnalysisTaskComponent implements OnInit {
 
   setupExecutionMode(){
     this.executionMode = this.executionModeSyncService.currentMode;
-    console.log(this.executionMode);
   }
 
-  private setPageName(){
-    this.pageNameService.setPageName("Requirements analysis task");
+  setupInputRequirements(){
+    this.taskObs.subscribe(task => {
+    })
   }
+
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);

@@ -16,6 +16,7 @@ namespace Business.Managers
         private readonly ITaskRepository _taskRepository;
         private readonly IRequirementManager _requirementManager;
         private readonly IMapper _mapper;
+
         public TaskManager(ITaskRepository taskRepository, IMapper mapper, IRequirementManager requirementManager)
         {
             _taskRepository = taskRepository;
@@ -30,40 +31,37 @@ namespace Business.Managers
 
         public async System.Threading.Tasks.Task AddAnalysisAsync(CreateAnalysisTaskModel task)
         {
-            try
+
+            var taskModel = _mapper.Map<Task>(task);
+            var addedTask = await _taskRepository.AddAsync(taskModel);
+
+            foreach (var correctRequirement in task.CorrectRequirements)
             {
-                var taskModel = _mapper.Map<Task>(task);
-                var addedTask = await _taskRepository.AddAsync(taskModel);
-
-                foreach (var correctRequirement in task.CorrectRequirements)
-                {
-                    correctRequirement.TaskId = addedTask.Id;
-                }
-                var correctRequirements = await _requirementManager.AddBulk(task.CorrectRequirements);
-
-                foreach (var wrongRequirement in task.WrongRequirements)
-                {
-                    wrongRequirement.TaskId = addedTask.Id;
-                }
-                var wrongRequirements = await _requirementManager.AddBulk(task.WrongRequirements);
-
-                var standardAnswer = new RequirementsAnalysisTaskTemplateAnswer
-                {
-                    CorrectRequirementIds = correctRequirements.Select(requirement => requirement.Id),
-                    ModifiedRequirements = wrongRequirements.Select(requirement => new ModifiedWrongRequirementTemplate
-                    {
-                        Id = requirement.Id
-                    })
-                };
-
-                var serializedStandardAnswer = JsonConvert.SerializeObject(standardAnswer);
-                await _taskRepository.AddStandardAnswerAsync(addedTask.Id, serializedStandardAnswer);
+                correctRequirement.TaskId = addedTask.Id;
+                correctRequirement.IsCorrect = true;
             }
-            catch (Exception e)
+
+            var correctRequirements = await _requirementManager.AddBulk(task.CorrectRequirements);
+
+            foreach (var wrongRequirement in task.WrongRequirements)
             {
-                Console.WriteLine(e);
-                throw;
+                wrongRequirement.TaskId = addedTask.Id;
+                wrongRequirement.IsCorrect = false;
             }
+
+            var wrongRequirements = await _requirementManager.AddBulk(task.WrongRequirements);
+
+            var standardAnswer = new RequirementsAnalysisTaskTemplateAnswer
+            {
+                CorrectRequirementIds = correctRequirements.Select(requirement => requirement.Id),
+                ModifiedRequirements = wrongRequirements.Select(requirement => new ModifiedWrongRequirementTemplate
+                {
+                    Id = requirement.Id
+                })
+            };
+
+            var serializedStandardAnswer = JsonConvert.SerializeObject(standardAnswer);
+            await _taskRepository.AddStandardAnswerAsync(addedTask.Id, serializedStandardAnswer);
         }
 
         public async System.Threading.Tasks.Task UpdateAsync(int taskId, Task task)
@@ -88,7 +86,7 @@ namespace Business.Managers
 
         public async System.Threading.Tasks.Task<IList<TaskCustomModel>> ListAsync()
         {
-            var tasks =  await _taskRepository.ListAsync();
+            var tasks = await _taskRepository.ListAsync();
             var customTasks = _mapper.Map<IList<TaskCustomModel>>(tasks).OrderBy(task => task.Complexity).ToList();
             var order = 1;
             foreach (var taskViewModel in customTasks)

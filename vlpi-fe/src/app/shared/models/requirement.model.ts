@@ -1,4 +1,5 @@
 export interface Requirement{
-    id: number,
-    description: string
+    id: number;
+    description: string;
+    isCorrect: boolean;
 }
