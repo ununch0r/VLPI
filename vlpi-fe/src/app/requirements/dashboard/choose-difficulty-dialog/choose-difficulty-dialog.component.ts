@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { ExecutionMode } from 'src/app/shared/models/execution-mode.model';
+import { ExecutionModeSyncService } from '../../services/execution-mode.sycn-service';
 
 @Component({
   selector: 'app-choose-difficulty-dialog',
@@ -11,19 +13,19 @@ import { ExecutionMode } from 'src/app/shared/models/execution-mode.model';
 export class ChooseDifficultyDialogComponent implements OnInit {
   selectedMode : ExecutionMode;
 
-  executionModes: ExecutionMode[] =[
-    {id:1, name:"Easy", executionTime:360, wrongRequirementsCount:3},
-    {id:2, name:"Difficult", executionTime:360, wrongRequirementsCount:3}
-  ]
+  executionModes: ExecutionMode[]
 
   constructor(
-      private dialogRef: MatDialogRef<ChooseDifficultyDialogComponent>) {
+      private dialogRef: MatDialogRef<ChooseDifficultyDialogComponent>,
+      private executionModeSyncService: ExecutionModeSyncService) {
 
   }
 
   ngOnInit() {
+    this.executionModes = this.executionModeSyncService.executionModes;
     this.selectedMode = this.executionModes[0];
   }
+
 
   onOk() {
     this.dialogRef.close(this.selectedMode);

@@ -9,9 +9,14 @@ export class ExecutionModeSyncService {
   private executionModesSubj = new Subject<ExecutionMode[]>();
   executionModesObs = this.executionModesSubj.asObservable();
   executionModes: ExecutionMode[];
+  currentMode: ExecutionMode;
 
   constructor(private utilsWebService: UtilsWebService) {
       this.executionModesObs.subscribe(executionModes => this.executionModes = executionModes);
+  }
+
+  setCurrentExecutionMode(modeId: number){
+    this.currentMode = this.executionModes.find(mode => mode.id === modeId)
   }
 
   reloadExecutionModes()
@@ -19,7 +24,6 @@ export class ExecutionModeSyncService {
     this.utilsWebService.getExecutionModes().subscribe(executionModes => 
         {
             this.executionModesSubj.next(executionModes);
-            console.log(executionModes)
         });
 
     return this.executionModes;

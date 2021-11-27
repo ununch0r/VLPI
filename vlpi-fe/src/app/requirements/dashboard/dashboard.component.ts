@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 import { SimpleTask } from 'src/app/shared/models/simple-task.model';
 import { Tile } from 'src/app/shared/models/tile.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
+import { ExecutionModeSyncService } from '../services/execution-mode.sycn-service';
 import { TaskSyncService } from '../services/task.sync-service';
 import { TaskWebService } from '../web-services/task.web-service';
 import { ChooseDifficultyDialogComponent } from './choose-difficulty-dialog/choose-difficulty-dialog.component';
@@ -24,7 +25,8 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private taskSyncService: TaskSyncService,
-    private pageNameService: PageNameSyncService
+    private pageNameService: PageNameSyncService,
+    private executionModeSyncService: ExecutionModeSyncService
     ) { }
 
   ngOnInit(): void {
@@ -60,6 +62,7 @@ export class DashboardComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
           if(!!result){
             if(taskType == 'Requirement analysis'){
+              this.executionModeSyncService.setCurrentExecutionMode(result.id);
               this.router.navigate(['analysis-task', taskId]);
             }
         }
