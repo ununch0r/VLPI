@@ -1,7 +1,7 @@
 <div class="header-container">
     <div class="description-container">
         <p>
-            sdfkklsdjkldsfjkl; sakdflh kasdf sadkf hassdf sdf jklsdjfkl sdljkf ljksdf jklsdjkl fjksd kjlfsdlkjdkljf hdsajkf hasdkjlf hasdjkfl hasdkjlfh asdjkf hasdjklf hasdjklf hasdkjlf hadskjlf hdskjlafh kjsadfh lkjsdfh hjklsdaf
+            {{(taskObs | async)?.description}}
         </p>
     </div>
     <div class="actions-container">
@@ -20,12 +20,12 @@
         <div>
             <div cdkDropList
                     #inputList="cdkDropList"
-                    [cdkDropListData]="rawRequirements"
+                    [cdkDropListData]="(taskObs | async)?.requirement"
                     class="requirements-list"
                     (cdkDropListDropped)="drop($event)">
 
-                <div class="requirement-box" *ngFor="let requirement of rawRequirements" cdkDrag>
-                    {{requirement}}
+                <div class="requirement-box" *ngFor="let requirement of (taskObs | async)?.requirement" cdkDrag>
+                    {{requirement.description}}
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
         [cdkDropListData]="correctRequirements"
         class="requirements-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="requirement-box" *ngFor="let requirement of correctRequirements" cdkDrag>{{requirement}}</div>
+        <div class="requirement-box" *ngFor="let requirement of correctRequirements" cdkDrag>{{requirement.description}}</div>
         </div>
     </div>
 
@@ -54,7 +54,7 @@
         [cdkDropListData]="wrongRequirements"
         class="requirements-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="requirement-box" *ngFor="let requirement of wrongRequirements" cdkDrag>{{requirement}}</div>
+        <div class="requirement-box" *ngFor="let requirement of wrongRequirements" cdkDrag>{{requirement.description}}</div>
         </div>
     </div>
 </div>

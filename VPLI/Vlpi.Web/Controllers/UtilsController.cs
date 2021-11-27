@@ -8,7 +8,7 @@ using Vlpi.Web.ViewModels.UtilViewModels;
 namespace Vlpi.Web.Controllers
 {
     [ApiController]
-    [Route("api/task")]
+    [Route("api/util")]
     [Produces("application/json")]
     public class UtilsController : ControllerBase
     {

@@ -25,7 +25,7 @@ import { EditTaskComponent } from './administration/task-management/edit-task/ed
 import { EditWritingComponent } from './administration/task-management/edit-task/edit-writing/edit-writing.component';
 import { EditAnalysisComponent } from './administration/task-management/edit-task/edit-analysis/edit-analysis.component';
 import { AuthGuardService } from '../auth/auth-guard.service';
-import { UserResolverService } from '../shared/resolvers/user-resolver.service';
+import { UserResolverService } from '../shared/resolvers/user.resolver-service';
 import { AnalysisTaskComponent } from './tasks/analysis-task/analysis-task.component';
 
 const routes: Routes = [

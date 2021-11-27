@@ -51,10 +51,11 @@ namespace DataAccess.Repositories
 
         public async Task<User> AuthenticateUserAsync(string email, string password)
         {
+            var hashedPassword = GetHashedPassword(password);
             var user = await _context.User
                 .Include(u => u.UserRole)
                 .SingleOrDefaultAsync(u =>
-                    u.Email == email && u.Password== GetHashedPassword(password));
+                    u.Email == email && u.Password == hashedPassword);
             return user;
         }
 
@@ -104,7 +105,7 @@ namespace DataAccess.Repositories
             {
                 sb.Append(b.ToString("X2"));
             }
-            return sb.ToString();
+            return sb.ToString().ToUpper();
         }
     }
 }

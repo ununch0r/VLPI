@@ -24,8 +24,11 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ACCESS_TOKEN_KEY } from './shared/services/auth.service';
 import { UserSyncService } from './shared/services/user.sync.service';
 import { UserWebService } from './shared/web-services/user.web-service';
-import { UserResolverService } from './shared/resolvers/user-resolver.service';
+import { UserResolverService } from './shared/resolvers/user.resolver-service';
 import { MatIconModule } from '@angular/material/icon';
+import { ExecutionModeSyncService } from './requirements/services/execution-mode.sycn-service';
+import { ExecutionModeResolverService } from './shared/resolvers/execution-mode.resolver-service';
+import { UtilsWebService } from './requirements/web-services/utils.web-service';
 
 export function tokenGetter(){
   return localStorage.getItem(ACCESS_TOKEN_KEY)
@@ -69,7 +72,10 @@ export function tokenGetter(){
     PageNameSyncService,
     UserSyncService,
     UserWebService,
-    UserResolverService
+    UserResolverService,
+    ExecutionModeSyncService,
+    ExecutionModeResolverService,
+    UtilsWebService
 ],
   bootstrap: [AppComponent]
 })

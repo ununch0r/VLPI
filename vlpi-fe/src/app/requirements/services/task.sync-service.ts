@@ -10,11 +10,17 @@ export class TaskSyncService {
   
   private tasksSubj = new Subject<Task[]>();
 
+  tasks : Task[];
   tasksObs = this.tasksSubj.asObservable();
   simpleTaskObs : Observable<SimpleTask[]>;
 
   constructor(private taskWebService: TaskWebService) {
    this.setupSimpleTasks();
+   this.setupTasks();
+  }
+
+  private setupTasks(){
+    this.tasksObs.subscribe(tasks => this.tasks = tasks);
   }
 
   private setupSimpleTasks(){
@@ -24,7 +30,7 @@ export class TaskSyncService {
 
   reloadTasks()
   {
-    this.taskWebService.getTasks().pipe(tap(console.log)).subscribe(tasks => 
+    this.taskWebService.getTasks().subscribe(tasks => 
       this.tasksSubj.next(tasks));
   }
 
