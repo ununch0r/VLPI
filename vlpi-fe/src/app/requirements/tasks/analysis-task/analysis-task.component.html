@@ -6,9 +6,14 @@
     </div>
     <div class="actions-container">
         <div class="action">
-            <p class="timer">04:00</p>
+            <p class="timer">{{executionTime}} sec left</p>
         </div>
-        <button mat-raised-button color="secondary" class="action hint-button">Show hint</button>
+        <button [disabled]="tipsCount === usedTipsCount"
+                mat-raised-button color="secondary" 
+                class="action hint-button" 
+                (click)="showHint()">
+                Show hint
+        </button>
         <button mat-raised-button color="primary" class="action complete-button">Complete</button>
     </div>
 </div>
@@ -20,11 +25,11 @@
         <div>
             <div cdkDropList
                     #inputList="cdkDropList"
-                    [cdkDropListData]="(taskObs | async)?.requirement"
+                    [cdkDropListData]="inputRequirements"
                     class="requirements-list"
                     (cdkDropListDropped)="drop($event)">
 
-                <div class="requirement-box" *ngFor="let requirement of (taskObs | async)?.requirement" cdkDrag>
+                <div class="requirement-box" *ngFor="let requirement of inputRequirements" cdkDrag>
                     {{requirement.description}}
                 </div>
             </div>

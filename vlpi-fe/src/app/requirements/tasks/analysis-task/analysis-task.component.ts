@@ -2,6 +2,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { map, Observable } from 'rxjs';
+import { shuffle } from 'src/app/shared/helpers/task-helper';
 import { ExecutionMode } from 'src/app/shared/models/execution-mode.model';
 import { Requirement } from 'src/app/shared/models/requirement.model';
 import { Task } from 'src/app/shared/models/task.model';
@@ -19,9 +20,13 @@ export class AnalysisTaskComponent implements OnInit {
   taskObs: Observable<Task>;
   executionMode: ExecutionMode;
 
-  inputRequrements: Requirement[] = [];
+  inputRequirements: Requirement[] = [];
+  executionTime: number;
+  tipsCount: number;
+
   correctRequirements: Requirement[] = [];
   wrongRequirements: Requirement[] = [];
+  usedTipsCount: number = 0;
 
   constructor(
     private pageNameService: PageNameSyncService,
@@ -32,7 +37,7 @@ export class AnalysisTaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.taskSyncService.reloadTasks();
-    this.trackTask();
+    this.trackTaskId();
     this.setPageName();
   }
 
@@ -40,7 +45,7 @@ export class AnalysisTaskComponent implements OnInit {
     this.pageNameService.setPageName("Requirements analysis task");
   }
 
-  trackTask(){
+  trackTaskId(){
     this.route.params
     .subscribe(
       (params: Params) => {
@@ -52,7 +57,7 @@ export class AnalysisTaskComponent implements OnInit {
   initExecution(){
     this.setupTask();
     this.setupExecutionMode();
-    this.setupInputRequirements();
+    this.trackTask();
   }
 
   setupTask(){
@@ -61,11 +66,33 @@ export class AnalysisTaskComponent implements OnInit {
 
   setupExecutionMode(){
     this.executionMode = this.executionModeSyncService.currentMode;
+    this.executionTime = this.executionMode.executionTime;
   }
 
-  setupInputRequirements(){
+  trackTask(){
     this.taskObs.subscribe(task => {
+      this.setupInputRequirements(task);
+      this.setupTips(task);
     })
+  }
+
+  setupInputRequirements(task: Task){
+    let requirements = shuffle(task.requirement);
+
+    let wrongRequirements = requirements.filter(req => !req.isCorrect).slice(0, this.executionMode.wrongRequirementsCount);
+    let correctRequirements = requirements.filter(req => req.isCorrect);
+
+    let combinedArray = [...wrongRequirements, ...correctRequirements];
+    this.inputRequirements = shuffle(combinedArray);
+  }
+
+  setupTips(task: Task){
+    this.tipsCount = task.taskTip.length;
+  }
+
+  showHint(){
+    this.usedTipsCount++;
+    console.log(this.usedTipsCount, this.tipsCount);
   }
 
   drop(event: CdkDragDrop<string[]>) {
