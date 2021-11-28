@@ -24,11 +24,12 @@ import { TaskManagementComponent } from './administration/task-management/task-m
 import { EditTaskComponent } from './administration/task-management/edit-task/edit-task.component';
 import { EditWritingComponent } from './administration/task-management/edit-task/edit-writing/edit-writing.component';
 import { EditAnalysisComponent } from './administration/task-management/edit-task/edit-analysis/edit-analysis.component';
-import { AuthGuardService } from '../auth/auth-guard.service';
+import { AuthGuardService } from '../shared/guards/auth.guard-service';
 import { UserResolverService } from '../shared/resolvers/user.resolver-service';
 import { AnalysisTaskComponent } from './tasks/analysis-task/analysis-task.component';
 import { EncodePipe } from '../shared/pipes/encode.pipe';
 import { AnswerWebService } from './web-services/answer.web-service';
+import { TaskAccessGuardService } from '../shared/guards/task-access.guard-service';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
@@ -38,7 +39,7 @@ const routes: Routes = [
   { path: 'edit-task/writing', component: EditWritingComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
   { path: 'edit-task/:id', component: EditTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
   { path: 'edit-task/:id/writing', component: EditWritingComponent, canActivate:[AuthGuardService],resolve:[UserResolverService] },
-  { path: 'analysis-task/:id', component: AnalysisTaskComponent, canActivate:[AuthGuardService],resolve:[UserResolverService] },
+  { path: 'analysis-task/:id', component: AnalysisTaskComponent, canActivate:[AuthGuardService, TaskAccessGuardService],resolve:[UserResolverService] },
 ];
 
 @NgModule({

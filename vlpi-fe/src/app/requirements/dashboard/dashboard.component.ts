@@ -6,6 +6,7 @@ import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { SimpleTask } from 'src/app/shared/models/simple-task.model';
 import { Tile } from 'src/app/shared/models/tile.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
+import { DashboardSyncService } from '../services/dashboard.sync-service';
 import { ExecutionModeSyncService } from '../services/execution-mode.sycn-service';
 import { TaskSyncService } from '../services/task.sync-service';
 import { TaskWebService } from '../web-services/task.web-service';
@@ -27,13 +28,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private taskSyncService: TaskSyncService,
     private pageNameService: PageNameSyncService,
-    private executionModeSyncService: ExecutionModeSyncService
+    private executionModeSyncService: ExecutionModeSyncService,
+    private dashboardSyncService: DashboardSyncService
     ) { }
 
   ngOnInit(): void {
     this.initializeTasks();
     this.loadTasks();
     this.setPageName();
+    this.dashboardSyncService.setDashboardVisitedStatus(true);
   }
 
   ngOnDestroy(): void {

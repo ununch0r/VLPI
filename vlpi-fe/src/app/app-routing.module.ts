@@ -4,7 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './requirements/dashboard/dashboard.component';
 import { AuthorizationComponent } from './auth/authorization/authorization.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
-import { AuthGuardService } from './auth/auth-guard.service';
+import { AuthGuardService } from './shared/guards/auth.guard-service';
 import { UserResolverService } from './shared/resolvers/user.resolver-service';
 import { ExecutionModeResolverService } from './shared/resolvers/execution-mode.resolver-service';
 

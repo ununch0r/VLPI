@@ -30,6 +30,7 @@ import { ExecutionModeSyncService } from './requirements/services/execution-mode
 import { ExecutionModeResolverService } from './shared/resolvers/execution-mode.resolver-service';
 import { UtilsWebService } from './requirements/web-services/utils.web-service';
 import { EncodePipe } from './shared/pipes/encode.pipe';
+import { DashboardSyncService } from './requirements/services/dashboard.sync-service';
 
 export function tokenGetter(){
   return localStorage.getItem(ACCESS_TOKEN_KEY)
@@ -76,7 +77,8 @@ export function tokenGetter(){
     UserResolverService,
     ExecutionModeSyncService,
     ExecutionModeResolverService,
-    UtilsWebService
+    UtilsWebService,
+    DashboardSyncService
 ],
   bootstrap: [AppComponent]
 })
