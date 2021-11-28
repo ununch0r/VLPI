@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Entities;
 using Core.Entities.Custom.Answer;
 using Core.Entities.Custom.AnswerResult;
+using Core.Entities.Custom.AnswerTemplates;
 using Core.Entities.Custom.Task;
 using Core.Managers;
 using Core.Repositories;
+using Newtonsoft.Json;
+using Task = Core.Entities.Task;
 
 namespace Business.Managers
 {
@@ -27,39 +31,60 @@ namespace Business.Managers
 
         public async Task<AnalysisTaskResult> VerifyAndSaveAnalysisAnswerAsync(int userId, AnalysisAnswer analysisAnswer)
         {
-            try
+            var score = await CalculateScoreAsync(analysisAnswer);
+
+            var userAnswer = CreateUserAnswer(userId, analysisAnswer, score);
+            await _answerRepository.AddAsync(userAnswer);
+
+            return new AnalysisTaskResult
             {
-                var lostPointsIndex = 0.0;
-                var task = await _taskManager.GetAnalysisTaskAsync(analysisAnswer.TaskId);
+                Score = score
+            };
+        }
 
-                lostPointsIndex += CalculateLostPointsByCorrectRequirements(analysisAnswer, task);
-                lostPointsIndex += CalculateLostPointsByWrongRequirements(analysisAnswer, task);
-
-                var pointsPercentage = lostPointsIndex / (task.StandardAnswer.CorrectRequirementIds.Count() +
-                                       analysisAnswer.ExpectedWrongRequirementsCount);
-
-                var score = 100 - (int) (pointsPercentage * 100);
-
-                var lostPointsByUsingTips = (3 * score * analysisAnswer.UsedTipsCount) / 100.0;
-                score -= (int)lostPointsByUsingTips;
-
-                return new AnalysisTaskResult
-                {
-                    Score = score
-                };
-            }
-            catch (Exception e)
+        private static UserAnswer CreateUserAnswer(int userId, AnalysisAnswer analysisAnswer, int score)
+        {
+            var analysisAnswerTemplate = new RequirementsAnalysisTaskTemplateAnswer
             {
-                Console.WriteLine(e);
-                throw;
-            }
+                CorrectRequirementIds = analysisAnswer.CorrectRequirements,
+                WrongRequirements = analysisAnswer.WrongRequirements
+            };
+
+            var userAnswer = new UserAnswer
+            {
+                UserId = userId,
+                ExecutionDate = DateTime.Now,
+                Score = (byte)score,
+                TaskId = analysisAnswer.TaskId,
+                Answer = JsonConvert.SerializeObject(analysisAnswerTemplate),
+                TimeSpent = (short)analysisAnswer.TimeSpent
+            };
+            return userAnswer;
+        }
+
+        private async Task<int> CalculateScoreAsync(AnalysisAnswer analysisAnswer)
+        {
+            var lostPointsIndex = 0.0;
+            var task = await _taskManager.GetAnalysisTaskAsync(analysisAnswer.TaskId);
+
+            lostPointsIndex += CalculateLostPointsByCorrectRequirements(analysisAnswer, task.StandardAnswer);
+            lostPointsIndex += CalculateLostPointsByWrongRequirements(analysisAnswer, task.StandardAnswer);
+
+            var pointsPercentage = lostPointsIndex / (task.StandardAnswer.CorrectRequirementIds.Count() +
+                                                      analysisAnswer.ExpectedWrongRequirementsCount);
+
+            var score = 100 - (int)(pointsPercentage * 100);
+
+            var lostPointsByUsingTips = (3 * score * analysisAnswer.UsedTipsCount) / 100.0;
+            score -= (int)lostPointsByUsingTips;
+            return score;
         }
 
         private static double CalculateLostPointsByWrongRequirements(AnalysisAnswer analysisAnswer,
-            TaskWithAnalysisStandartAnswer task)
+            RequirementsAnalysisTaskTemplateAnswer templateAnswer)
         {
             var properWrongRequirements = analysisAnswer.WrongRequirements.Where(req =>
-                task.StandardAnswer.WrongRequirements.Any(standartReq => standartReq.Id == req.RequirementId)).ToList();
+                templateAnswer.WrongRequirements.Any(standartReq => standartReq.RequirementId == req.RequirementId)).ToList();
 
             var mistakenCorrectRequirementsCount =
                 analysisAnswer.ExpectedWrongRequirementsCount - properWrongRequirements.Count;
@@ -69,7 +94,7 @@ namespace Business.Managers
             foreach (var requirement in properWrongRequirements)
             {
                 var standartRequirement =
-                    task.StandardAnswer.WrongRequirements.First(req => req.Id == requirement.RequirementId);
+                    templateAnswer.WrongRequirements.First(req => req.RequirementId == requirement.RequirementId);
 
                 if (standartRequirement.ExplanationId != requirement.ExplanationId)
                 {
@@ -77,17 +102,17 @@ namespace Business.Managers
                 }
             }
 
-            return mistakenCorrectRequirementsCount + (mistakenExplanationCount/2.0);
+            return mistakenCorrectRequirementsCount + (mistakenExplanationCount / 2.0);
         }
 
         private static int CalculateLostPointsByCorrectRequirements(AnalysisAnswer analysisAnswer,
-            TaskWithAnalysisStandartAnswer task)
+            RequirementsAnalysisTaskTemplateAnswer templateAnswer)
         {
             var properCorrectRequirementsCount = analysisAnswer.CorrectRequirements.Count(answerId =>
-                task.StandardAnswer.CorrectRequirementIds.Any(standartId => standartId == answerId));
+                templateAnswer.CorrectRequirementIds.Any(standartId => standartId == answerId));
 
             var mistakenCorrectRequirementsCount =
-                task.StandardAnswer.CorrectRequirementIds.Count() - properCorrectRequirementsCount;
+                templateAnswer.CorrectRequirementIds.Count() - properCorrectRequirementsCount;
 
             return mistakenCorrectRequirementsCount;
         }

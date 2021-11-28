@@ -8,6 +8,7 @@ using Core.Repositories;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Entities.Custom.Answer;
 
 namespace Business.Managers
 {
@@ -52,9 +53,9 @@ namespace Business.Managers
             var standardAnswer = new RequirementsAnalysisTaskTemplateAnswer
             {
                 CorrectRequirementIds = correctRequirements.Select(requirement => requirement.Id),
-                WrongRequirements = wrongRequirements.Select(requirement => new WrongRequirementTemplate
+                WrongRequirements = wrongRequirements.Select(requirement => new WrongRequirement
                 {
-                    Id = requirement.Id,
+                    RequirementId = requirement.Id,
                     ExplanationId = requirement.ExplanationId.Value
                 })
             };

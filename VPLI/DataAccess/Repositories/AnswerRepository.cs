@@ -17,6 +17,7 @@ namespace DataAccess.Repositories
         public async Task AddAsync(UserAnswer userAnswer)
         {
             await _context.AddAsync(userAnswer);
+            await _context.SaveChangesAsync();
         }
     }
 }
