@@ -4,5 +4,6 @@
     {
         public int TaskId { get; set; }
         public int TimeSpent { get; set; }
+        public int UsedTipsCount { get; set; }
     }
 }

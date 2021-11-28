@@ -22,9 +22,14 @@ namespace Business.Managers
             throw new System.NotImplementedException();
         }
 
-        public Task<AnalysisTaskResult> VerifyAnalysisAnswerAsync(int userId, AnalysisAnswer analysisAnswer)
+        public async Task<AnalysisTaskResult> VerifyAnalysisAnswerAsync(int userId, AnalysisAnswer analysisAnswer)
         {
-            throw new System.NotImplementedException();
+            var task = await _taskManager.GetAsync(analysisAnswer.TaskId);
+
+            return new AnalysisTaskResult
+            {
+                Score = 100
+            };
         }
     }
 }

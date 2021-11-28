@@ -3,12 +3,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { interval, map, Observable, Subject, takeUntil, takeWhile } from 'rxjs';
 import { shuffle } from 'src/app/shared/helpers/task-helper';
+import { AnalysisTaskAnswer } from 'src/app/shared/models/analysis-task-answer.model';
 import { ExecutionMode } from 'src/app/shared/models/execution-mode.model';
 import { Requirement } from 'src/app/shared/models/requirement.model';
 import { Task } from 'src/app/shared/models/task.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { ExecutionModeSyncService } from '../../services/execution-mode.sycn-service';
 import { TaskSyncService } from '../../services/task.sync-service';
+import { AnswerWebService } from '../../web-services/answer.web-service';
 
 @Component({
   selector: 'app-analysis-task',
@@ -17,13 +19,14 @@ import { TaskSyncService } from '../../services/task.sync-service';
 })
 export class AnalysisTaskComponent implements OnInit, OnDestroy {
   destroySubj = new Subject();
+  countDownDestroySubj = new Subject();
 
   taskId : number;
   taskObs: Observable<Task>;
   executionMode: ExecutionMode;
 
   inputRequirements: Requirement[] = [];
-  executionTime: number;
+  timeLeft: number;
   tipsCount: number;
   isStarted: boolean = false;
 
@@ -35,7 +38,8 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
     private pageNameService: PageNameSyncService,
     private taskSyncService: TaskSyncService,
     private executionModeSyncService: ExecutionModeSyncService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private answerWebService: AnswerWebService
     ) { }
 
   ngOnInit(): void {
@@ -75,7 +79,7 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
 
   setupExecutionMode(){
     this.executionMode = this.executionModeSyncService.currentMode;
-    this.executionTime = this.executionMode.executionTime;
+    this.timeLeft = this.executionMode.executionTime;
   }
 
   trackTask(){
@@ -107,23 +111,39 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
     interval(1000)
     .pipe(
       takeWhile(val => val < this.executionMode.executionTime),
-      takeUntil(this.destroySubj))
+      takeUntil(this.destroySubj),
+      takeUntil(this.countDownDestroySubj))
     .subscribe( _ =>{
-      this.executionTime--;
+      this.timeLeft--;
 
-      if(this.executionTime === 0){
+      if(this.timeLeft === 0){
         this.onComplete();
       }
     })
   }
 
   onComplete(){
-    console.log('completed');
+    this.countDownDestroySubj.next('');
+
+    var answer = this.createAnswer();
+    this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(_ => console.log('done'));
+  }
+
+  createAnswer() : AnalysisTaskAnswer{
+    let correctRequirementIds = this.correctRequirements.map(req => req.id);
+    let wrongRequirementIds = this.wrongRequirements.map(req => req.id);
+
+    return {
+      taskId: this.taskId,
+      correctRequirements: correctRequirementIds,
+      wrongRequirements: wrongRequirementIds,
+      timeSpent: this.executionMode.executionTime - this.timeLeft,
+      usedTipsCount: this.usedTipsCount
+    }
   }
 
   showHint(){
     this.usedTipsCount++;
-    console.log(this.usedTipsCount, this.tipsCount);
   }
 
   drop(event: CdkDragDrop<string[]>) {

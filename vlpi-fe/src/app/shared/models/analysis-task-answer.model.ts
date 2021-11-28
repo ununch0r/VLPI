@@ -1,6 +1,7 @@
 export interface AnalysisTaskAnswer{
-    correctReqirementIds: number[];
-    wrongReqirementIds: number[];
+    taskId: number;
+    correctRequirements: number[];
+    wrongRequirements: number[];
     usedTipsCount: number;
     timeSpent: number;
 }

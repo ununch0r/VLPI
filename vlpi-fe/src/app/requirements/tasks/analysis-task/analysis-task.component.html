@@ -6,7 +6,7 @@
     </div>
     <div class="actions-container">
         <div class="action">
-            <p class="timer">{{executionTime}} sec left</p>
+            <p class="timer">{{timeLeft}} sec left</p>
         </div>
         <button [disabled]="tipsCount === usedTipsCount"
                 mat-raised-button color="secondary" 
@@ -58,7 +58,7 @@
         [cdkDropListData]="correctRequirements"
         class="requirements-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="requirement-box" *ngFor="let requirement of correctRequirements" cdkDrag>{{requirement.description}}</div>
+        <div class="requirement-box" *ngFor="let requirement of correctRequirements" cdkDrag>{{requirement.description | encode:!isStarted}}</div>
         </div>
     </div>
 
@@ -71,7 +71,7 @@
         [cdkDropListData]="wrongRequirements"
         class="requirements-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="requirement-box" *ngFor="let requirement of wrongRequirements" cdkDrag>{{requirement.description}}</div>
+        <div class="requirement-box" *ngFor="let requirement of wrongRequirements" cdkDrag>{{requirement.description | encode:!isStarted}}</div>
         </div>
     </div>
 </div>
