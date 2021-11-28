@@ -71,7 +71,13 @@
         [cdkDropListData]="wrongRequirements"
         class="requirements-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="requirement-box" *ngFor="let requirement of wrongRequirements" cdkDrag>{{requirement.description | encode:!isStarted}}</div>
+            <div class="requirement-box" *ngFor="let requirement of wrongRequirementsMock" cdkDrag>
+                <p class="requirement-text">{{requirement.description | encode:!isStarted}}</p>
+                <select [(ngModel)]="requirement.explanationId">
+                    <option *ngFor="let explanation of explanations" [ngValue]="explanation.id">
+                        {{ explanation.explanation }}</option>
+                </select>
+            </div>
         </div>
     </div>
 </div>

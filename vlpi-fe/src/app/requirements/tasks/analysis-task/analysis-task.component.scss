@@ -79,8 +79,6 @@ p{
     padding: 10px;
     background-color: $my-secondary-color !important;
     color: $my-dark-color !important;
-    display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
@@ -128,3 +126,31 @@ p{
     margin: 0;
     padding: 10px;
   }
+
+
+.requirement-text{
+  padding: 0px;
+  margin: 0px;
+  text-align: center;
+}
+
+select{
+  margin-top: 4px;
+  display: block;
+  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right $my-secondary-color;
+  -webkit-appearance: none;
+  border-radius: 25px;
+  background-position-x: 95%;
+  width: 100%;
+  max-width: 100%;
+  text-align: justify;
+  padding:2px 30px 2px 10px !important;
+  -webkit-padding-end: 30px !important;
+  -webkit-padding-start: 10px !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+  color: $my-primary-color;
+  border: 1px solid $my-dark-color !important;
+}

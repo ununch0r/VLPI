@@ -89,6 +89,7 @@ namespace Business.Managers
             var tasks = await _taskRepository.ListAsync();
             var customTasks = _mapper.Map<IList<TaskCustomModel>>(tasks).OrderBy(task => task.Complexity).ToList();
             var order = 1;
+
             foreach (var taskViewModel in customTasks)
             {
                 taskViewModel.Order = order;

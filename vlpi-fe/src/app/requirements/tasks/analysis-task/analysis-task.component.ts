@@ -5,6 +5,7 @@ import { interval, map, Observable, Subject, takeUntil, takeWhile } from 'rxjs';
 import { shuffle } from 'src/app/shared/helpers/task-helper';
 import { AnalysisTaskAnswer } from 'src/app/shared/models/analysis-task-answer.model';
 import { ExecutionMode } from 'src/app/shared/models/execution-mode.model';
+import { Explanation } from 'src/app/shared/models/explanation.model';
 import { Requirement } from 'src/app/shared/models/requirement.model';
 import { Task } from 'src/app/shared/models/task.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
@@ -33,6 +34,13 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
   correctRequirements: Requirement[] = [];
   wrongRequirements: Requirement[] = [];
   usedTipsCount: number = 0;
+
+  wrongRequirementsMock: Requirement[] = [
+    {id: 1, description: 'assfsdfa sfd sd sdf sd fsd fsdf sdf sdf dsf sdf f dfs  asf asd asfdasdf', isCorrect: false, explanationId: null},
+    {id: 2, description: 'assfsdfa asf asd asfdasdf dsfa', isCorrect: false, explanationId: null},
+    {id: 3, description: 'assfsdfa sadf asf asd asfdasdf dsfa', isCorrect: false, explanationId: null},
+  ]
+  explanations: Explanation[] = [{id:1, explanation:'safsdf sdaf sadf kljasdfkl jksd jkfasdkj fkjlasdklj faksljd fkljasdlkj fjklsd '}, {id:2, explanation:'safsdf'}]
 
   constructor(
     private pageNameService: PageNameSyncService,
@@ -125,8 +133,9 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
   onComplete(){
     this.countDownDestroySubj.next('');
 
-    var answer = this.createAnswer();
-    this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(_ => console.log('done'));
+    // var answer = this.createAnswer();
+    // this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(_ => console.log('done'));
+    console.log(this.wrongRequirements);
   }
 
   createAnswer() : AnalysisTaskAnswer{
