@@ -39,7 +39,8 @@ namespace Vlpi.Web.Mapper
             CreateMap<Explanation, ExplanationViewModel>();
 
 
-            CreateMap<CreateRequirementViewModel, Requirement>();
+            CreateMap<CreateRequirementViewModel, Requirement>().ForMember(dest => dest.Explanation,
+                opt => opt.MapFrom(src => src.Explanation == null?null:new Explanation{Content = src.Explanation}));
             CreateMap<CreateTaskTipViewModel, TaskTip>();
             CreateMap<CreateTaskViewModel, Task>();
             CreateMap<AnalysisAnswerViewModel, AnalysisAnswer>();

@@ -27,5 +27,12 @@ namespace DataAccess.Repositories
             await _context.SaveChangesAsync();
             return requirements;
         }
+
+        public async Task<Explanation> AddExplanationAsync(Explanation explanation)
+        {
+            await _context.Explanation.AddAsync(explanation);
+            await _context.SaveChangesAsync();
+            return explanation;
+        }
     }
 }

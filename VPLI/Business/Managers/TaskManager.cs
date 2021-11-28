@@ -38,25 +38,24 @@ namespace Business.Managers
             foreach (var correctRequirement in task.CorrectRequirements)
             {
                 correctRequirement.TaskId = addedTask.Id;
-                correctRequirement.IsCorrect = true;
             }
 
-            var correctRequirements = await _requirementManager.AddBulk(task.CorrectRequirements);
+            var correctRequirements = await _requirementManager.AddBulkAsync(task.CorrectRequirements);
 
             foreach (var wrongRequirement in task.WrongRequirements)
             {
                 wrongRequirement.TaskId = addedTask.Id;
-                wrongRequirement.IsCorrect = false;
             }
 
-            var wrongRequirements = await _requirementManager.AddBulk(task.WrongRequirements);
+            var wrongRequirements = await _requirementManager.AddBulkAsync(task.WrongRequirements);
 
             var standardAnswer = new RequirementsAnalysisTaskTemplateAnswer
             {
                 CorrectRequirementIds = correctRequirements.Select(requirement => requirement.Id),
-                ModifiedRequirements = wrongRequirements.Select(requirement => new ModifiedWrongRequirementTemplate
+                WrongRequirements = wrongRequirements.Select(requirement => new WrongRequirementTemplate
                 {
-                    Id = requirement.Id
+                    Id = requirement.Id,
+                    ExplanationId = requirement.ExplanationId.Value
                 })
             };
 
@@ -90,17 +89,11 @@ namespace Business.Managers
             try
             {
                 var customTasks = _mapper.Map<IList<TaskCustomModel>>(tasks).OrderBy(task => task.Complexity).ToList();
-
-                //customTasks.Zip(tasks, (custom, original) =>
-                //{
-                //    var explanations = original.Requirement.Select(req => req.Explanation);
-                //    custom.Explanation = explanations
-                //});
-
                 var order = 1;
 
                 foreach (var taskViewModel in customTasks)
                 {
+                    taskViewModel.Explanation = taskViewModel.Explanation.Where(e => e != null).ToList();
                     taskViewModel.Order = order;
                     order++;
                 }

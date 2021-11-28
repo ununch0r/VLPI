@@ -31,7 +31,10 @@ export class TaskSyncService {
   reloadTasks()
   {
     this.taskWebService.getTasks().subscribe(tasks => 
-      this.tasksSubj.next(tasks));
+      {
+        console.log(tasks);
+        this.tasksSubj.next(tasks)
+      });
   }
 
   deleteTask(taskId: number){

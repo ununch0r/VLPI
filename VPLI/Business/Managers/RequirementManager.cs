@@ -20,9 +20,14 @@ namespace Business.Managers
             return await _requirementRepository.GetRequirementTypesAsync();
         }
 
-        public async Task<IList<Requirement>> AddBulk(IList<Requirement> requirements)
+        public async Task<IList<Requirement>> AddBulkAsync(IList<Requirement> requirements)
         {
             return await _requirementRepository.AddBulkAsync(requirements);
+        }
+
+        public async Task<Explanation> AddExplanationAsync(Explanation explanation)
+        {
+            return await _requirementRepository.AddExplanationAsync(explanation);
         }
     }
 }

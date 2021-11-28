@@ -1,7 +1,6 @@
 ﻿using Core.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Task = Core.Entities.Task;
 
 namespace Core.Repositories
 {
@@ -9,5 +8,6 @@ namespace Core.Repositories
     {
         Task<IList<RequirementType>> GetRequirementTypesAsync();
         Task<IList<Requirement>> AddBulkAsync(IList<Requirement> requirements);
+        Task<Explanation> AddExplanationAsync(Explanation explanation);
     }
 }

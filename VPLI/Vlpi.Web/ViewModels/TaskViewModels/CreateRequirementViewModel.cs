@@ -6,7 +6,7 @@ namespace Vlpi.Web.ViewModels.TaskViewModels
     {
         [Required]
         public string Description { get; set; }
-
         public string Explanation { get; set; }
+        public bool IsCorrect { get; set; }
     }
 }

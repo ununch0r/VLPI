@@ -30,13 +30,6 @@ namespace DataAccess
         public virtual DbSet<UserAnswer> UserAnswer { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ExecutionMode>(entity =>
@@ -48,11 +41,8 @@ namespace DataAccess
 
             modelBuilder.Entity<Explanation>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Content)
                     .IsRequired()
-                    .HasColumnName("Content")
                     .HasMaxLength(255);
             });
 

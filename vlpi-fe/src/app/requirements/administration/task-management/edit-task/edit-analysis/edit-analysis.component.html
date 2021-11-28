@@ -31,6 +31,7 @@
                                 <input 
                                     type="text" 
                                     class="form-control"
+                                    placeholder="Correct requirement..."
                                     formControlName="description">
                             </div>
                             <div class="col col-25 justify-center">
@@ -64,21 +65,31 @@
 
                 <div class="row">
                     <div class="requirements" formArrayName="wrongRequirements">
-                        <div class="row"
+                        <div
                             *ngFor="let requirement of analysisForm.get('wrongRequirements')['controls']; let i = index"
                             [formGroupName]="i"
                             style="margin-top: 10px;">
-                            <div class="col col-75">
+                            <div class="row">
+                                <div class="col col-75">
+                                    <input 
+                                        type="text" 
+                                        class="form-control"
+                                        placeholder="Wrong requirement..."
+                                        formControlName="description">
+                                </div>
+                                <div class="col col-25 justify-center">
+                                    <button type="button"
+                                        mat-raised-button
+                                        color="warn"
+                                        (click)="onDeleteRequirement(i, 'wrongRequirements')">X</button>
+                                </div>
+                            </div>
+                            <div class="col col-75" style="width: 75%;">
                                 <input 
                                     type="text" 
                                     class="form-control"
-                                    formControlName="description">
-                            </div>
-                            <div class="col col-25 justify-center">
-                                <button type="button"
-                                    mat-raised-button
-                                    color="warn"
-                                    (click)="onDeleteRequirement(i, 'wrongRequirements')">X</button>
+                                    placeholder="Explanation..."
+                                    formControlName="explanation">
                             </div>
                         </div>
                     </div>
