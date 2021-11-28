@@ -45,7 +45,7 @@ namespace Vlpi.Web.Mapper
             CreateMap<CreateTaskViewModel, Task>();
             CreateMap<AnalysisAnswerViewModel, AnalysisAnswer>();
             CreateMap<AnswerViewModel, Answer>();
-            CreateMap<ModifiedRequirementViewModel, ModifiedRequirement>();
+            CreateMap<WrongRequirementViewModel, WrongRequirement>();
             CreateMap<WritingAnswerViewModel, WritingAnswer>();
             CreateMap<WritingRequirementViewModel, WritingRequirement>();
             CreateMap<UserViewModel, User>();

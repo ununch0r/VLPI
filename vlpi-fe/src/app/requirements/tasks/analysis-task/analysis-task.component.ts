@@ -4,6 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { interval, map, Observable, Subject, takeUntil, takeWhile } from 'rxjs';
 import { shuffle } from 'src/app/shared/helpers/task-helper';
 import { AnalysisTaskAnswer } from 'src/app/shared/models/analysis-task-answer.model';
+import { CreateWrongRequirement } from 'src/app/shared/models/create-wrong-requirement.model';
 import { ExecutionMode } from 'src/app/shared/models/execution-mode.model';
 import { Explanation } from 'src/app/shared/models/explanation.model';
 import { Requirement } from 'src/app/shared/models/requirement.model';
@@ -27,6 +28,7 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
   executionMode: ExecutionMode;
 
   inputRequirements: Requirement[] = [];
+  explanations: Explanation[] = [];
   timeLeft: number;
   tipsCount: number;
   isStarted: boolean = false;
@@ -40,7 +42,7 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
     {id: 2, description: 'assfsdfa asf asd asfdasdf dsfa', isCorrect: false, explanationId: null},
     {id: 3, description: 'assfsdfa sadf asf asd asfdasdf dsfa', isCorrect: false, explanationId: null},
   ]
-  explanations: Explanation[] = [{id:1, explanation:'safsdf sdaf sadf kljasdfkl jksd jkfasdkj fkjlasdklj faksljd fkljasdlkj fjklsd '}, {id:2, explanation:'safsdf'}]
+  explanationsMock: Explanation[] = [{id:1, explanation:'safsdf sdaf sadf kljasdfkl jksd jkfasdkj fkjlasdklj faksljd fkljasdlkj fjklsd '}, {id:2, explanation:'safsdf'}]
 
   constructor(
     private pageNameService: PageNameSyncService,
@@ -96,7 +98,12 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
     .subscribe(task => {
       this.setupInputRequirements(task);
       this.setupTips(task);
+      this.setupExplanations(task);
     })
+  }
+
+  setupExplanations(task: Task){
+    this.explanations = task.explanation;
   }
 
   setupInputRequirements(task: Task){
@@ -133,19 +140,20 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
   onComplete(){
     this.countDownDestroySubj.next('');
 
-    // var answer = this.createAnswer();
-    // this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(_ => console.log('done'));
-    console.log(this.wrongRequirements);
+    var answer = this.createAnswer();
+    console.log(answer);
+    this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(_ => console.log('done'));
   }
 
   createAnswer() : AnalysisTaskAnswer{
     let correctRequirementIds = this.correctRequirements.map(req => req.id);
-    let wrongRequirementIds = this.wrongRequirements.map(req => req.id);
+    let wrongRequirements = this.wrongRequirements.map(req => 
+      ({requirementId: req.id, explanationId: req.explanationId} as CreateWrongRequirement));
 
     return {
       taskId: this.taskId,
       correctRequirements: correctRequirementIds,
-      wrongRequirements: wrongRequirementIds,
+      wrongRequirements: wrongRequirements,
       timeSpent: this.executionMode.executionTime - this.timeLeft,
       usedTipsCount: this.usedTipsCount
     }
