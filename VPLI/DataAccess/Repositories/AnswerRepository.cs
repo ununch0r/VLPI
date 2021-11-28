@@ -14,9 +14,9 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
-        public Task AddAsync(UserAnswer userAnswer)
+        public async Task AddAsync(UserAnswer userAnswer)
         {
-            throw new NotImplementedException();
+            await _context.AddAsync(userAnswer);
         }
     }
 }

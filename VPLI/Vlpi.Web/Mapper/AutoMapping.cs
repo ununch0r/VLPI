@@ -4,14 +4,17 @@ using AutoMapper;
 using Core.Entities;
 using Core.Entities.Custom.Answer;
 using Core.Entities.Custom.AnswerResult;
+using Core.Entities.Custom.AnswerTemplates;
 using Core.Entities.Custom.Statistic;
 using Core.Entities.Custom.Task;
+using Newtonsoft.Json;
 using Vlpi.Web.ViewModels.AnswerResultViewModels;
 using Vlpi.Web.ViewModels.AnswerViewModels;
 using Vlpi.Web.ViewModels.StatisticViewModels;
 using Vlpi.Web.ViewModels.TaskViewModels;
 using Vlpi.Web.ViewModels.UserViewModels;
 using Vlpi.Web.ViewModels.UtilViewModels;
+using WrittenRequirementTemplateAnswer = Core.Entities.Custom.AnswerResult.WrittenRequirementTemplateAnswer;
 
 namespace Vlpi.Web.Mapper
 {
@@ -37,6 +40,8 @@ namespace Vlpi.Web.Mapper
                 opt => opt.MapFrom(src => src.Requirement.Select(req => req.Explanation)));
             CreateMap<TaskCustomModel, TaskViewModel>();
             CreateMap<Explanation, ExplanationViewModel>();
+            CreateMap<Task, TaskWithAnalysisStandartAnswer>().ForMember(dest => dest.StandardAnswer,
+                opt => opt.MapFrom(src => JsonConvert.DeserializeObject<RequirementsAnalysisTaskTemplateAnswer>(src.StandardAnswer)));
 
 
             CreateMap<CreateRequirementViewModel, Requirement>().ForMember(dest => dest.Explanation,

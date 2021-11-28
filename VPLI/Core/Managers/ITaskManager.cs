@@ -10,6 +10,7 @@ namespace Core.Managers
         System.Threading.Tasks.Task AddAnalysisAsync(CreateAnalysisTaskModel task);
         System.Threading.Tasks.Task UpdateAsync(int taskId, Task task);
         System.Threading.Tasks.Task<Task> GetAsync(int id);
+        System.Threading.Tasks.Task<TaskWithAnalysisStandartAnswer> GetAnalysisTaskAsync(int id);
         System.Threading.Tasks.Task<IList<TaskCustomModel>> ListAsync();
         System.Threading.Tasks.Task DeleteAsync(int id);
     }

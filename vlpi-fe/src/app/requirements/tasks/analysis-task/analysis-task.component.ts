@@ -155,7 +155,8 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
       correctRequirements: correctRequirementIds,
       wrongRequirements: wrongRequirements,
       timeSpent: this.executionMode.executionTime - this.timeLeft,
-      usedTipsCount: this.usedTipsCount
+      usedTipsCount: this.usedTipsCount,
+      expectedWrongRequirementsCount: this.executionMode.wrongRequirementsCount,
     }
   }
 

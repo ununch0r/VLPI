@@ -51,7 +51,7 @@ namespace Vlpi.Web.Controllers
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var analysisAnswerModel = _mapper.Map<AnalysisAnswer>(analysisAnswerViewModel);
 
-            var result = await _answerManager.VerifyAnalysisAnswerAsync(userId, analysisAnswerModel);
+            var result = await _answerManager.VerifyAndSaveAnalysisAnswerAsync(userId, analysisAnswerModel);
 
             var resultViewModel = _mapper.Map<AnalysisTaskResultViewModel>(result);
             return Ok(resultViewModel);

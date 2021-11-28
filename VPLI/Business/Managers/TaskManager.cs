@@ -83,28 +83,27 @@ namespace Business.Managers
             return await _taskRepository.GetAsync(id);
         }
 
+        public async System.Threading.Tasks.Task<TaskWithAnalysisStandartAnswer> GetAnalysisTaskAsync(int id)
+        {
+            var task = await _taskRepository.GetAsync(id);
+            return _mapper.Map<TaskWithAnalysisStandartAnswer>(task);
+        }
+
         public async System.Threading.Tasks.Task<IList<TaskCustomModel>> ListAsync()
         {
             var tasks = await _taskRepository.ListAsync();
-            try
-            {
-                var customTasks = _mapper.Map<IList<TaskCustomModel>>(tasks).OrderBy(task => task.Complexity).ToList();
-                var order = 1;
 
-                foreach (var taskViewModel in customTasks)
-                {
-                    taskViewModel.Explanation = taskViewModel.Explanation.Where(e => e != null).ToList();
-                    taskViewModel.Order = order;
-                    order++;
-                }
+            var customTasks = _mapper.Map<IList<TaskCustomModel>>(tasks).OrderBy(task => task.Complexity).ToList();
+            var order = 1;
 
-                return customTasks;
-            }
-            catch (Exception e)
+            foreach (var taskViewModel in customTasks)
             {
-                Console.WriteLine(e);
-                throw;
+                taskViewModel.Explanation = taskViewModel.Explanation.Where(e => e != null).ToList();
+                taskViewModel.Order = order;
+                order++;
             }
+
+            return customTasks;
         }
 
         public async System.Threading.Tasks.Task DeleteAsync(int id)
