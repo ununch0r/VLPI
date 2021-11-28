@@ -19,6 +19,7 @@ namespace DataAccess
         }
 
         public virtual DbSet<ExecutionMode> ExecutionMode { get; set; }
+        public virtual DbSet<Explanation> Explanation { get; set; }
         public virtual DbSet<Requirement> Requirement { get; set; }
         public virtual DbSet<RequirementType> RequirementType { get; set; }
         public virtual DbSet<Role> Role { get; set; }
@@ -33,8 +34,6 @@ namespace DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=STELMASHCHUK-DE;Database=VLPI;Trusted_Connection=True;");
             }
         }
 
@@ -47,9 +46,25 @@ namespace DataAccess
                     .HasMaxLength(255);
             });
 
+            modelBuilder.Entity<Explanation>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Content)
+                    .IsRequired()
+                    .HasColumnName("Content")
+                    .HasMaxLength(255);
+            });
+
             modelBuilder.Entity<Requirement>(entity =>
             {
                 entity.Property(e => e.Description).IsRequired();
+
+                entity.HasOne(d => d.Explanation)
+                    .WithMany(p => p.Requirement)
+                    .HasForeignKey(d => d.ExplanationId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_Requirement_Explanation");
 
                 entity.HasOne(d => d.Task)
                     .WithMany(p => p.Requirement)

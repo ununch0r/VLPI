@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using Core.Entities;
 using Core.Entities.Custom.Answer;
 using Core.Entities.Custom.AnswerResult;
@@ -31,8 +33,10 @@ namespace Vlpi.Web.Mapper
             CreateMap<UserStatistic, UserStatisticViewModel>();
             CreateMap<UserTaskStatistic, UserTaskStatisticViewModel>();
             CreateMap<TaskType, TaskTypeViewModel>();
-            CreateMap<Task, TaskCustomModel>();
+            CreateMap<Task, TaskCustomModel>().ForMember(dest => dest.Explanation,
+                opt => opt.MapFrom(src => src.Requirement.Select(req => req.Explanation)));
             CreateMap<TaskCustomModel, TaskViewModel>();
+            CreateMap<Explanation, ExplanationViewModel>();
 
 
             CreateMap<CreateRequirementViewModel, Requirement>();

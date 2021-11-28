@@ -12,7 +12,9 @@ namespace Core.Entities
         public int TaskId { get; set; }
         public string Description { get; set; }
         public bool IsCorrect { get; set; }
+        public int? ExplanationId { get; set; }
 
+        public virtual Explanation Explanation { get; set; }
         public virtual Task Task { get; set; }
     }
 }

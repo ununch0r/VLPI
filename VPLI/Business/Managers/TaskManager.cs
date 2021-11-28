@@ -87,16 +87,31 @@ namespace Business.Managers
         public async System.Threading.Tasks.Task<IList<TaskCustomModel>> ListAsync()
         {
             var tasks = await _taskRepository.ListAsync();
-            var customTasks = _mapper.Map<IList<TaskCustomModel>>(tasks).OrderBy(task => task.Complexity).ToList();
-            var order = 1;
-
-            foreach (var taskViewModel in customTasks)
+            try
             {
-                taskViewModel.Order = order;
-                order++;
-            }
+                var customTasks = _mapper.Map<IList<TaskCustomModel>>(tasks).OrderBy(task => task.Complexity).ToList();
 
-            return customTasks;
+                //customTasks.Zip(tasks, (custom, original) =>
+                //{
+                //    var explanations = original.Requirement.Select(req => req.Explanation);
+                //    custom.Explanation = explanations
+                //});
+
+                var order = 1;
+
+                foreach (var taskViewModel in customTasks)
+                {
+                    taskViewModel.Order = order;
+                    order++;
+                }
+
+                return customTasks;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public async System.Threading.Tasks.Task DeleteAsync(int id)

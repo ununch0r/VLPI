@@ -15,6 +15,7 @@ namespace Core.Entities.Custom.Task
 
         public TaskType Type { get; set; }
         public ICollection<Requirement> Requirement { get; set; }
+        public ICollection<Explanation> Explanation { get; set; }
         public ICollection<TaskTip> TaskTip { get; set; }
     }
 }

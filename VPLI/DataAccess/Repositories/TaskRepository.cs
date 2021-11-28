@@ -60,6 +60,7 @@ namespace DataAccess.Repositories
             return await _context.Task
                 .Include(t => t.Type)
                 .Include(t => t.Requirement)
+                .ThenInclude(req => req.Explanation)
                 .Include(t => t.TaskTip)
                 .AsNoTracking()
                 .ToListAsync();

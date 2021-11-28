@@ -12,6 +12,7 @@ namespace Vlpi.Web.ViewModels.TaskViewModels
         public string PhotoUrl { get; set; }
 
         public TaskTypeViewModel Type { get; set; }
+        public ICollection<ExplanationViewModel> Explanation { get; set; }
         public ICollection<RequirementViewModel> Requirement { get; set; }
         public ICollection<TaskTipViewModel> TaskTip { get; set; }
     }
