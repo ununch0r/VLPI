@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { shuffle } from 'src/app/shared/helpers/task-helper';
 import { ExecutionMode } from 'src/app/shared/models/execution-mode.model';
 import { Requirement } from 'src/app/shared/models/requirement.model';
@@ -15,7 +15,9 @@ import { TaskSyncService } from '../../services/task.sync-service';
   templateUrl: './analysis-task.component.html',
   styleUrls: ['./analysis-task.component.scss']
 })
-export class AnalysisTaskComponent implements OnInit {
+export class AnalysisTaskComponent implements OnInit, OnDestroy {
+  destroySubj = new Subject();
+
   taskId : number;
   taskObs: Observable<Task>;
   executionMode: ExecutionMode;
@@ -41,12 +43,18 @@ export class AnalysisTaskComponent implements OnInit {
     this.setPageName();
   }
 
+  ngOnDestroy(): void {
+    this.destroySubj.next('');
+    this.destroySubj.complete();
+  }
+
   private setPageName(){
     this.pageNameService.setPageName("Requirements analysis task");
   }
 
   trackTaskId(){
     this.route.params
+    .pipe(takeUntil(this.destroySubj))
     .subscribe(
       (params: Params) => {
         this.taskId = +params['id'];
@@ -70,7 +78,9 @@ export class AnalysisTaskComponent implements OnInit {
   }
 
   trackTask(){
-    this.taskObs.subscribe(task => {
+    this.taskObs
+    .pipe(takeUntil(this.destroySubj))
+    .subscribe(task => {
       this.setupInputRequirements(task);
       this.setupTips(task);
     })
@@ -78,6 +88,7 @@ export class AnalysisTaskComponent implements OnInit {
 
   setupInputRequirements(task: Task){
     let requirements = shuffle(task.requirement);
+    console.log('test');
 
     let wrongRequirements = requirements.filter(req => !req.isCorrect).slice(0, this.executionMode.wrongRequirementsCount);
     let correctRequirements = requirements.filter(req => req.isCorrect);

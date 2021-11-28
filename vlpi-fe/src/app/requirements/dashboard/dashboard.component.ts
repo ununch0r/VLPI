@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 
 import { SimpleTask } from 'src/app/shared/models/simple-task.model';
 import { Tile } from 'src/app/shared/models/tile.model';
@@ -16,7 +16,8 @@ import { ChooseDifficultyDialogComponent } from './choose-difficulty-dialog/choo
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+  destroySubj = new Subject();
 
   checked = true;
   tasksObs: Observable<SimpleTask[]>;
@@ -33,6 +34,11 @@ export class DashboardComponent implements OnInit {
     this.initializeTasks();
     this.loadTasks();
     this.setPageName();
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubj.next('');
+    this.destroySubj.complete();
   }
 
   private setPageName(){
@@ -59,7 +65,9 @@ export class DashboardComponent implements OnInit {
     chooseDifficulty(taskId: number, taskType: string){
       const dialogRef = this.dialog.open(ChooseDifficultyDialogComponent);
 
-      dialogRef.afterClosed().subscribe(result => {
+      dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroySubj))
+      .subscribe(result => {
           if(!!result){
             if(taskType == 'Requirement analysis'){
               this.executionModeSyncService.setCurrentExecutionMode(result.id);

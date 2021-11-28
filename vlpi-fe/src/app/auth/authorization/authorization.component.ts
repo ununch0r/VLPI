@@ -11,8 +11,9 @@ import { UserSyncService } from 'src/app/shared/services/user.sync.service';
   templateUrl: './authorization.component.html',
   styleUrls: ['./authorization.component.scss']
 })
-export class AuthorizationComponent implements OnInit {
+export class AuthorizationComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
+  destroySubj = new Subject();
 
   constructor(
     private router: Router,
@@ -26,9 +27,15 @@ export class AuthorizationComponent implements OnInit {
     this.setPageName();
   }
 
+  ngOnDestroy(): void {
+    this.destroySubj.next('');
+    this.destroySubj.complete();
+  }
+
   private setPageName(){
     this.pageNameService.setPageName("Authorization");
   }
+
   initForm(){
     this.loginForm = new FormGroup({          
       'login':new FormControl(null,[Validators.email, Validators.required]),
@@ -38,6 +45,7 @@ export class AuthorizationComponent implements OnInit {
 
   onSubmit(){
     this.authService.login(this.loginForm.value.login, this.loginForm.value.password)
+    .pipe(takeUntil(this.destroySubj))
     .subscribe({
       next: _ => {
         this.userSyncService.setCurrentUser();

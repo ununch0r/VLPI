@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { UserSyncService } from 'src/app/shared/services/user.sync.service';
@@ -10,7 +11,8 @@ import { UserSyncService } from 'src/app/shared/services/user.sync.service';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, OnDestroy {
+  destroySubj = new Subject();
   registerForm: FormGroup;
 
   constructor(
@@ -23,6 +25,11 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.setPageName();
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubj.next('');
+    this.destroySubj.complete();
   }
 
   private setPageName(){
@@ -46,6 +53,7 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit(){
     this.authService.register(this.registerForm.value)
+    .pipe(takeUntil(this.destroySubj))
     .subscribe({
       next: _ => {
         this.userSyncService.setCurrentUser();
