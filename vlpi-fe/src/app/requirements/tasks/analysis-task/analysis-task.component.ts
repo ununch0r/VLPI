@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { interval, map, Observable, Subject, takeUntil, takeWhile } from 'rxjs';
 import { shuffle } from 'src/app/shared/helpers/task-helper';
 import { ExecutionMode } from 'src/app/shared/models/execution-mode.model';
 import { Requirement } from 'src/app/shared/models/requirement.model';
@@ -25,6 +25,7 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
   inputRequirements: Requirement[] = [];
   executionTime: number;
   tipsCount: number;
+  isStarted: boolean = false;
 
   correctRequirements: Requirement[] = [];
   wrongRequirements: Requirement[] = [];
@@ -88,7 +89,6 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
 
   setupInputRequirements(task: Task){
     let requirements = shuffle(task.requirement);
-    console.log('test');
 
     let wrongRequirements = requirements.filter(req => !req.isCorrect).slice(0, this.executionMode.wrongRequirementsCount);
     let correctRequirements = requirements.filter(req => req.isCorrect);
@@ -99,6 +99,26 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
 
   setupTips(task: Task){
     this.tipsCount = task.taskTip.length;
+  }
+
+  onStart(){
+    this.isStarted = true;
+
+    interval(1000)
+    .pipe(
+      takeWhile(val => val < this.executionMode.executionTime),
+      takeUntil(this.destroySubj))
+    .subscribe( _ =>{
+      this.executionTime--;
+
+      if(this.executionTime === 0){
+        this.onComplete();
+      }
+    })
+  }
+
+  onComplete(){
+    console.log('completed');
   }
 
   showHint(){

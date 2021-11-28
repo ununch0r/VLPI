@@ -29,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ExecutionModeSyncService } from './requirements/services/execution-mode.sycn-service';
 import { ExecutionModeResolverService } from './shared/resolvers/execution-mode.resolver-service';
 import { UtilsWebService } from './requirements/web-services/utils.web-service';
+import { EncodePipe } from './shared/pipes/encode.pipe';
 
 export function tokenGetter(){
   return localStorage.getItem(ACCESS_TOKEN_KEY)
@@ -41,7 +42,7 @@ export function tokenGetter(){
     HomeComponent,
     FooterComponent,
     RegistrationComponent,
-    AuthorizationComponent
+    AuthorizationComponent,
   ],
   imports: [
     BrowserModule,

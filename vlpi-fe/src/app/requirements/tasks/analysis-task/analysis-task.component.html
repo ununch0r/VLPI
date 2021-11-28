@@ -14,7 +14,19 @@
                 (click)="showHint()">
                 Show hint
         </button>
-        <button mat-raised-button color="primary" class="action complete-button">Complete</button>
+        <button *ngIf="isStarted; else startButton"
+                (click)="onComplete()"
+                mat-raised-button color="primary" 
+                class="action complete-button">
+                Complete
+        </button>
+        <ng-template #startButton>
+            <button (click)="onStart()"
+                    mat-raised-button color="primary" 
+                    class="action complete-button">
+                    Start
+            </button>
+        </ng-template>
     </div>
 </div>
 
@@ -30,7 +42,7 @@
                     (cdkDropListDropped)="drop($event)">
 
                 <div class="requirement-box" *ngFor="let requirement of inputRequirements" cdkDrag>
-                    {{requirement.description}}
+                    {{requirement.description | encode:!isStarted}}
                 </div>
             </div>
         </div>
