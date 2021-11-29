@@ -24,5 +24,15 @@ namespace Business.Managers
         {
             return await _requirementRepository.AddBulkAsync(requirements);
         }
+
+        public async Task<IList<Requirement>> GetCorrectRequirementsByIds(IList<int> ids)
+        {
+            return await _requirementRepository.GetCorrectRequirementsByIds(ids);
+        }
+
+        public async Task<IList<Requirement>> GetWrongRequirementsByIds(IList<int> ids)
+        {
+            return await _requirementRepository.GetWrongRequirementsByIds(ids);
+        }
     }
 }

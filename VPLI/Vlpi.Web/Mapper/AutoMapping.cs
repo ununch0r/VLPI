@@ -35,6 +35,7 @@ namespace Vlpi.Web.Mapper
             CreateMap<GenericUserStatistic, GenericUserStatisticViewModel>();
             CreateMap<UserStatistic, UserStatisticViewModel>();
             CreateMap<UserTaskStatistic, UserTaskStatisticViewModel>();
+            CreateMap<WrongRequirementDisplay, WrongRequirementDisplayViewModel>();
             CreateMap<TaskType, TaskTypeViewModel>();
             CreateMap<Task, TaskCustomModel>().ForMember(dest => dest.Explanation,
                 opt => opt.MapFrom(src => src.Requirement.Select(req => req.Explanation)));

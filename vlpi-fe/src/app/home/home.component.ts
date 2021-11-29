@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
     ];
 
     goToModule(navigationPath: string){
-      console.log(navigationPath);
       this.router.navigate([navigationPath]);
     }
 }

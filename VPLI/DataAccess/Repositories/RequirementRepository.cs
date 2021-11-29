@@ -2,6 +2,7 @@
 using Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
@@ -32,6 +33,23 @@ namespace DataAccess.Repositories
             await _context.Explanation.AddAsync(explanation);
             await _context.SaveChangesAsync();
             return explanation;
+        }
+
+        public async Task<IList<Requirement>> GetCorrectRequirementsByIds(IList<int> ids)
+        {
+            return await _context.Requirement
+                .AsNoTracking()
+                .Where(req => ids.Contains(req.Id))
+                .ToListAsync();
+        }
+
+        public async Task<IList<Requirement>> GetWrongRequirementsByIds(IList<int> ids)
+        {
+            return await _context.Requirement
+                .Include(req => req.Explanation)
+                .AsNoTracking()
+                .Where(req => ids.Contains(req.Id))
+                .ToListAsync();
         }
 
         public async Task<Requirement> AddAsync(Requirement model)

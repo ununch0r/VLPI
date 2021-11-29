@@ -1,15 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Entities.Custom.Answer;
 using Core.Entities.Custom.AnswerResult;
 using Core.Entities.Custom.AnswerTemplates;
-using Core.Entities.Custom.Task;
 using Core.Managers;
 using Core.Repositories;
 using Newtonsoft.Json;
-using Task = Core.Entities.Task;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Core.Entities.Custom.Task;
 
 namespace Business.Managers
 {
@@ -17,11 +16,13 @@ namespace Business.Managers
     {
         private readonly IAnswerRepository _answerRepository;
         private readonly ITaskManager _taskManager;
+        private readonly IRequirementManager _requirementManager;
 
-        public AnswerManager(IAnswerRepository answerRepository, ITaskManager taskManager)
+        public AnswerManager(IAnswerRepository answerRepository, ITaskManager taskManager, IRequirementManager requirementManager)
         {
             _answerRepository = answerRepository;
             _taskManager = taskManager;
+            _requirementManager = requirementManager;
         }
 
         public Task<WritingTaskResult> VerifyWritingAnswerAsync(int userId, WritingAnswer writingAnswer)
@@ -31,14 +32,38 @@ namespace Business.Managers
 
         public async Task<AnalysisTaskResult> VerifyAndSaveAnalysisAnswerAsync(int userId, AnalysisAnswer analysisAnswer)
         {
-            var score = await CalculateScoreAsync(analysisAnswer);
+            var task = await _taskManager.GetAnalysisTaskAsync(analysisAnswer.TaskId);
+
+            var score = CalculateScore(analysisAnswer, task);
 
             var userAnswer = CreateUserAnswer(userId, analysisAnswer, score);
             await _answerRepository.AddAsync(userAnswer);
 
+            return CreateResultModel(analysisAnswer, task, score);
+        }
+
+        private static AnalysisTaskResult CreateResultModel(AnalysisAnswer analysisAnswer, AnalysisTask task, int score)
+        {
+            var correctRequirementDescriptions = task.Requirement
+                .Where(req => req.IsCorrect)
+                .Select(req => req.Description)
+                .ToList();
+
+            var wrongRequirementDisplayModels = task.Requirement
+                .Where(req => !req.IsCorrect)
+                .Select(req => new WrongRequirementDisplay
+                {
+                    Description = req.Description,
+                    Explanation = req.Explanation.Content
+                })
+                .ToList();
+
             return new AnalysisTaskResult
             {
-                Score = score
+                Score = score,
+                TimeSpent = analysisAnswer.TimeSpent,
+                CorrectRequirements = correctRequirementDescriptions,
+                WrongRequirements = wrongRequirementDisplayModels
             };
         }
 
@@ -62,10 +87,9 @@ namespace Business.Managers
             return userAnswer;
         }
 
-        private async Task<int> CalculateScoreAsync(AnalysisAnswer analysisAnswer)
+        private int CalculateScore(AnalysisAnswer analysisAnswer, AnalysisTask task)
         {
             var lostPointsIndex = 0.0;
-            var task = await _taskManager.GetAnalysisTaskAsync(analysisAnswer.TaskId);
 
             lostPointsIndex += CalculateLostPointsByCorrectRequirements(analysisAnswer, task.StandardAnswer);
             lostPointsIndex += CalculateLostPointsByWrongRequirements(analysisAnswer, task.StandardAnswer);

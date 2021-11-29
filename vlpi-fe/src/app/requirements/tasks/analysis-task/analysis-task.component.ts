@@ -5,6 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { interval, map, Observable, Subject, takeUntil, takeWhile } from 'rxjs';
 import { shuffle } from 'src/app/shared/helpers/task-helper';
 import { AnalysisTaskAnswer } from 'src/app/shared/models/analysis-task-answer.model';
+import { AnalysisTaskResult } from 'src/app/shared/models/analysis-task-result.model';
 import { CreateWrongRequirement } from 'src/app/shared/models/create-wrong-requirement.model';
 import { ExecutionMode } from 'src/app/shared/models/execution-mode.model';
 import { Explanation } from 'src/app/shared/models/explanation.model';
@@ -145,19 +146,16 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
     this.countDownDestroySubj.next('');
 
     var answer = this.createAnswer();
-    this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(_ => {
-      this.showResultOverlay();
+    this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(task => {
+      this.showResultOverlay(task);
     });
   }
 
-  showResultOverlay(){
-    let param = {
-      score: 100,
-      timeSpent: 200,
-      correctRequirements: ['requirement 1 requirement 1 requirement 1', 'requirement 2 requirement 2 requirement 2 requirement 2', 'requirement 3 requirement 3 requirement 3 requirement 3 requirement 3'],
-      wrongRequirements: [{description: 'requirement 1 requirement 1 requirement 1', explanation: 'explanation 1 explanation 1 explanation 1', isCorrect: null }, {description: 'requirement 1 requirement 1 requirement 1', explanation: 'explanation 1 explanation 1 explanation 1', isCorrect: null }, {description: 'requirement 1 requirement 1 requirement 1', explanation: 'explanation 1 explanation 1 explanation 1', isCorrect: null }]
-    };
-    const dialogRef = this.dialog.open(AnalysisTaskResultComponent,{panelClass: 'custom-dialog-container', data: {taskResult: param}});
+  showResultOverlay(task: AnalysisTaskResult){
+    const dialogRef = this.dialog.open(AnalysisTaskResultComponent,{
+      panelClass: 'custom-dialog-container',
+      data: {taskResult: task}
+    });
 
     dialogRef.afterClosed()
     .pipe(takeUntil(this.destroySubj))
