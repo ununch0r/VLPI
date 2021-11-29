@@ -1,8 +1,8 @@
-import { CreateRequirement } from "./create-requirement.model";
+import { RequirementWithExplanation } from "./requirement-with-explanation.model";
 import { CreateTask } from "./create-task.model";
 
 export interface AnalysisTask extends CreateTask{
     description: string;
-    correctRequirements: CreateRequirement[];
-    wrongRequirements: CreateRequirement[];
+    correctRequirements: RequirementWithExplanation[];
+    wrongRequirements: RequirementWithExplanation[];
 }

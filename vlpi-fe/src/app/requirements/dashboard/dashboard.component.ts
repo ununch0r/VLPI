@@ -9,6 +9,7 @@ import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-serv
 import { DashboardSyncService } from '../services/dashboard.sync-service';
 import { ExecutionModeSyncService } from '../services/execution-mode.sycn-service';
 import { TaskSyncService } from '../services/task.sync-service';
+import { AnalysisTaskResultComponent } from '../tasks/analysis-task/analysis-task-result/analysis-task-result.component';
 import { TaskWebService } from '../web-services/task.web-service';
 import { ChooseDifficultyDialogComponent } from './choose-difficulty-dialog/choose-difficulty-dialog.component';
 
@@ -66,17 +67,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     chooseDifficulty(taskId: number, taskType: string){
-      const dialogRef = this.dialog.open(ChooseDifficultyDialogComponent);
+      const dialogRef = this.dialog.open(AnalysisTaskResultComponent,{panelClass: 'custom-dialog-container'});
+      // const dialogRef = this.dialog.open(ChooseDifficultyDialogComponent);
 
-      dialogRef.afterClosed()
-      .pipe(takeUntil(this.destroySubj))
-      .subscribe(result => {
-          if(!!result){
-            if(taskType == 'Requirement analysis'){
-              this.executionModeSyncService.setCurrentExecutionMode(result.id);
-              this.router.navigate(['analysis-task', taskId]);
-            }
-        }
-      });
+      // dialogRef.afterClosed()
+      // .pipe(takeUntil(this.destroySubj))
+      // .subscribe(result => {
+      //     if(!!result){
+      //       if(taskType == 'Requirement analysis'){
+      //         this.executionModeSyncService.setCurrentExecutionMode(result.id);
+      //         this.router.navigate(['analysis-task', taskId]);
+      //       }
+      //   }
+      // });
     }
 }

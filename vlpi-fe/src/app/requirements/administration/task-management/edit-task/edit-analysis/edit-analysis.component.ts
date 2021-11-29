@@ -3,7 +3,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TaskSyncService } from 'src/app/requirements/services/task.sync-service';
 import { AnalysisTask } from 'src/app/shared/models/analysis-task.model';
-import { CreateRequirement } from 'src/app/shared/models/create-requirement.model';
+import { RequirementWithExplanation } from 'src/app/shared/models/requirement-with-explanation.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 
 @Component({
@@ -64,11 +64,11 @@ export class EditAnalysisComponent implements OnInit {
 
   initAnalysisTask(){
     let formCorrectRequirements = (<FormArray>this.analysisForm.get('correctRequirements'));
-    let correctRequirements : CreateRequirement[] = formCorrectRequirements.value.map(requirement =>
-       ({ description: requirement.description, isCorrect: true } as CreateRequirement));
+    let correctRequirements : RequirementWithExplanation[] = formCorrectRequirements.value.map(requirement =>
+       ({ description: requirement.description, isCorrect: true } as RequirementWithExplanation));
     let formWrongRequirements = (<FormArray>this.analysisForm.get('wrongRequirements'));
-    let wrongRequirements : CreateRequirement[] = formWrongRequirements.value.map(requirement => 
-      ({ description: requirement.description, isCorrect:false, explanation: requirement.explanation } as CreateRequirement));
+    let wrongRequirements : RequirementWithExplanation[] = formWrongRequirements.value.map(requirement => 
+      ({ description: requirement.description, isCorrect:false, explanation: requirement.explanation } as RequirementWithExplanation));
 
     this.analysisTask.description = this.analysisForm.value.description;
     this.analysisTask.correctRequirements = correctRequirements;

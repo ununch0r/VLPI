@@ -18,7 +18,6 @@ export class ChooseDifficultyDialogComponent implements OnInit {
   constructor(
       private dialogRef: MatDialogRef<ChooseDifficultyDialogComponent>,
       private executionModeSyncService: ExecutionModeSyncService) {
-
   }
 
   ngOnInit() {

@@ -30,6 +30,7 @@ import { AnalysisTaskComponent } from './tasks/analysis-task/analysis-task.compo
 import { EncodePipe } from '../shared/pipes/encode.pipe';
 import { AnswerWebService } from './web-services/answer.web-service';
 import { TaskAccessGuardService } from '../shared/guards/task-access.guard-service';
+import { AnalysisTaskResultComponent } from './tasks/analysis-task/analysis-task-result/analysis-task-result.component';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
@@ -53,7 +54,8 @@ const routes: Routes = [
     EditWritingComponent,
     EditAnalysisComponent,
     AnalysisTaskComponent,
-    EncodePipe
+    EncodePipe,
+    AnalysisTaskResultComponent
   ],
   imports: [
     CommonModule,
@@ -78,7 +80,8 @@ const routes: Routes = [
     AnswerWebService
   ],
   entryComponents:[
-    ChooseDifficultyDialogComponent
+    ChooseDifficultyDialogComponent,
+    AnalysisTaskResultComponent
   ]
 })
 export class RequirementsModule { }

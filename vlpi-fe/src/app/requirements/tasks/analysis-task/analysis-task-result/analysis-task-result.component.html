@@ -1,0 +1,32 @@
+<div class="header">
+    <p class="header-text"> Score: {{taskResult.score}}%    Time: {{taskResult.timeSpent}} seconds</p>
+</div>
+
+<div class="standart-asnwer-label">
+    STANDART ANSWER
+</div>
+
+<div class="standart-asnwer-container">
+    <div class="requirements-container">
+        <div class="requirements-content">
+            <p class="section-header">Correct requirements</p>
+            <div class="requirement-box" *ngFor="let requirement of taskResult.correctRequirements">
+                <p class="requirement-description">{{requirement}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="requirements-container">
+        <div class="requirements-content">
+            <p class="section-header">Wrong requirements</p>
+            <div class="requirement-box" *ngFor="let requirement of taskResult.wrongRequirements">
+                <p class="wrong-requirement-description">{{requirement.description}}</p>
+                <p class="explanation-description">{{requirement.explanation}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="button-conainer">
+    <button class="dialog-button mat-raised-button mat-primary" (click)="onOk()">Ok</button>
+</div>
