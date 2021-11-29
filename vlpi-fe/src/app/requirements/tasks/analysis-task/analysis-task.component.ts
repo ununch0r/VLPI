@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { interval, map, Observable, Subject, takeUntil, takeWhile } from 'rxjs';
 import { shuffle } from 'src/app/shared/helpers/task-helper';
 import { AnalysisTaskAnswer } from 'src/app/shared/models/analysis-task-answer.model';
@@ -13,6 +14,7 @@ import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-serv
 import { ExecutionModeSyncService } from '../../services/execution-mode.sycn-service';
 import { TaskSyncService } from '../../services/task.sync-service';
 import { AnswerWebService } from '../../web-services/answer.web-service';
+import { AnalysisTaskResultComponent } from './analysis-task-result/analysis-task-result.component';
 
 @Component({
   selector: 'app-analysis-task',
@@ -49,7 +51,9 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
     private taskSyncService: TaskSyncService,
     private executionModeSyncService: ExecutionModeSyncService,
     private route: ActivatedRoute,
-    private answerWebService: AnswerWebService
+    private answerWebService: AnswerWebService,
+    private dialog: MatDialog,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
@@ -141,8 +145,26 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
     this.countDownDestroySubj.next('');
 
     var answer = this.createAnswer();
-    console.log(answer);
-    this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(_ => console.log('done'));
+    this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(_ => {
+      this.showResultOverlay();
+    });
+  }
+
+  showResultOverlay(){
+    let param = {
+      score: 100,
+      timeSpent: 200,
+      correctRequirements: ['requirement 1 requirement 1 requirement 1', 'requirement 2 requirement 2 requirement 2 requirement 2', 'requirement 3 requirement 3 requirement 3 requirement 3 requirement 3'],
+      wrongRequirements: [{description: 'requirement 1 requirement 1 requirement 1', explanation: 'explanation 1 explanation 1 explanation 1', isCorrect: null }, {description: 'requirement 1 requirement 1 requirement 1', explanation: 'explanation 1 explanation 1 explanation 1', isCorrect: null }, {description: 'requirement 1 requirement 1 requirement 1', explanation: 'explanation 1 explanation 1 explanation 1', isCorrect: null }]
+    };
+    const dialogRef = this.dialog.open(AnalysisTaskResultComponent,{panelClass: 'custom-dialog-container', data: {taskResult: param}});
+
+    dialogRef.afterClosed()
+    .pipe(takeUntil(this.destroySubj))
+    .subscribe(_ => {
+            this.router.navigate(['requirements']);
+          }
+    );
   }
 
   createAnswer() : AnalysisTaskAnswer{

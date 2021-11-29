@@ -67,18 +67,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     chooseDifficulty(taskId: number, taskType: string){
-      const dialogRef = this.dialog.open(AnalysisTaskResultComponent,{panelClass: 'custom-dialog-container'});
-      // const dialogRef = this.dialog.open(ChooseDifficultyDialogComponent);
+      const dialogRef = this.dialog.open(ChooseDifficultyDialogComponent, {panelClass: 'choose-difficulty-dialog-container'});
 
-      // dialogRef.afterClosed()
-      // .pipe(takeUntil(this.destroySubj))
-      // .subscribe(result => {
-      //     if(!!result){
-      //       if(taskType == 'Requirement analysis'){
-      //         this.executionModeSyncService.setCurrentExecutionMode(result.id);
-      //         this.router.navigate(['analysis-task', taskId]);
-      //       }
-      //   }
-      // });
+      dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroySubj))
+      .subscribe(result => {
+          if(!!result){
+            if(taskType == 'Requirement analysis'){
+              this.executionModeSyncService.setCurrentExecutionMode(result.id);
+              this.router.navigate(['analysis-task', taskId]);
+            }
+        }
+      });
     }
 }

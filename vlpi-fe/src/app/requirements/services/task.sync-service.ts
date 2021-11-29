@@ -32,7 +32,6 @@ export class TaskSyncService {
   {
     this.taskWebService.getTasks().subscribe(tasks => 
       {
-        console.log(tasks);
         this.tasksSubj.next(tasks)
       });
   }

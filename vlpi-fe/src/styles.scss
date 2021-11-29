@@ -160,3 +160,11 @@ button[disabled=true]{
   background-color: $my-secondary-color;
   overflow: visible;
 }
+
+
+.choose-difficulty-dialog-container .mat-dialog-container{
+  font-size: 36px;
+  justify-content: center;
+  background-color: $my-primary-color;
+  border-radius: 50px;
+}
