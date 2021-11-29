@@ -3,7 +3,7 @@ using Core.Entities.Custom.AnswerTemplates;
 
 namespace Core.Entities.Custom.Task
 {
-    public class TaskWithAnalysisStandartAnswer
+    public class AnalysisTask
     {
         public int Id { get; set; }
         public string Objective { get; set; }

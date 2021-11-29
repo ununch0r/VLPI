@@ -6,8 +6,8 @@ namespace Core.Repositories
 {
     public interface IRequirementRepository : IBaseRepository<Requirement>
     {
-        Task<IList<RequirementType>> GetAsync();
+        Task<IList<RequirementType>> GetTypesAsync();
         Task<IList<Requirement>> AddBulkAsync(IList<Requirement> requirements);
-        Task<Explanation> AddAsync(Explanation explanation);
+        Task<Explanation> AddExplanationAsync(Explanation explanation);
     }
 }

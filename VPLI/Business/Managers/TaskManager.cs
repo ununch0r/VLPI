@@ -84,10 +84,10 @@ namespace Business.Managers
             return await _taskRepository.GetAsync(id);
         }
 
-        public async System.Threading.Tasks.Task<TaskWithAnalysisStandartAnswer> GetAnalysisTaskAsync(int id)
+        public async System.Threading.Tasks.Task<AnalysisTask> GetAnalysisTaskAsync(int id)
         {
             var task = await _taskRepository.GetAsync(id);
-            return _mapper.Map<TaskWithAnalysisStandartAnswer>(task);
+            return _mapper.Map<AnalysisTask>(task);
         }
 
         public async System.Threading.Tasks.Task<IList<TaskCustomModel>> ListAsync()

@@ -15,7 +15,7 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<IList<RequirementType>> GetAsync()
+        public async Task<IList<RequirementType>> GetTypesAsync()
         {
             return await _context.RequirementType.ToListAsync();
         }
@@ -27,7 +27,7 @@ namespace DataAccess.Repositories
             return requirements;
         }
 
-        public async Task<Explanation> AddAsync(Explanation explanation)
+        public async Task<Explanation> AddExplanationAsync(Explanation explanation)
         {
             await _context.Explanation.AddAsync(explanation);
             await _context.SaveChangesAsync();

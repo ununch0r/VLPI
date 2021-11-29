@@ -40,7 +40,7 @@ namespace Vlpi.Web.Mapper
                 opt => opt.MapFrom(src => src.Requirement.Select(req => req.Explanation)));
             CreateMap<TaskCustomModel, TaskViewModel>();
             CreateMap<Explanation, ExplanationViewModel>();
-            CreateMap<Task, TaskWithAnalysisStandartAnswer>().ForMember(dest => dest.StandardAnswer,
+            CreateMap<Task, AnalysisTask>().ForMember(dest => dest.StandardAnswer,
                 opt => opt.MapFrom(src => JsonConvert.DeserializeObject<RequirementsAnalysisTaskTemplateAnswer>(src.StandardAnswer)));
 
 

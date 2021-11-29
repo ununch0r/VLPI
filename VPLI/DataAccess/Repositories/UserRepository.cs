@@ -75,9 +75,9 @@ namespace DataAccess.Repositories
         public async Task AddUserRolesAsync(int userId, string[] roles)
         {
             var user = await _context.User
-                .Include(user => user.UserRole)
+                .Include(u => u.UserRole)
                 .ThenInclude(userRole => userRole.Role)
-                .SingleOrDefaultAsync(user => user.Id == userId);
+                .SingleOrDefaultAsync(u => u.Id == userId);
 
             var newRoles = roles
                 .Where(role => !user.UserRole.Select(ur => ur.Role.Name).Contains(role));

@@ -40,7 +40,7 @@ namespace Vlpi.Web.Controllers
         [Route("requirement-types")]
         public async Task<IActionResult> GetRequirementTypesAsync()
         {
-            var requirementTypeModels = await _requirementManager.GetRequirementTypesAsync();
+            var requirementTypeModels = await _requirementManager.GetTypesAsync();
             var requirementTypeViewModels = _mapper.Map<IEnumerable<RequirementTypeViewModel>>(requirementTypeModels);
             return Ok(requirementTypeViewModels);
         }
