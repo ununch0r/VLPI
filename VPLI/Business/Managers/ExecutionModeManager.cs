@@ -17,7 +17,7 @@ namespace Business.Managers
 
         public async Task<IList<ExecutionMode>> GetExecutionModesAsync()
         {
-            return await _executionModeRepository.GetExecutionModesAsync();
+            return await _executionModeRepository.ListAsync();
         }
     }
 }

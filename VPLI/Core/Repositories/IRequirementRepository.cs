@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace Core.Repositories
 {
-    public interface IRequirementRepository
+    public interface IRequirementRepository : IBaseRepository<Requirement>
     {
-        Task<IList<RequirementType>> GetRequirementTypesAsync();
+        Task<IList<RequirementType>> GetAsync();
         Task<IList<Requirement>> AddBulkAsync(IList<Requirement> requirements);
-        Task<Explanation> AddExplanationAsync(Explanation explanation);
+        Task<Explanation> AddAsync(Explanation explanation);
     }
 }

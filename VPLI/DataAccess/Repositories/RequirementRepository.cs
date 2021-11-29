@@ -3,7 +3,6 @@ using Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Task = Core.Entities.Task;
 
 namespace DataAccess.Repositories
 {
@@ -16,7 +15,7 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<IList<RequirementType>> GetRequirementTypesAsync()
+        public async Task<IList<RequirementType>> GetAsync()
         {
             return await _context.RequirementType.ToListAsync();
         }
@@ -28,11 +27,35 @@ namespace DataAccess.Repositories
             return requirements;
         }
 
-        public async Task<Explanation> AddExplanationAsync(Explanation explanation)
+        public async Task<Explanation> AddAsync(Explanation explanation)
         {
             await _context.Explanation.AddAsync(explanation);
             await _context.SaveChangesAsync();
             return explanation;
+        }
+
+        public async Task<Requirement> AddAsync(Requirement model)
+        {
+            await _context.Requirement.AddAsync(model);
+            await _context.SaveChangesAsync();
+            return model;
+        }
+
+        public async Task<IList<Requirement>> ListAsync()
+        {
+            return  await _context.Requirement.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<Requirement> GetAsync(int id)
+        {
+            return await _context.Requirement.AsNoTracking().SingleOrDefaultAsync(req => req.Id == id);
+        }
+
+        public async System.Threading.Tasks.Task DeleteAsync(int id)
+        {
+            var toBeRemoved = await _context.Requirement.SingleOrDefaultAsync(t => t.Id == id);
+            _context.Requirement.Remove(toBeRemoved);
+            await _context.SaveChangesAsync();
         }
     }
 }

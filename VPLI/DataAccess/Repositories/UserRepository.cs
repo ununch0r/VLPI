@@ -20,7 +20,7 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(User user)
+        public async Task<User> AddAsync(User user)
         {
             var isEmailDuplicated = await _context.User.AnyAsync(u => u.Email == user.Email);
 
@@ -40,6 +40,12 @@ namespace DataAccess.Repositories
 
             await _context.AddAsync(user);
             await _context.SaveChangesAsync();
+            return user;
+        }
+
+        public async Task<IList<User>> ListAsync()
+        {
+            return await _context.User.AsNoTracking().ToListAsync();
         }
 
         public async Task<User> GetAsync(int id)
@@ -47,6 +53,13 @@ namespace DataAccess.Repositories
             return await _context.User
                 .AsNoTracking()
                 .SingleOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var toBeRemoved = await _context.User.SingleOrDefaultAsync(t => t.Id == id);
+            _context.User.Remove(toBeRemoved);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<User> AuthenticateUserAsync(string email, string password)

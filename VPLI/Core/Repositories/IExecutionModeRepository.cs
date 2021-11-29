@@ -6,6 +6,6 @@ namespace Core.Repositories
 {
     public interface IExecutionModeRepository
     {
-        Task<IList<ExecutionMode>> GetExecutionModesAsync();
+        Task<IList<ExecutionMode>> ListAsync();
     }
 }

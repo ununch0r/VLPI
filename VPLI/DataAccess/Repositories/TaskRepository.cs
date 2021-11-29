@@ -15,7 +15,6 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
-
         public async System.Threading.Tasks.Task<Task> AddAsync(Task task)
         {
             await _context.Task.AddAsync(task);

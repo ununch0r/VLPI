@@ -4,10 +4,8 @@ using Task = System.Threading.Tasks.Task;
 
 namespace Core.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
-        Task AddAsync(User user);
-        Task<User> GetAsync(int id);
         Task<User> AuthenticateUserAsync(string email, string password);
         Task AddUserRolesAsync(int userId, string[] roles);
         Task RemoveUserRolesAsync(int userId, string[] roles);

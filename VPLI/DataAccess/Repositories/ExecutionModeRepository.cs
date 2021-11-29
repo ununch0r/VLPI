@@ -16,7 +16,7 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<IList<ExecutionMode>> GetExecutionModesAsync()
+        public async Task<IList<ExecutionMode>> ListAsync()
         {
             return  await _context.ExecutionMode.ToListAsync();
         }
