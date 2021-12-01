@@ -30,10 +30,16 @@
 .icon-display{
     width: 25%;
     display: flex;
-    justify-content: space-between;
+    justify-content:flex-end;
     height: 100%;
     align-items: center;
     margin-right: 5%;
+}
+
+.vertical-line{
+    width: 5px;
+    height: 100%;
+    background-color: $my-dark-color;
 }
 
 .icon-display>mat-icon {
@@ -42,7 +48,7 @@
 
  .task-name{
      width: 30%;
-     font-size: larger;
+     font-size: 2.2vw;
      margin-left: 5%;
      width: 65%;
  }
@@ -55,12 +61,19 @@
      height: 15%;
 }
 
-.add-button{
+.short-statistics-button{
     font-size: 36px !important;
     min-width: 120px !important;
     height: 70% !important;
     border-radius: 25px !important;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+}
+
+.date{
+    font-size: 1.6vw;
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+    color: $my-dark-color;
 }
 
 mat-icon{

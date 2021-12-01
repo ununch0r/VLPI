@@ -1,0 +1,21 @@
+<div style="height: 5%"></div>
+<mat-list role="list">
+    <mat-list-item mat-button role="listitem" *ngFor="let task of tasksObs | async">
+        <div class="list-item">
+            <div>
+                <p class="date">22/11/2021 14:20</p>
+            </div>
+            <div class="vertical-line"></div>
+            <div class="task-name">
+                <p class="task-title">{{task.order}}. {{task.type.name}}</p>
+            </div>
+            <div class="icon-display">
+                <mat-icon (click)="info(task.id)">info</mat-icon>
+            </div>
+        </div>
+    </mat-list-item>
+</mat-list>
+
+<div class="button-container">
+    <button mat-raised-button color="primary" class="short-statistics-button" (click)="onShortStat()">Short Statistics</button>
+</div>

@@ -32,9 +32,11 @@ import { AnswerWebService } from './web-services/answer.web-service';
 import { TaskAccessGuardService } from '../shared/guards/task-access.guard-service';
 import { AnalysisTaskResultComponent } from './tasks/analysis-task/analysis-task-result/analysis-task-result.component';
 import { SystemStateSyncService } from './services/system-state.sync-service';
+import { StatisticsListComponent } from './statistics/statistics-list/statistics-list.component';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
+  { path: 'statistics', component: StatisticsListComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
   { path: 'user', component: UserManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
   { path: 'task', component: TaskManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
   { path: 'edit-task', component: EditTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
@@ -56,7 +58,8 @@ const routes: Routes = [
     EditAnalysisComponent,
     AnalysisTaskComponent,
     EncodePipe,
-    AnalysisTaskResultComponent
+    AnalysisTaskResultComponent,
+    StatisticsListComponent
   ],
   imports: [
     CommonModule,

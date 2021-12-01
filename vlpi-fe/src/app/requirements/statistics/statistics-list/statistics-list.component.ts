@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Task } from 'src/app/shared/models/task.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { TaskSyncService } from '../../services/task.sync-service';
+import { Observable } from 'rxjs';
+import { Task } from 'src/app/shared/models/task.model';
 
 @Component({
-  selector: 'app-task-management',
-  templateUrl: './task-management.component.html',
-  styleUrls: ['./task-management.component.scss']
+  selector: 'app-statistics-list',
+  templateUrl: './statistics-list.component.html',
+  styleUrls: ['./statistics-list.component.scss']
 })
-export class TaskManagementComponent implements OnInit {
+export class StatisticsListComponent implements OnInit {
 
   tasksObs: Observable<Task[]>;
 
@@ -27,7 +27,7 @@ export class TaskManagementComponent implements OnInit {
   }
 
   private setPageName(){
-    this.pageNameService.setPageName("Task management");
+    this.pageNameService.setPageName("User statistic");
   }
 
   private initializeTasks():void{
@@ -38,15 +38,12 @@ export class TaskManagementComponent implements OnInit {
     this.tasksObs = this.taskSyncService.tasksObs;
   }
 
-  deleteTask(taskId: number){
-    this.taskSyncService.deleteTask(taskId);
-  }
-
-  editTask(taskId: number){
+  info(taskId: number){
     this.router.navigate(['edit-task', taskId]);
   }
 
-  addTask(){
-    this.router.navigate(['edit-task']);
+  onShortStat(){
+    
   }
+
 }
