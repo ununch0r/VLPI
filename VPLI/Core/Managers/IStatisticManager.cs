@@ -7,7 +7,7 @@ namespace Core.Managers
     public interface IStatisticManager
     {
         Task<TaskStatistic> GetStatisticByTaskAsync(int taskId);
-        Task<ICollection<TaskStatistic>> GetStatisticByModuleAsync();
+        Task<ModuleStatistic> GetStatisticByModuleAsync();
         Task<GenericUserStatistic> GetGenericUserStatisticAsync(int userId);
         Task<ICollection<UserTaskStatistic>> GetUserStatisticAsync(int userId);
     }

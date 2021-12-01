@@ -58,6 +58,8 @@ namespace Vlpi.Web.Mapper
             CreateMap<CreateAnalysisTaskViewModel, CreateAnalysisTaskModel>();
             CreateMap<CreateAnalysisTaskModel, Task>();
             CreateMap<CreateUserViewModel, User>();
+            CreateMap<ModuleStatistic, ModuleStatisticsViewModel>();
+            CreateMap<ModuleStatisticsViewModel, ModuleStatistic>();
         }
     }
 }

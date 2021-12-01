@@ -6,6 +6,7 @@ using Core.Managers;
 using Core.Repositories;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Entities.Custom.Task;
@@ -42,6 +43,28 @@ namespace Business.Managers
             return CreateResultModel(analysisAnswer, task, score);
         }
 
+        public async Task<List<UserAnswer>> GetUserAnswers(int? userId, int? taskId)
+        {
+            if (userId != null)
+            {
+                var answers = await _answerRepository.GetByUserAsync((int)userId);
+                return answers.ToList();
+            }
+                
+            if (taskId != null)
+            {
+                var data = await _answerRepository.GetByTaskAsync((int)taskId);
+                return data.ToList();
+            }
+
+            return null;
+        }
+
+        public async Task<List<UserAnswer>> GetAllAnswersAsync()
+        {
+            var answers =  await _answerRepository.ListAsync();
+            return answers.ToList();
+        }
         private static AnalysisTaskResult CreateResultModel(AnalysisAnswer analysisAnswer, AnalysisTask task, int score)
         {
             var correctRequirementDescriptions = task.Requirement
