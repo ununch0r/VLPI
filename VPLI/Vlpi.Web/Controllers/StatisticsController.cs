@@ -31,6 +31,10 @@ namespace Vlpi.Web.Controllers
         public async Task<IActionResult> GetStatisticByTaskAsync(int id)
         {
             var taskStatistic = await _statisticManager.GetStatisticByTaskAsync(id);
+            if (taskStatistic == null)
+            {
+                return BadRequest("data is uncorrect");
+            }
             var taskStatisticViewModel = _mapper.Map<TaskStatisticViewModel>(taskStatistic);
             return Ok(taskStatisticViewModel);
         }
@@ -40,8 +44,8 @@ namespace Vlpi.Web.Controllers
         public async Task<IActionResult> GetStatisticByModuleAsync()
         {
             var tasksStatistic = await _statisticManager.GetStatisticByModuleAsync();
-            var taskStatisticViewModels = _mapper.Map<ICollection<TaskStatisticViewModel>>(tasksStatistic);
-            return Ok(taskStatisticViewModels);
+            //var taskStatisticViewModels = _mapper.Map<ICollection<ModuleStatisticsViewModel>>(tasksStatistic);
+            return Ok(tasksStatistic);
         }
 
         [HttpGet]
