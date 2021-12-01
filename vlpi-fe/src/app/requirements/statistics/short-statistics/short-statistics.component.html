@@ -1,0 +1,22 @@
+<ng-container *ngIf="(userShortStatisticObs | async) as statistic">
+    <div class="header">
+        <p class="header-text">Short statistics:</p>
+    </div>
+    <div class="statistic-panel">
+        <div class="statistic-item">
+            <p class="statistic-name">Total attempts</p>
+            <p class="statistic-value">{{statistic.attempts}}</p>
+        </div>
+        <div class="statistic-item">
+            <p class="statistic-name">Passed attempts</p>
+            <p class="statistic-value">{{statistic.passedAttempts}}</p>
+        </div>
+    </div>
+
+    <div class="score">Score: {{statistic.averageScore}}%</div>
+
+    <div class="button-conainer">
+        <button class="overlay-button certificate-button mat-raised-button mat-primary" (click)="onCertificate()">Certificate</button>
+        <button class="overlay-button mat-raised-button mat-warn" (click)="onCancel()">Cancel</button>
+    </div>
+</ng-container>

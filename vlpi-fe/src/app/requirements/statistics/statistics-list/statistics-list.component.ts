@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { TaskSyncService } from '../../services/task.sync-service';
-import { Observable } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { Task } from 'src/app/shared/models/task.model';
 import { StatisticSyncService } from '../../services/statistic.sync-service';
 import { UserTaskStatistic } from 'src/app/shared/models/user-task-statistic.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ShortStatisticsComponent } from '../short-statistics/short-statistics.component';
 
 @Component({
   selector: 'app-statistics-list',
@@ -18,7 +20,8 @@ export class StatisticsListComponent implements OnInit {
 
   constructor(
     private statisticSyncService: StatisticSyncService,
-    private pageNameService: PageNameSyncService
+    private pageNameService: PageNameSyncService,
+    private dialog: MatDialog,
     ) { }
 
   ngOnInit(): void {
@@ -44,7 +47,9 @@ export class StatisticsListComponent implements OnInit {
   }
 
   onShortStat(){
-    
+    const dialogRef = this.dialog.open(ShortStatisticsComponent, {
+      panelClass: 'short-statistic-dialog-container'
+    });
   }
 
 }

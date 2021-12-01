@@ -15,7 +15,6 @@ export class AnalysisTaskResultComponent implements OnInit {
     private dialogRef: MatDialogRef<AnalysisTaskResultComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {taskResult: AnalysisTaskResult}) {
       this.taskResult = data.taskResult;
-      console.log(this.taskResult);
      }
 
   ngOnInit(): void {

@@ -1,0 +1,84 @@
+@import "../../../../styles.scss";
+
+.header{
+    background-color: $my-dark-color;
+    height: 5vw;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-text{
+    margin: 0;
+    text-align: center;
+    color: $my-secondary-color;
+    font-size: 2.5vw;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+p{
+    margin: 0;
+    padding: 0;
+}
+
+.statistic-panel{
+    padding: 10px 0px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 7vw;
+}
+
+.statistic-item{
+    border-radius: 25px;
+    height: 100%;
+    text-align: center;
+    border: 1px solid $my-primary-color;
+}
+
+.statistic-name{
+    font-size: 1.8vw;
+    padding: 10px;
+    font-weight: bold;
+    color: $my-dark-color;
+}
+
+.statistic-value{
+    font-size: 3vw;
+    font-weight: bold;
+    color: $my-dark-color;
+}
+
+.score{
+    font-size: 4.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7.5vw;
+    font-weight: bold;
+    color: $my-dark-color;
+}
+
+.button-conainer{
+    height: 4vw;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+.certificate-button{
+    background-color: $my-dark-color !important;
+    margin-right: 10px !important;
+}
+
+.overlay-button{
+    margin-top: 10px;
+    cursor: pointer !important; 
+    font-size: 1.5vw !important;
+    width: 10vw !important;
+    min-height: 3vw !important;
+    border-radius: 25px !important;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+}

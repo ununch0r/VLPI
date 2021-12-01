@@ -35,6 +35,8 @@ import { SystemStateSyncService } from './services/system-state.sync-service';
 import { StatisticsListComponent } from './statistics/statistics-list/statistics-list.component';
 import { StatisticWebService } from './web-services/statistic.web-service';
 import { StatisticSyncService } from './services/statistic.sync-service';
+import { ShortStatisticsComponent } from './statistics/short-statistics/short-statistics.component';
+import { StatisticInfoComponent } from './statistics/statistic-info/statistic-info.component';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
@@ -61,7 +63,9 @@ const routes: Routes = [
     AnalysisTaskComponent,
     EncodePipe,
     AnalysisTaskResultComponent,
-    StatisticsListComponent
+    StatisticsListComponent,
+    ShortStatisticsComponent,
+    StatisticInfoComponent
   ],
   imports: [
     CommonModule,
@@ -90,7 +94,9 @@ const routes: Routes = [
   ],
   entryComponents:[
     ChooseDifficultyDialogComponent,
-    AnalysisTaskResultComponent
+    AnalysisTaskResultComponent,
+    ShortStatisticsComponent,
+    StatisticInfoComponent
   ]
 })
 export class RequirementsModule { }

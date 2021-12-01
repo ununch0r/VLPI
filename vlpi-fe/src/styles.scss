@@ -158,13 +158,19 @@ button[disabled=true]{
   padding: 0px;
   border-radius: 25px;
   background-color: $my-secondary-color;
-  overflow: visible;
 }
-
 
 .choose-difficulty-dialog-container .mat-dialog-container{
   font-size: 36px;
   justify-content: center;
   background-color: $my-primary-color;
   border-radius: 50px;
+}
+
+.short-statistic-dialog-container .mat-dialog-container {
+  width: 30vw;
+  height: 25vw;
+  padding: 0px;
+  border-radius: 25px;
+  background-color: $my-secondary-color;
 }
