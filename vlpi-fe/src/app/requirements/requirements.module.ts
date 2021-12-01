@@ -31,6 +31,7 @@ import { EncodePipe } from '../shared/pipes/encode.pipe';
 import { AnswerWebService } from './web-services/answer.web-service';
 import { TaskAccessGuardService } from '../shared/guards/task-access.guard-service';
 import { AnalysisTaskResultComponent } from './tasks/analysis-task/analysis-task-result/analysis-task-result.component';
+import { SystemStateSyncService } from './services/system-state.sync-service';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
@@ -77,7 +78,8 @@ const routes: Routes = [
   providers: [
     TaskWebService,
     TaskSyncService,
-    AnswerWebService
+    AnswerWebService,
+    SystemStateSyncService
   ],
   entryComponents:[
     ChooseDifficultyDialogComponent,

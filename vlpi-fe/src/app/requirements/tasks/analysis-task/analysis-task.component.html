@@ -10,7 +10,8 @@
         </div>
         <button [disabled]="tipsCount === usedTipsCount"
                 mat-raised-button color="secondary" 
-                class="action hint-button" 
+                class="action hint-button"
+                *ngIf="hintsEnabledObs | async"
                 (click)="showHint()">
                 Show hint
         </button>

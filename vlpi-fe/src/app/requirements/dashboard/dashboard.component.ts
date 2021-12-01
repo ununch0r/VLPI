@@ -1,16 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+import { first, Observable, Subject, takeUntil, tap } from 'rxjs';
 
 import { SimpleTask } from 'src/app/shared/models/simple-task.model';
 import { Tile } from 'src/app/shared/models/tile.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { DashboardSyncService } from '../services/dashboard.sync-service';
 import { ExecutionModeSyncService } from '../services/execution-mode.sycn-service';
+import { SystemStateSyncService } from '../services/system-state.sync-service';
 import { TaskSyncService } from '../services/task.sync-service';
-import { AnalysisTaskResultComponent } from '../tasks/analysis-task/analysis-task-result/analysis-task-result.component';
-import { TaskWebService } from '../web-services/task.web-service';
 import { ChooseDifficultyDialogComponent } from './choose-difficulty-dialog/choose-difficulty-dialog.component';
 
 @Component({
@@ -23,6 +22,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   checked = true;
   tasksObs: Observable<SimpleTask[]>;
+  hintsEnabledObs: Observable<boolean>;
 
   constructor(
     private router: Router,
@@ -30,7 +30,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private taskSyncService: TaskSyncService,
     private pageNameService: PageNameSyncService,
     private executionModeSyncService: ExecutionModeSyncService,
-    private dashboardSyncService: DashboardSyncService
+    private dashboardSyncService: DashboardSyncService,
+    private systemStateSyncService: SystemStateSyncService
     ) { }
 
   ngOnInit(): void {
@@ -38,6 +39,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loadTasks();
     this.setPageName();
     this.dashboardSyncService.setDashboardVisitedStatus(true);
+    this.setUpSystemTracking();
+  }
+
+  setUpSystemTracking(){
+    this.hintsEnabledObs = this.systemStateSyncService.hintsEnabledObs.pipe(first());
+  }
+
+  onHintsStateChange(values:any){
+    this.systemStateSyncService.setHintsEnabledValue(values.currentTarget.checked);
   }
 
   ngOnDestroy(): void {

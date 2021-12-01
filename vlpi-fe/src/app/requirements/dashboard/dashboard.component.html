@@ -5,7 +5,7 @@
     <div class="column">
         <div class="hints">
             <label for="hints">Hints</label>
-            <input type="checkbox" id="hints">
+            <input type="checkbox" id="hints" (change)="onHintsStateChange($event)" [checked]="hintsEnabledObs | async">
         </div>
     </div>
 </div>

@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { interval, map, Observable, Subject, takeUntil, takeWhile } from 'rxjs';
+import { first, interval, map, Observable, Subject, takeUntil, takeWhile } from 'rxjs';
 import { shuffle } from 'src/app/shared/helpers/task-helper';
 import { AnalysisTaskAnswer } from 'src/app/shared/models/analysis-task-answer.model';
 import { AnalysisTaskResult } from 'src/app/shared/models/analysis-task-result.model';
@@ -13,6 +13,7 @@ import { Requirement } from 'src/app/shared/models/requirement.model';
 import { Task } from 'src/app/shared/models/task.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { ExecutionModeSyncService } from '../../services/execution-mode.sycn-service';
+import { SystemStateSyncService } from '../../services/system-state.sync-service';
 import { TaskSyncService } from '../../services/task.sync-service';
 import { AnswerWebService } from '../../web-services/answer.web-service';
 import { AnalysisTaskResultComponent } from './analysis-task-result/analysis-task-result.component';
@@ -29,6 +30,7 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
   taskId : number;
   taskObs: Observable<Task>;
   executionMode: ExecutionMode;
+  hintsEnabledObs: Observable<boolean>;
 
   inputRequirements: Requirement[] = [];
   explanations: Explanation[] = [];
@@ -54,13 +56,19 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private answerWebService: AnswerWebService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private systemStateSyncService: SystemStateSyncService
     ) { }
 
   ngOnInit(): void {
     this.taskSyncService.reloadTasks();
     this.trackTaskId();
     this.setPageName();
+    this.setUpSystemTracking();
+  }
+
+  setUpSystemTracking(){
+    this.hintsEnabledObs = this.systemStateSyncService.hintsEnabledObs.pipe(first());
   }
 
   ngOnDestroy(): void {
