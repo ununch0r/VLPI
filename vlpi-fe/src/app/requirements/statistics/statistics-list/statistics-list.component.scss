@@ -6,6 +6,10 @@
     margin: 0% 20%;
     min-height: 120px;
   }
+
+  .date-container{
+      width: 25%;
+  }
   
   mat-list-item{
     background-color: #BBD4CE;
@@ -47,10 +51,11 @@
  }
 
  .task-name{
-     width: 30%;
+     width: 40%;
      font-size: 2.2vw;
      margin-left: 5%;
      width: 65%;
+     max-width: 65%;
  }
 
  .button-container{
@@ -74,6 +79,17 @@
     text-align: center;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
     color: $my-dark-color;
+}
+
+.task-title{
+    text-align: center;
+    text-decoration: none; 
+    text-overflow: ellipsis; 
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 3vw;
+    padding: 0;
+    margin: 0;
 }
 
 mat-icon{

@@ -1,16 +1,16 @@
 <div style="height: 5%"></div>
 <mat-list role="list">
-    <mat-list-item mat-button role="listitem" *ngFor="let task of tasksObs | async">
+    <mat-list-item mat-button role="listitem" *ngFor="let statistic of statisticObs | async">
         <div class="list-item">
-            <div>
-                <p class="date">22/11/2021 14:20</p>
+            <div class="date-container">
+                <p class="date">{{statistic.datePassed | date:'dd/MM/yyyy, h:mm a'}}</p>
             </div>
             <div class="vertical-line"></div>
             <div class="task-name">
-                <p class="task-title">{{task.order}}. {{task.type.name}}</p>
+                <p class="task-title">{{statistic.objective}}</p>
             </div>
             <div class="icon-display">
-                <mat-icon (click)="info(task.id)">info</mat-icon>
+                <mat-icon (click)="info(statistic.answerId)">info</mat-icon>
             </div>
         </div>
     </mat-list-item>

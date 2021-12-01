@@ -18,8 +18,7 @@ namespace Vlpi.Web.Controllers
         private readonly IStatisticManager _statisticManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public StatisticsController(
-            IMapper mapper, IStatisticManager statisticManager, IHttpContextAccessor httpContextAccessor)
+        public StatisticsController(IMapper mapper, IStatisticManager statisticManager, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _statisticManager = statisticManager;
@@ -33,7 +32,7 @@ namespace Vlpi.Web.Controllers
             var taskStatistic = await _statisticManager.GetStatisticByTaskAsync(id);
             if (taskStatistic == null)
             {
-                return BadRequest("data is uncorrect");
+                return BadRequest("data is incorrect");
             }
             var taskStatisticViewModel = _mapper.Map<TaskStatisticViewModel>(taskStatistic);
             return Ok(taskStatisticViewModel);
@@ -44,7 +43,6 @@ namespace Vlpi.Web.Controllers
         public async Task<IActionResult> GetStatisticByModuleAsync()
         {
             var tasksStatistic = await _statisticManager.GetStatisticByModuleAsync();
-            //var taskStatisticViewModels = _mapper.Map<ICollection<ModuleStatisticsViewModel>>(tasksStatistic);
             return Ok(tasksStatistic);
         }
 

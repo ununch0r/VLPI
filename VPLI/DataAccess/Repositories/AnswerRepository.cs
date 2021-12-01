@@ -36,7 +36,12 @@ namespace DataAccess.Repositories
 
         public async Task<ICollection<UserAnswer>> GetByUserAsync(int userId)
         {
-            return await _context.UserAnswer.AsNoTracking().Where(ua => ua.UserId == userId).ToListAsync();
+            return await _context.UserAnswer
+                .Include(ua => ua.Task)
+                .ThenInclude(t => t.Type)
+                .AsNoTracking()
+                .Where(ua => ua.UserId == userId)
+                .ToListAsync();
         }
 
         public async Task<ICollection<UserAnswer>> GetByTaskAsync(int taskId)

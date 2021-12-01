@@ -4,6 +4,8 @@ import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-serv
 import { TaskSyncService } from '../../services/task.sync-service';
 import { Observable } from 'rxjs';
 import { Task } from 'src/app/shared/models/task.model';
+import { StatisticSyncService } from '../../services/statistic.sync-service';
+import { UserTaskStatistic } from 'src/app/shared/models/user-task-statistic.model';
 
 @Component({
   selector: 'app-statistics-list',
@@ -12,11 +14,10 @@ import { Task } from 'src/app/shared/models/task.model';
 })
 export class StatisticsListComponent implements OnInit {
 
-  tasksObs: Observable<Task[]>;
+  statisticObs: Observable<UserTaskStatistic[]>;
 
   constructor(
-    private router: Router,
-    private taskSyncService: TaskSyncService,
+    private statisticSyncService: StatisticSyncService,
     private pageNameService: PageNameSyncService
     ) { }
 
@@ -31,15 +32,15 @@ export class StatisticsListComponent implements OnInit {
   }
 
   private initializeTasks():void{
-      this.taskSyncService.reloadTasks();
+      this.statisticSyncService.reloadUserStatistic();
   }
 
   private loadTasks(): void{
-    this.tasksObs = this.taskSyncService.tasksObs;
+    this.statisticObs = this.statisticSyncService.userStatisticObs;
   }
 
-  info(taskId: number){
-    this.router.navigate(['edit-task', taskId]);
+  info(answerId: number){
+
   }
 
   onShortStat(){

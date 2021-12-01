@@ -43,28 +43,21 @@ namespace Business.Managers
             return CreateResultModel(analysisAnswer, task, score);
         }
 
-        public async Task<List<UserAnswer>> GetUserAnswers(int? userId, int? taskId)
+        public async Task<ICollection<UserAnswer>> GetAnswersByUserAsync(int userId)
         {
-            if (userId != null)
-            {
-                var answers = await _answerRepository.GetByUserAsync((int)userId);
-                return answers.ToList();
-            }
-                
-            if (taskId != null)
-            {
-                var data = await _answerRepository.GetByTaskAsync((int)taskId);
-                return data.ToList();
-            }
-
-            return null;
+            return await _answerRepository.GetByUserAsync(userId);
         }
 
-        public async Task<List<UserAnswer>> GetAllAnswersAsync()
+        public async Task<ICollection<UserAnswer>> GetAnswersByTaskAsync(int taskId)
         {
-            var answers =  await _answerRepository.ListAsync();
-            return answers.ToList();
+            return await _answerRepository.GetByTaskAsync(taskId);
         }
+
+        public async Task<ICollection<UserAnswer>> GetAllAnswersAsync()
+        {
+            return  await _answerRepository.ListAsync();
+        }
+
         private static AnalysisTaskResult CreateResultModel(AnalysisAnswer analysisAnswer, AnalysisTask task, int score)
         {
             var correctRequirementDescriptions = task.Requirement

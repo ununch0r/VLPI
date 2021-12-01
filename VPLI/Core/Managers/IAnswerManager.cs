@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Entities.Custom.Answer;
 using Core.Entities.Custom.AnswerResult;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Core.Managers
 {
@@ -10,7 +10,8 @@ namespace Core.Managers
     {
         Task<WritingTaskResult> VerifyWritingAnswerAsync(int userId, WritingAnswer writingAnswer);
         Task<AnalysisTaskResult> VerifyAndSaveAnalysisAnswerAsync(int userId, AnalysisAnswer analysisAnswer);
-        Task<List<UserAnswer>> GetUserAnswers(int? userId, int? taskId);
-        Task<List<UserAnswer>> GetAllAnswersAsync();
+        Task<ICollection<UserAnswer>> GetAnswersByUserAsync(int userId);
+        Task<ICollection<UserAnswer>> GetAnswersByTaskAsync(int taskId);
+        Task<ICollection<UserAnswer>> GetAllAnswersAsync();
     }
 }

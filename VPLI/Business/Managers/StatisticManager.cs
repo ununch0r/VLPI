@@ -2,6 +2,7 @@
 using Core.Managers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Business.Managers
@@ -20,75 +21,74 @@ namespace Business.Managers
         public async Task<TaskStatistic> GetStatisticByTaskAsync(int taskId)
         {
             var task = await _taskManager.GetAsync(taskId);
-            if (task != null)
+            var taskResults = await _answerManager.GetAnswersByTaskAsync(taskId);
+
+            var answersCount = taskResults.Count;
+            var totalScore = 0;
+            var totalTime = 0;
+
+            foreach (var taskResult in taskResults)
             {
-                var taskResults = await _answerManager.GetUserAnswers(userId: null,taskId: taskId);
-                if (taskResults == null || taskResults.Count==0)
-                {
-                    return null;
-                }
-                int answersCount = taskResults.Count;
-                var averageScore = 0;
-                var averageTime = 0;
-                var averageComplexity = task.Complexity;
-
-                foreach (var taskResult in taskResults)
-                {
-                    averageScore+=taskResult.Score;
-                    averageTime += taskResult.TimeSpent;
-
-                }
-
-                return new TaskStatistic 
-                {
-                    AverageScore = averageScore/answersCount,
-                    AverageTime = averageTime/answersCount,
-                    Complexity = averageComplexity,
-                    Objective = "some objective",
-                    TaskId = taskId,
-                    UserAnswersCount = answersCount
-                };
-            } else 
-            {
-                return null;
+                totalScore += taskResult.Score;
+                totalTime += taskResult.TimeSpent;
             }
-            
-            //throw new NotImplementedException();
+
+            return new TaskStatistic
+            {
+                AverageScore = totalScore / (answersCount * 1.0),
+                AverageTime = totalTime / answersCount,
+                Complexity = task.Complexity,
+                Objective = task.Objective,
+                TaskId = taskId,
+                UserAnswersCount = answersCount
+            };
         }
 
         public async Task<ModuleStatistic> GetStatisticByModuleAsync()
         {
-                var taskResults = await _answerManager.GetAllAnswersAsync();
-                if (taskResults == null || taskResults.Count == 0)
-                {
-                    return null;
-                }
-                int answersCount = taskResults.Count;
-                var averageScore = 0;
-                var averageTime = 0;
+            var taskResults = await _answerManager.GetAllAnswersAsync();
+            var totalResult = 0;
+            var totalTime = 0;
 
-                foreach (var taskResult in taskResults)
-                {
-                    averageScore += taskResult.Score;
-                    averageTime += taskResult.TimeSpent;
-                }
+            foreach (var taskResult in taskResults)
+            {
+                totalResult += taskResult.Score;
+                totalTime += taskResult.TimeSpent;
+            }
 
-                return new ModuleStatistic
-                {
-                    AverageScore = averageScore / answersCount,
-                    AverageTime = averageTime / answersCount,
-                    UserAnswersCount = answersCount
-                };
+            return new ModuleStatistic
+            {
+                AverageScore = totalResult / (taskResults.Count * 1.0),
+                AverageTime = totalTime / taskResults.Count,
+                UserAnswersCount = taskResults.Count
+            };
         }
 
-        public Task<GenericUserStatistic> GetGenericUserStatisticAsync(int userId)
+        public async Task<GenericUserStatistic> GetGenericUserStatisticAsync(int userId)
         {
-            throw new NotImplementedException();
+            var userAnswers = await _answerManager.GetAnswersByUserAsync(userId);
+
+            return new GenericUserStatistic
+            {
+                Attempts = userAnswers.Count,
+                AverageScore = userAnswers.Average(ua => ua.Score),
+                AverageTime = (int)userAnswers.Average(ua => ua.TimeSpent),
+                PassedAttempts = userAnswers.Count(ua => ua.Score == 100)
+            };
         }
 
-        public Task<ICollection<UserTaskStatistic>> GetUserStatisticAsync(int userId)
+        public async Task<ICollection<UserTaskStatistic>> GetUserStatisticAsync(int userId)
         {
-            throw new NotImplementedException();
+            var userAnswers = await _answerManager.GetAnswersByUserAsync(userId);
+
+            return userAnswers.Select(u => new UserTaskStatistic
+            {
+                Objective = u.Task.Objective,
+                DatePassed = u.ExecutionDate,
+                Score = u.Score,
+                TaskType = u.Task.Type.Name,
+                TimeSpent = u.TimeSpent
+            }).ToList();
         }
     }
 }

@@ -33,6 +33,8 @@ import { TaskAccessGuardService } from '../shared/guards/task-access.guard-servi
 import { AnalysisTaskResultComponent } from './tasks/analysis-task/analysis-task-result/analysis-task-result.component';
 import { SystemStateSyncService } from './services/system-state.sync-service';
 import { StatisticsListComponent } from './statistics/statistics-list/statistics-list.component';
+import { StatisticWebService } from './web-services/statistic.web-service';
+import { StatisticSyncService } from './services/statistic.sync-service';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
@@ -82,7 +84,9 @@ const routes: Routes = [
     TaskWebService,
     TaskSyncService,
     AnswerWebService,
-    SystemStateSyncService
+    SystemStateSyncService,
+    StatisticWebService,
+    StatisticSyncService
   ],
   entryComponents:[
     ChooseDifficultyDialogComponent,
