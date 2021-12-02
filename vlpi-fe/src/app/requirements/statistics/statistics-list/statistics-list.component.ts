@@ -8,6 +8,7 @@ import { StatisticSyncService } from '../../services/statistic.sync-service';
 import { UserTaskStatistic } from 'src/app/shared/models/user-task-statistic.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ShortStatisticsComponent } from '../short-statistics/short-statistics.component';
+import { StatisticInfoComponent } from '../statistic-info/statistic-info.component';
 
 @Component({
   selector: 'app-statistics-list',
@@ -43,7 +44,11 @@ export class StatisticsListComponent implements OnInit {
   }
 
   info(answerId: number){
-
+    let userAnswer = this.statisticSyncService.userStatistic.find(stat => stat.answerId === answerId);
+    const dialogRef = this.dialog.open(StatisticInfoComponent, {
+      panelClass: 'statistic-info-dialog-container',
+      data: {statistic: userAnswer}
+    });
   }
 
   onShortStat(){

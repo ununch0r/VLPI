@@ -32,7 +32,7 @@ export class ShortStatisticsComponent implements OnInit {
   }
 
   onCertificate(){
-
+    this.dialogRef.close();
   }
 
   onCancel(){

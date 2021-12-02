@@ -174,3 +174,11 @@ button[disabled=true]{
   border-radius: 25px;
   background-color: $my-secondary-color;
 }
+
+.statistic-info-dialog-container .mat-dialog-container {
+  width: 50vw;
+  height: 35vw;
+  padding: 0px;
+  border-radius: 25px;
+  background-color: $my-secondary-color;
+}

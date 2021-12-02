@@ -1,1 +1,39 @@
-<p>statistic-info works!</p>
+<div class="header">
+    <p class="header-text">
+        Task info:
+    </p>
+</div>
+
+<div class="content-container">
+    <div class="row item-row">
+        <div class="col col-50 item">
+            <p class="item-header">Task type:</p>
+            <p class="item-value">{{statistic.taskType}}</p>
+        </div>
+        <div class="col col-50 item">
+            <p class="item-header">Objective:</p>
+            <p class="item-value">{{statistic.objective}}</p>
+        </div>
+    </div>
+    <div class="row item-row">
+        <div class="col col-50 item">
+            <p class="item-header">Passing date:</p>
+            <p class="item-value">{{statistic.datePassed | date:'dd/MM/yyyy, h:mm a'}}</p>
+        </div>
+        <div class="col col-50 item">
+            <p class="item-header">Time spent:</p>
+            <p class="item-value">{{statistic.timeSpent}} seconds</p>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-center">
+    <div class="col col-50 item">
+        <p class="score-header">Score:</p>
+        <p class="score-value">{{statistic.score}}%</p>
+    </div>
+</div>
+
+<div class="button-conainer">
+    <button class="overlay-button certificate-button mat-raised-button mat-primary" (click)="onOk()">Ok</button>
+</div>

@@ -83,6 +83,7 @@ namespace Business.Managers
 
             return userAnswers.Select(u => new UserTaskStatistic
             {
+                AnswerId = u.Id,
                 Objective = u.Task.Objective,
                 DatePassed = u.ExecutionDate,
                 Score = u.Score,

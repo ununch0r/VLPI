@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UserTaskStatistic } from 'src/app/shared/models/user-task-statistic.model';
 
 @Component({
   selector: 'app-statistic-info',
@@ -6,10 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./statistic-info.component.scss']
 })
 export class StatisticInfoComponent implements OnInit {
+  statistic: UserTaskStatistic;
 
-  constructor() { }
+  constructor(
+    private dialogRef: MatDialogRef<StatisticInfoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {statistic: UserTaskStatistic}) {
+      this.statistic = data.statistic;
+     }
 
   ngOnInit(): void {
   }
 
+  onOk(){
+    this.dialogRef.close();
+  }
 }

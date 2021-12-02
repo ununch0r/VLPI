@@ -1,8 +1,8 @@
 export interface UserTaskStatistic{
-    answerId: string;
+    answerId: number;
     taskType : string;
     objective: string;
-    timeSpent: string;
+    timeSpent: number;
     datePassed: string;
     score: number;
 }
