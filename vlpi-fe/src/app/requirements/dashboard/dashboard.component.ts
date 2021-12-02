@@ -6,6 +6,7 @@ import { first, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { SimpleTask } from 'src/app/shared/models/simple-task.model';
 import { Tile } from 'src/app/shared/models/tile.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
+import { UserSyncService } from 'src/app/shared/services/user.sync.service';
 import { DashboardSyncService } from '../services/dashboard.sync-service';
 import { ExecutionModeSyncService } from '../services/execution-mode.sycn-service';
 import { SystemStateSyncService } from '../services/system-state.sync-service';
@@ -31,7 +32,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private pageNameService: PageNameSyncService,
     private executionModeSyncService: ExecutionModeSyncService,
     private dashboardSyncService: DashboardSyncService,
-    private systemStateSyncService: SystemStateSyncService
+    private systemStateSyncService: SystemStateSyncService,
+    private userService: UserSyncService
     ) { }
 
   ngOnInit(): void {
@@ -67,9 +69,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.tasksObs = this.taskSyncService.simpleTaskObs;
   }
 
-  tiles: Tile[] = [
-    {header: 'Statistics', text: 'Check your statistics', navigation: '/statistics'},
-    {header: 'Administration', text: 'Manage tasks and users', navigation: '/administration'}
+  tiles = [
+    {header: 'Statistics', text: 'Check your statistics', navigation: '/statistics', isVisible: true},
+    {header: 'Administration', text: 'Manage tasks and users', navigation: '/administration', isVisible: this.userService.isUserAdmin()}
     ];
 
     goToSubModule(navigationPath: string){

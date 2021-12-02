@@ -51,6 +51,8 @@ namespace DataAccess.Repositories
         public async Task<User> GetAsync(int id)
         {
             return await _context.User
+                .Include(u => u.UserRole)
+                .ThenInclude(ur => ur.Role)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(u => u.Id == id);
         }
@@ -67,6 +69,7 @@ namespace DataAccess.Repositories
             var hashedPassword = GetHashedPassword(password);
             var user = await _context.User
                 .Include(u => u.UserRole)
+                .ThenInclude(ur => ur.Role)
                 .SingleOrDefaultAsync(u =>
                     u.Email == email && u.Password == hashedPassword);
             return user;

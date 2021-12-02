@@ -27,7 +27,8 @@ namespace Vlpi.Web.Mapper
             CreateMap<Task, TaskViewModel>();
             CreateMap<ExecutionMode, ExecutionModeViewModel>();
             CreateMap<RequirementType, RequirementTypeViewModel>();
-            CreateMap<User, UserViewModel>();
+            CreateMap<User, UserViewModel>().ForMember(dest => dest.Roles,
+                opt => opt.MapFrom(src => src.UserRole.Select(ur => ur.Role.Name)));
             CreateMap<AnalysisTaskResult, AnalysisTaskResultViewModel>();
             CreateMap<WritingTaskResult, WritingTaskResultViewModel>();
             CreateMap<WrittenRequirementTemplateAnswer, WrittenRequirementTemplateAnswerViewModel>();

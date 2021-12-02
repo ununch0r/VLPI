@@ -35,4 +35,8 @@ export class UserSyncService {
     setUser(user: User){
         this.userSubj.next(user)
     }
+
+    isUserAdmin(): boolean{
+        return this.currentUser.roles.findIndex(role => role ==='Admin') !== -1;
+    }
 }

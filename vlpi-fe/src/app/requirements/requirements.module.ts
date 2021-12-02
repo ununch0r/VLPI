@@ -37,16 +37,17 @@ import { StatisticWebService } from './web-services/statistic.web-service';
 import { StatisticSyncService } from './services/statistic.sync-service';
 import { ShortStatisticsComponent } from './statistics/short-statistics/short-statistics.component';
 import { StatisticInfoComponent } from './statistics/statistic-info/statistic-info.component';
+import { AdminGuardService } from '../shared/guards/admin.guard-service';
 
 const routes: Routes = [
-  { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
+  { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService, AdminGuardService], resolve:[UserResolverService]},
   { path: 'statistics', component: StatisticsListComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
   { path: 'user', component: UserManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
   { path: 'task', component: TaskManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
-  { path: 'edit-task', component: EditTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
-  { path: 'edit-task/writing', component: EditWritingComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
-  { path: 'edit-task/:id', component: EditTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
-  { path: 'edit-task/:id/writing', component: EditWritingComponent, canActivate:[AuthGuardService],resolve:[UserResolverService] },
+  { path: 'edit-task', component: EditTaskComponent, canActivate:[AuthGuardService,AdminGuardService], resolve:[UserResolverService] },
+  { path: 'edit-task/writing', component: EditWritingComponent, canActivate:[AuthGuardService,AdminGuardService], resolve:[UserResolverService] },
+  { path: 'edit-task/:id', component: EditTaskComponent, canActivate:[AuthGuardService,AdminGuardService], resolve:[UserResolverService] },
+  { path: 'edit-task/:id/writing', component: EditWritingComponent, canActivate:[AuthGuardService,AdminGuardService],resolve:[UserResolverService] },
   { path: 'analysis-task/:id', component: AnalysisTaskComponent, canActivate:[AuthGuardService, TaskAccessGuardService],resolve:[UserResolverService] },
 ];
 

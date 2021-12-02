@@ -19,12 +19,14 @@
     </div>
     <div class="column">
         <mat-grid-list cols="1" rowHeight="240px" gutterSize="20px" class="list">
-            <mat-grid-tile *ngFor="let tile of tiles" class="rounded-item" (click)="goToSubModule(tile.navigation)">
-                <h1 class="tile-header">{{tile.header}}</h1>
-                <mat-grid-tile-footer class="rounded-item footer">
-                    <p class="tile-text">{{tile.text}}</p>
-                </mat-grid-tile-footer>
-            </mat-grid-tile>
+            <ng-container *ngFor="let tile of tiles">
+                <mat-grid-tile  *ngIf="tile.isVisible" class="rounded-item" (click)="goToSubModule(tile.navigation)">
+                    <h1 class="tile-header">{{tile.header}}</h1>
+                    <mat-grid-tile-footer class="rounded-item footer">
+                        <p class="tile-text">{{tile.text}}</p>
+                    </mat-grid-tile-footer>
+                </mat-grid-tile>
+            </ng-container>
         </mat-grid-list> 
     </div>
 </div>
