@@ -6,13 +6,13 @@ import { ExecutionMode } from "../models/execution-mode.model";
 
 @Injectable({providedIn: 'root'})
 export class ExecutionModeResolverService implements Resolve<ExecutionMode[]>{
-    constructor(private executionModeService: ExecutionModeSyncService, private utilsService: UtilsWebService){}
+    constructor(private executionModeService: ExecutionModeSyncService){}
 
     resolve(route : ActivatedRouteSnapshot, state : RouterStateSnapshot){
         let executionModes = this.executionModeService.executionModes;
         if(executionModes === undefined)
         {
-            return this.utilsService.getExecutionModes();
+            return this.executionModeService.reloadExecutionModes();
         }
         else{
             return executionModes;

@@ -57,6 +57,8 @@ export class TaskSyncService {
       {
         this.requirementTypesSubj.next(types)
       });
+
+    return this.requirementTypes;
   }
 
   deleteTask(taskId: number){
