@@ -5,6 +5,7 @@ import { TaskType } from "./task-type.model";
 
 export interface Task{
     id: number;
+    complexity: number;
     objective: string;
     order: number;
     description : string;

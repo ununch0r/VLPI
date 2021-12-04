@@ -45,7 +45,6 @@ namespace Vlpi.Web.Controllers
             return Ok(taskViewModels);
         }
 
-
         [HttpPost]
         [Route("")]
         public async Task<IActionResult> CreateTaskAsync([FromBody] [Required] CreateTaskViewModel createTaskViewModel)

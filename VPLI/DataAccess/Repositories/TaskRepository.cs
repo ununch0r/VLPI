@@ -27,18 +27,9 @@ namespace DataAccess.Repositories
             var taskToUpdate = await _context.Task.SingleOrDefaultAsync(t => t.Id == taskId);
 
             taskToUpdate.Complexity = task.Complexity;
-            taskToUpdate.Description = task.Description;
             taskToUpdate.Objective = task.Objective;
-            taskToUpdate.StandardAnswer = taskToUpdate.StandardAnswer;
-            taskToUpdate.PhotoUrl = taskToUpdate.PhotoUrl;
 
-            var requirementsToRemove =
-               await _context.Requirement.Where(requirement => requirement.TaskId == taskId).ToListAsync();
-            _context.Requirement.RemoveRange(requirementsToRemove);
-            await _context.Requirement.AddRangeAsync(task.Requirement);
-
-            var tipsToRemove =
-               await _context.TaskTip.Where(taskTip => taskTip.TaskId == taskId).ToListAsync();
+            var tipsToRemove = await _context.TaskTip.Where(taskTip => taskTip.TaskId == taskId).ToListAsync();
             _context.TaskTip.RemoveRange(tipsToRemove);
             await _context.TaskTip.AddRangeAsync(task.TaskTip);
 
