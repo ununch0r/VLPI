@@ -29,7 +29,6 @@ import { UserResolverService } from '../shared/resolvers/user.resolver-service';
 import { AnalysisTaskComponent } from './tasks/analysis-task/analysis-task.component';
 import { EncodePipe } from '../shared/pipes/encode.pipe';
 import { AnswerWebService } from './web-services/answer.web-service';
-import { TaskAccessGuardService } from '../shared/guards/task-access.guard-service';
 import { AnalysisTaskResultComponent } from './tasks/analysis-task/analysis-task-result/analysis-task-result.component';
 import { SystemStateSyncService } from './services/system-state.sync-service';
 import { StatisticsListComponent } from './statistics/statistics-list/statistics-list.component';
@@ -44,11 +43,8 @@ const routes: Routes = [
   { path: 'statistics', component: StatisticsListComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
   { path: 'user', component: UserManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
   { path: 'task', component: TaskManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
-  { path: 'edit-task', component: EditTaskComponent, canActivate:[AuthGuardService,AdminGuardService], resolve:[UserResolverService] },
-  { path: 'edit-task/writing', component: EditWritingComponent, canActivate:[AuthGuardService,AdminGuardService], resolve:[UserResolverService] },
+  { path: 'edit-task', component: EditTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
   { path: 'edit-task/:id', component: EditTaskComponent, canActivate:[AuthGuardService,AdminGuardService], resolve:[UserResolverService] },
-  { path: 'edit-task/:id/writing', component: EditWritingComponent, canActivate:[AuthGuardService,AdminGuardService],resolve:[UserResolverService] },
-  { path: 'analysis-task/:id', component: AnalysisTaskComponent, canActivate:[AuthGuardService, TaskAccessGuardService],resolve:[UserResolverService] },
 ];
 
 @NgModule({

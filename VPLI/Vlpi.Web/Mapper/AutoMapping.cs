@@ -44,10 +44,15 @@ namespace Vlpi.Web.Mapper
             CreateMap<Explanation, ExplanationViewModel>();
             CreateMap<Task, AnalysisTask>().ForMember(dest => dest.StandardAnswer,
                 opt => opt.MapFrom(src => JsonConvert.DeserializeObject<RequirementsAnalysisTaskTemplateAnswer>(src.StandardAnswer)));
+            CreateMap<Task, WritingTask>().ForMember(dest => dest.StandardAnswer,
+                opt => opt.MapFrom(src => JsonConvert.DeserializeObject<WritingRequirementsTaskTemplateAnswer>(src.StandardAnswer)));
 
 
-            CreateMap<CreateRequirementViewModel, Requirement>().ForMember(dest => dest.Explanation,
-                opt => opt.MapFrom(src => src.Explanation == null?null:new Explanation{Content = src.Explanation}));
+            CreateMap<CreateRequirementViewModel, Requirement>()
+                .ForMember(dest => dest.Explanation,
+                    opt => opt.MapFrom(src => src.Explanation == null ? null : new Explanation { Content = src.Explanation }))
+                .ForMember(dest => dest.Explanation,
+                    opt => opt.MapFrom(src => src.Continuation == null ? null : new Continuation { Content = src.Continuation }));
             CreateMap<CreateTaskTipViewModel, TaskTip>();
             CreateMap<CreateTaskViewModel, Task>();
             CreateMap<AnalysisAnswerViewModel, AnalysisAnswer>();
@@ -57,7 +62,9 @@ namespace Vlpi.Web.Mapper
             CreateMap<WritingRequirementViewModel, WritingRequirement>();
             CreateMap<UserViewModel, User>();
             CreateMap<CreateAnalysisTaskViewModel, CreateAnalysisTaskModel>();
+            CreateMap<CreateWritingTaskViewModel, CreateWritingTaskModel>();
             CreateMap<CreateAnalysisTaskModel, Task>();
+            CreateMap<CreateWritingTaskModel, Task>();
             CreateMap<CreateUserViewModel, User>();
             CreateMap<ModuleStatistic, ModuleStatisticsViewModel>();
             CreateMap<ModuleStatisticsViewModel, ModuleStatistic>();

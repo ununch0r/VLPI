@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace Core.Entities.Custom.AnswerTemplates
+﻿namespace Core.Entities.Custom.AnswerTemplates
 {
     public class WrittenRequirementTemplateAnswer
     {
+        public int RequirementId { get; set; }
         public int RequirementTypeId { get; set; }
-        public IEnumerable<string> PossibleRequirementStatements { get; set; }
+        public int ContinuationId { get; set; }
     }
 }

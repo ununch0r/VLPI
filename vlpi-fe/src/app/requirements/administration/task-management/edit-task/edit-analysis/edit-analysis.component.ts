@@ -5,6 +5,7 @@ import { TaskSyncService } from 'src/app/requirements/services/task.sync-service
 import { AnalysisTask } from 'src/app/shared/models/analysis-task.model';
 import { RequirementWithExplanation } from 'src/app/shared/models/requirement-with-explanation.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
+import { UserSyncService } from 'src/app/shared/services/user.sync.service';
 
 @Component({
   selector: 'app-edit-analysis',
@@ -19,10 +20,10 @@ export class EditAnalysisComponent implements OnInit {
   constructor(
     private pageNameService: PageNameSyncService,
     private taskSyncService: TaskSyncService,
-    private router: Router) { }
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
-
     this.initForm();
     this.setPageName();
   }

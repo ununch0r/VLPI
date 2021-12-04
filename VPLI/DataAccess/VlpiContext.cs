@@ -1,10 +1,6 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
-
 namespace DataAccess
 {
     public partial class VLPIContext : DbContext
@@ -18,6 +14,7 @@ namespace DataAccess
         {
         }
 
+        public virtual DbSet<Continuation> Continuation { get; set; }
         public virtual DbSet<ExecutionMode> ExecutionMode { get; set; }
         public virtual DbSet<Explanation> Explanation { get; set; }
         public virtual DbSet<Requirement> Requirement { get; set; }
@@ -30,8 +27,16 @@ namespace DataAccess
         public virtual DbSet<UserAnswer> UserAnswer { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Continuation>(entity =>
+            {
+                entity.Property(e => e.Content)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
             modelBuilder.Entity<ExecutionMode>(entity =>
             {
                 entity.Property(e => e.Name)
@@ -50,6 +55,11 @@ namespace DataAccess
             {
                 entity.Property(e => e.Description).IsRequired();
 
+                entity.HasOne(d => d.Continuation)
+                    .WithMany(p => p.Requirement)
+                    .HasForeignKey(d => d.ContinuationId)
+                    .HasConstraintName("FK_Requirement_Continuation");
+
                 entity.HasOne(d => d.Explanation)
                     .WithMany(p => p.Requirement)
                     .HasForeignKey(d => d.ExplanationId)
@@ -60,6 +70,11 @@ namespace DataAccess
                     .WithMany(p => p.Requirement)
                     .HasForeignKey(d => d.TaskId)
                     .HasConstraintName("FK_RequirementAnalysisTaskContent_Task");
+
+                entity.HasOne(d => d.Type)
+                    .WithMany(p => p.Requirement)
+                    .HasForeignKey(d => d.TypeId)
+                    .HasConstraintName("FK_Requirement_RequirementType");
             });
 
             modelBuilder.Entity<RequirementType>(entity =>

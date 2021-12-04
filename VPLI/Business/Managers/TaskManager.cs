@@ -30,9 +30,35 @@ namespace Business.Managers
             await _taskRepository.AddAsync(task);
         }
 
+        public async System.Threading.Tasks.Task AddWritingAsync(CreateWritingTaskModel task)
+        {
+            var taskModel = _mapper.Map<Task>(task);
+            var addedTask = await _taskRepository.AddAsync(taskModel);
+
+            foreach (var requirement in task.Requirements)
+            {
+                requirement.TaskId = addedTask.Id;
+            }
+
+            var requirements = await _requirementManager.AddBulkAsync(task.Requirements);
+
+            var standardAnswer = new WritingRequirementsTaskTemplateAnswer
+            {
+                AcceptableSystemNames = task.SystemNames,
+                TemplateAnswers = requirements.Select(requirement => new WrittenRequirementTemplateAnswer
+                {
+                    RequirementId = requirement.Id,
+                    ContinuationId = requirement.ContinuationId.Value,
+                    RequirementTypeId = requirement.TypeId.Value
+                })
+            };
+
+            var serializedStandardAnswer = JsonConvert.SerializeObject(standardAnswer);
+            await _taskRepository.AddStandardAnswerAsync(addedTask.Id, serializedStandardAnswer);
+        }
+
         public async System.Threading.Tasks.Task AddAnalysisAsync(CreateAnalysisTaskModel task)
         {
-
             var taskModel = _mapper.Map<Task>(task);
             var addedTask = await _taskRepository.AddAsync(taskModel);
 
@@ -88,6 +114,12 @@ namespace Business.Managers
         {
             var task = await _taskRepository.GetAsync(id);
             return _mapper.Map<AnalysisTask>(task);
+        }
+
+        public async System.Threading.Tasks.Task<WritingTask> GetWritingTaskAsync(int id)
+        {
+            var task = await _taskRepository.GetAsync(id);
+            return _mapper.Map<WritingTask>(task);
         }
 
         public async System.Threading.Tasks.Task<IList<TaskCustomModel>> ListAsync()

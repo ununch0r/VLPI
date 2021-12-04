@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Task } from 'src/app/shared/models/task.model';
 import { AnalysisTask } from 'src/app/shared/models/analysis-task.model';
+import { WritingTask } from 'src/app/shared/models/writing-task.model';
 
 const prefix: string = 'task';
 
@@ -19,5 +20,9 @@ export class TaskWebService {
 
   createAnalysisTask(task : AnalysisTask){
     return this.http.post(prefix+ '/' + 'analysis', task)
+  }
+
+  createWritingTask(task : WritingTask){
+    return this.http.post(prefix+ '/' + 'writing', task)
   }
 }

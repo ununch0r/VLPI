@@ -3,6 +3,7 @@ import { map, Observable, Subject, tap } from 'rxjs';
 import { AnalysisTask } from 'src/app/shared/models/analysis-task.model';
 import { SimpleTask } from 'src/app/shared/models/simple-task.model';
 import { Task } from 'src/app/shared/models/task.model';
+import { WritingTask } from 'src/app/shared/models/writing-task.model';
 import { TaskWebService } from '../web-services/task.web-service';
 
 @Injectable()
@@ -43,6 +44,11 @@ export class TaskSyncService {
 
   createAnalysisTask(task: AnalysisTask){
     this.taskWebService.createAnalysisTask(task).subscribe(result => 
+      this.reloadTasks());
+  }
+
+  createWritingTask(task: WritingTask){
+    this.taskWebService.createWritingTask(task).subscribe(result => 
       this.reloadTasks());
   }
   

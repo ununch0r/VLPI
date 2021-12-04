@@ -13,8 +13,12 @@ namespace Core.Entities
         public string Description { get; set; }
         public bool IsCorrect { get; set; }
         public int? ExplanationId { get; set; }
+        public int? ContinuationId { get; set; }
+        public int? TypeId { get; set; }
 
+        public virtual Continuation Continuation { get; set; }
         public virtual Explanation Explanation { get; set; }
         public virtual Task Task { get; set; }
+        public virtual RequirementType Type { get; set; }
     }
 }

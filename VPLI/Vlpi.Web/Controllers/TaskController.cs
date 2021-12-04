@@ -64,6 +64,15 @@ namespace Vlpi.Web.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("writing")]
+        public async Task<IActionResult> CreateWritingTaskAsync([FromBody][Required] CreateWritingTaskViewModel createTaskViewModel)
+        {
+            var taskEntity = _mapper.Map<CreateWritingTaskModel>(createTaskViewModel);
+            await _taskManager.AddWritingAsync(taskEntity);
+            return Ok();
+        }
+
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)

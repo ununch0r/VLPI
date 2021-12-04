@@ -1,1 +1,83 @@
-<p>edit-writing works!</p>
+<ng-container>
+    <div class="form-container">
+        <div class="direction-ltr">
+            <form [formGroup] = "writingForm" (ngSubmit)="onSubmit()" class="writing-form">
+                <div class="row">
+                    <label for="photoUrl" class="col col-25">Photo url:</label>
+                    <div class="col col-75">
+                        <input
+                        type="text"
+                        id="photoUrl"
+                        rows="2"
+                        class="form-control"
+                        formControlName="photoUrl"/>
+                    </div>
+                </div>
+    
+                <hr>
+
+                <div class="row justify-center section-header">
+                    Requirements with continuation
+                </div>
+
+                <div class="row">
+                    <div class="requirements" formArrayName="requirements">
+                        <div
+                            *ngFor="let requirement of writingForm.get('requirements')['controls']; let i = index"
+                            [formGroupName]="i"
+                            style="margin-top: 10px;">
+                            <div class="row">
+                                <div class="col col-75">
+                                    <input 
+                                        type="text" 
+                                        class="form-control"
+                                        placeholder="Requirement beginning..."
+                                        formControlName="description">
+                                </div>
+                                <div class="col col-25 justify-center">
+                                    <button type="button"
+                                        mat-raised-button
+                                        color="warn"
+                                        (click)="onDeleteRequirement(i, 'requirements')">X</button>
+                                </div>
+                            </div>
+                            <div class="col col-75" style="width: 75%;">
+                                <input 
+                                    type="text" 
+                                    class="form-control"
+                                    placeholder="Continuation..."
+                                    formControlName="continuation">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-end">
+                    <div class="col col-75 tip" *ngIf="showTip('requirements')">
+                        Click 'Add' to add a new requirement
+                    </div>
+                    <div class="col  col-25 justify-center">
+                        <button mat-raised-button 
+                        style="margin-top: 10px"
+                        type="button"
+                        (click)="onAddRequirement('requirements')"
+                        color="primary">
+                        Add</button>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row justify-center">
+                    <div class="col">
+                        <button mat-raised-button
+                        [disabled]="!writingForm.valid"
+                        color="primary"
+                        class="submit" >
+                         Create
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> 
+</ng-container>
