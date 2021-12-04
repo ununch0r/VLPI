@@ -39,10 +39,12 @@ export class EditWritingComponent implements OnInit {
   initForm() {
     let photoUrl = '';
     let requirements = new FormArray([]);
+    let systemNames = new FormArray([]);
 
     this.writingForm = new FormGroup({
       'photoUrl' : new FormControl(photoUrl, [Validators.required]),
-      'requirements' : requirements
+      'requirements' : requirements,
+      'systemNames' : systemNames
     })
   }
 
@@ -59,19 +61,33 @@ export class EditWritingComponent implements OnInit {
     )
   }
 
+  onAddSystemName(arrayName: string){
+    (<FormArray>this.writingForm.get(arrayName)).push(
+      new FormGroup({
+        'name': new FormControl(''),
+      })
+    )
+  }
+
   onSubmit(){
     this.initWritingTask();
-    this.taskSyncService.createWritingTask(this.writingTask);
-    this.router.navigate(['task'])
+    console.log(this.writingTask);
+    //this.taskSyncService.createWritingTask(this.writingTask);
+    //this.router.navigate(['task'])
   }
 
   initWritingTask(){
+    console.log(this.writingForm);
     let formRequirements = (<FormArray>this.writingForm.get('requirements'));
+    let formSystemNames = (<FormArray>this.writingForm.get('systemNames'));
+
     let requirements : RequirementWithContinuation[] = formRequirements.value.map(requirement => 
-      ({ photoUrl: requirement.photoUrl, continuation: requirement.continuation } as RequirementWithContinuation));
+      ({ description: requirement.description, continuation: requirement.continuation } as RequirementWithContinuation));
+    let systemNames : string[] = formSystemNames.value;
 
     this.writingTask.photoUrl = this.writingForm.value.photoUrl;
     this.writingTask.requirement = requirements;
+    this.writingTask.systemNames = systemNames;
   }
 
   showTip(arrayName) : boolean{

@@ -97,7 +97,7 @@
     </div>    
 </ng-container>
 <ng-container *ngIf="step === 2 && taskType === 1">
-    <app-edit-writing></app-edit-writing>
+    <app-edit-writing [writingTask]="createTask"></app-edit-writing>
 </ng-container>
 <ng-container *ngIf="step === 2 && taskType === 2">
     <app-edit-analysis [analysisTask]="createTask"></app-edit-analysis>

@@ -1,4 +1,4 @@
 export interface RequirementWithContinuation{
-    photoUrl: string;
+    description: string;
     continuation: string;
 }

@@ -31,7 +31,7 @@ export class EditTaskComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.step = 2;
+    this.step = 1;
     this.taskType = 1;
 
     this.route.params

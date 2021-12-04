@@ -13,6 +13,48 @@
                         formControlName="photoUrl"/>
                     </div>
                 </div>
+
+                <hr>
+
+                <div class="row justify-center section-header">
+                    System names
+                </div>
+    
+                <div class="row">
+                    <div class="requirements" formArrayName="systemNames">
+                        <div class="row"
+                            *ngFor="let systemName of writingForm.get('systemNames')['controls']; let i = index"
+                            [formGroupName]="i"
+                            style="margin-top: 10px;">
+                            <div class="col col-75">
+                                <input 
+                                    type="text" 
+                                    class="form-control"
+                                    placeholder="System name..."
+                                    formControlName="name">
+                            </div>
+                            <div class="col col-25 justify-center">
+                                <button type="button"
+                                    mat-raised-button
+                                    color="warn"
+                                    (click)="onDeleteRequirement(i, 'systemNames')">X</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-end">
+                    <div class="col col-75 tip" *ngIf="showTip('systemNames')">
+                        Click 'Add' to add a new system name
+                    </div>
+                    <div class="col col-25 justify-center">
+                        <button mat-raised-button 
+                        style="margin-top: 10px"
+                        type="button"
+                        (click)="onAddSystemName('systemNames')"
+                        color="primary">
+                        Add</button>
+                    </div>
+                </div>
     
                 <hr>
 
