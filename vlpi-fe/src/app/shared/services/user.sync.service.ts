@@ -24,12 +24,13 @@ export class UserSyncService {
     }
 
     setCurrentUser(){
-        this.userWebService.getCurrentUser().subscribe(user => 
+        var userObs = this.userWebService.getCurrentUser();
+        userObs.subscribe(user => 
             {
                 this.userSubj.next(user);
                 this.currentUser = user;
             })
-        return this.currentUser;
+        return userObs;
     }
 
     setUser(user: User){

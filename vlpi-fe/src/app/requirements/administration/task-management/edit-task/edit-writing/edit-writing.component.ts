@@ -19,12 +19,17 @@ export class EditWritingComponent implements OnInit {
   constructor(
     private pageNameService: PageNameSyncService,
     private taskSyncService: TaskSyncService,
-    private router: Router
+    private router: Router,
     ) { }
 
   ngOnInit(): void {
     this.initForm();
     this.setPageName();
+    this.initializeRequirementTypes()
+  }
+
+  private initializeRequirementTypes(){
+    this.taskSyncService.reloadReqruirementTypes();
   }
 
   private setPageName(){

@@ -37,6 +37,7 @@ import { StatisticSyncService } from './services/statistic.sync-service';
 import { ShortStatisticsComponent } from './statistics/short-statistics/short-statistics.component';
 import { StatisticInfoComponent } from './statistics/statistic-info/statistic-info.component';
 import { AdminGuardService } from '../shared/guards/admin.guard-service';
+import { RequirementTypeResolverService } from '../shared/resolvers/requirement-type.resolver-service';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService, AdminGuardService], resolve:[UserResolverService]},
@@ -87,7 +88,8 @@ const routes: Routes = [
     AnswerWebService,
     SystemStateSyncService,
     StatisticWebService,
-    StatisticSyncService
+    StatisticSyncService,
+    RequirementTypeResolverService
   ],
   entryComponents:[
     ChooseDifficultyDialogComponent,
