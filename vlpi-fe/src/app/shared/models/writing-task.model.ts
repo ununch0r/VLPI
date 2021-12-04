@@ -4,5 +4,5 @@ import { RequirementWithContinuation } from "./requirement-with-continuation";
 export interface WritingTask extends CreateTask{
     systemNames: string[];
     photoUrl: string;
-    requirement: RequirementWithContinuation[];
+    requirements: RequirementWithContinuation[];
 }

@@ -83,13 +83,22 @@
                                         (click)="onDeleteRequirement(i, 'requirements')">X</button>
                                 </div>
                             </div>
-                            <div class="col col-75" style="width: 75%;">
-                                <input 
-                                    type="text" 
-                                    class="form-control"
-                                    placeholder="Continuation..."
-                                    formControlName="continuation">
+                            <div class="row" style="width: 75%;">
+                                <div class="col" style="width: 42.5%;">
+                                    <input 
+                                        type="text" 
+                                        class="form-control"
+                                        placeholder="Continuation..."
+                                        formControlName="continuation">
+                                </div>
+                                <div class="col" style="width: 30%; margin-left: 2.5%;">
+                                    <select formControlName="typeId" class="form-control">
+                                        <option *ngFor="let type of requirementTypes" [ngValue]="type.id">
+                                            {{ type.name }}</option>
+                                    </select>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

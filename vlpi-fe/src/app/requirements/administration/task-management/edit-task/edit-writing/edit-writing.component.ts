@@ -5,6 +5,8 @@ import { TaskSyncService } from 'src/app/requirements/services/task.sync-service
 import { WritingTask } from 'src/app/shared/models/writing-task.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { RequirementWithContinuation } from 'src/app/shared/models/requirement-with-continuation';
+import { Observable } from 'rxjs';
+import { RequirementType } from 'src/app/shared/models/requirement-type.model';
 
 @Component({
   selector: 'app-edit-writing',
@@ -15,6 +17,8 @@ export class EditWritingComponent implements OnInit {
 
   @Input() writingTask: WritingTask
   writingForm : FormGroup;
+  requirementTypesObs: Observable<RequirementType[]>;
+  requirementTypes: RequirementType[]
 
   constructor(
     private pageNameService: PageNameSyncService,
@@ -24,8 +28,14 @@ export class EditWritingComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.setPageName();
     this.initializeRequirementTypes()
+    this.setPageName();
+    this.setRequirementTypes();
+  }
+
+  private setRequirementTypes(){
+    this.requirementTypesObs = this.taskSyncService.requirementTypesObs;
+    this.requirementTypesObs.subscribe(types => this.requirementTypes = types);
   }
 
   private initializeRequirementTypes(){
@@ -56,7 +66,8 @@ export class EditWritingComponent implements OnInit {
     (<FormArray>this.writingForm.get(arrayName)).push(
       new FormGroup({
         'description': new FormControl(''),
-        'continuation': new FormControl('') 
+        'continuation': new FormControl(''),
+        'typeId': new FormControl(1)
       })
     )
   }
@@ -71,22 +82,23 @@ export class EditWritingComponent implements OnInit {
 
   onSubmit(){
     this.initWritingTask();
-    console.log(this.writingTask);
-    //this.taskSyncService.createWritingTask(this.writingTask);
-    //this.router.navigate(['task'])
+    this.taskSyncService.createWritingTask(this.writingTask);
+    this.router.navigate(['task'])
   }
 
   initWritingTask(){
-    console.log(this.writingForm);
     let formRequirements = (<FormArray>this.writingForm.get('requirements'));
     let formSystemNames = (<FormArray>this.writingForm.get('systemNames'));
 
     let requirements : RequirementWithContinuation[] = formRequirements.value.map(requirement => 
-      ({ description: requirement.description, continuation: requirement.continuation } as RequirementWithContinuation));
-    let systemNames : string[] = formSystemNames.value;
+      ({ description: requirement.description,
+         continuation: requirement.continuation,
+          typeId: requirement.typeId
+      } as RequirementWithContinuation));
+    let systemNames : string[] = formSystemNames.value.map(systemName => systemName.name);
 
     this.writingTask.photoUrl = this.writingForm.value.photoUrl;
-    this.writingTask.requirement = requirements;
+    this.writingTask.requirements = requirements;
     this.writingTask.systemNames = systemNames;
   }
 
