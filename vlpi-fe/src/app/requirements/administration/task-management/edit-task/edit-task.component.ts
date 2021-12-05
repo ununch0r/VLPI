@@ -1,9 +1,8 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { pipe, Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { TaskSyncService } from 'src/app/requirements/services/task.sync-service';
-import { AnalysisTask } from 'src/app/shared/models/analysis-task.model';
 import { CreateTask } from 'src/app/shared/models/create-task.model';
 import { TaskTip } from 'src/app/shared/models/task-tip.model';
 import { TaskType } from 'src/app/shared/models/task-type.model';

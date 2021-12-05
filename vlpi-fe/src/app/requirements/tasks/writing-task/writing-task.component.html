@@ -1,0 +1,52 @@
+<div class="header-container">
+    <div class="image-container">
+        <img style="width: 100%;max-height: 100%" [src]="(taskObs | async)?.photoUrl" alt="task">
+    </div>
+    <div class="system-name-container">
+        <p>Name of the system:</p>
+        <input class="system-name-input" type="text" [(ngModel)]="systemName">
+    </div>
+    <div class="actions-container">
+        <div class="action">
+            <p class="timer">{{timeLeft}} sec left</p>
+        </div>
+        <button [disabled]="tipsCount === usedTipsCount"
+                mat-raised-button color="secondary" 
+                class="action hint-button"
+                *ngIf="hintsEnabledObs | async"
+                (click)="showHint()">
+                Show hint
+        </button>
+        <button *ngIf="isStarted; else startButton"
+                (click)="onComplete()"
+                mat-raised-button color="primary" 
+                class="action complete-button">
+                Complete
+        </button>
+        <ng-template #startButton>
+            <button (click)="onStart()"
+                    mat-raised-button color="primary" 
+                    class="action complete-button">
+                    Start
+            </button>
+        </ng-template>
+    </div>
+</div>
+
+<div class="content-container" *ngIf="(taskObs | async) as task">
+    <div class="list-item" *ngFor="let requirement of task.requirement">
+        <div class="requirement">
+            <div class="requirement-with-continuation">
+                <p class="requirement-text">{{requirement.description}}</p>
+                <input class="continuation" type="text">
+            </div>
+            <select class="type-select">
+                <option *ngFor="let type of requirementTypes" [ngValue]="type.id">
+                    {{ type.name }}</option>
+            </select>
+        </div>
+        <div class="type-select">
+            
+        </div>
+    </div>
+</div>

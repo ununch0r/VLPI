@@ -38,6 +38,8 @@ import { ShortStatisticsComponent } from './statistics/short-statistics/short-st
 import { StatisticInfoComponent } from './statistics/statistic-info/statistic-info.component';
 import { AdminGuardService } from '../shared/guards/admin.guard-service';
 import { RequirementTypeResolverService } from '../shared/resolvers/requirement-type.resolver-service';
+import { WritingTaskComponent } from './tasks/writing-task/writing-task.component';
+import { WritingTaskResultComponent } from './tasks/writing-task/writing-task-result/writing-task-result.component';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService, AdminGuardService], resolve:[UserResolverService]},
@@ -46,6 +48,8 @@ const routes: Routes = [
   { path: 'task', component: TaskManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
   { path: 'edit-task', component: EditTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
   { path: 'edit-task/:id', component: EditTaskComponent, canActivate:[AuthGuardService,AdminGuardService], resolve:[UserResolverService] },
+  { path: 'analysis-task/:id', component: AnalysisTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
+  { path: 'writing-task/:id', component: WritingTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
 ];
 
 @NgModule({
@@ -63,7 +67,9 @@ const routes: Routes = [
     AnalysisTaskResultComponent,
     StatisticsListComponent,
     ShortStatisticsComponent,
-    StatisticInfoComponent
+    StatisticInfoComponent,
+    WritingTaskComponent,
+    WritingTaskResultComponent
   ],
   imports: [
     CommonModule,
@@ -95,7 +101,8 @@ const routes: Routes = [
     ChooseDifficultyDialogComponent,
     AnalysisTaskResultComponent,
     ShortStatisticsComponent,
-    StatisticInfoComponent
+    StatisticInfoComponent,
+    WritingTaskResultComponent
   ]
 })
 export class RequirementsModule { }

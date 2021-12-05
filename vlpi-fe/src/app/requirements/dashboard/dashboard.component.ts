@@ -85,9 +85,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroySubj))
       .subscribe(result => {
           if(!!result){
+            this.executionModeSyncService.setCurrentExecutionMode(result.id);
             if(taskType == 'Requirement analysis'){
-              this.executionModeSyncService.setCurrentExecutionMode(result.id);
               this.router.navigate(['analysis-task', taskId]);
+            }else{
+              this.router.navigate(['writing-task', taskId]);
             }
         }
       });
