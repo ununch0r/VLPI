@@ -2,7 +2,8 @@
 {
     public class WritingRequirementViewModel
     {
-        public int RequirementTypeId { get; set; }
-        public string RequirementStatement { get; set; }
+        public int RequirementId { get; set; }
+        public string Continuation { get; set; }
+        public int TypeId { get; set; }
     }
 }

@@ -177,10 +177,9 @@ export class WritingTaskComponent implements OnInit {
     this.countDownDestroySubj.next('');
 
     var answer = this.createAnswer();
-    console.log(answer);
-    // this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(task => {
-    //   this.showResultOverlay(task);
-    // });
+    this.answerWebService.createWritingTaskAnswer(answer).subscribe(task => {
+      //this.showResultOverlay(task);
+    });
   }
 
   showResultOverlay(task: AnalysisTaskResult){

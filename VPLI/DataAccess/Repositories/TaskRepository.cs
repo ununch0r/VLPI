@@ -41,6 +41,10 @@ namespace DataAccess.Repositories
             return await _context.Task
                 .Include(t=>t.Requirement)
                 .ThenInclude(req => req.Explanation)
+                .Include(t => t.Requirement)
+                .ThenInclude(req => req.Continuation)
+                .Include(t => t.Requirement)
+                .ThenInclude(req => req.Type)
                 .Include(t=> t.TaskTip)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(t => t.Id == id);
