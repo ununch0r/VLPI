@@ -11,6 +11,7 @@ import { ExecutionMode } from 'src/app/shared/models/execution-mode.model';
 import { Explanation } from 'src/app/shared/models/explanation.model';
 import { Requirement } from 'src/app/shared/models/requirement.model';
 import { Task } from 'src/app/shared/models/task.model';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { ExecutionModeSyncService } from '../../services/execution-mode.sycn-service';
 import { SystemStateSyncService } from '../../services/system-state.sync-service';
@@ -37,6 +38,7 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
   timeLeft: number;
   tipsCount: number;
   isStarted: boolean = false;
+  task: Task;
 
   correctRequirements: Requirement[] = [];
   wrongRequirements: Requirement[] = [];
@@ -57,7 +59,8 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
     private answerWebService: AnswerWebService,
     private dialog: MatDialog,
     private router: Router,
-    private systemStateSyncService: SystemStateSyncService
+    private systemStateSyncService: SystemStateSyncService,
+    private notificationService : NotificationService
     ) { }
 
   ngOnInit(): void {
@@ -87,6 +90,7 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.taskId = +params['id'];
         this.initExecution();
+        this.task = this.taskSyncService.tasks.find(task => task.id === this.taskId);
       })
   }
 
@@ -189,6 +193,7 @@ export class AnalysisTaskComponent implements OnInit, OnDestroy {
   }
 
   showHint(){
+    this.notificationService.showInfo('', this.task.taskTip[this.usedTipsCount].description);
     this.usedTipsCount++;
   }
 
