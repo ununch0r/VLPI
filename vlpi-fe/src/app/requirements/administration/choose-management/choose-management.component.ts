@@ -11,8 +11,8 @@ import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-serv
 export class ChooseManagementComponent implements OnInit {
 
   tiles: Tile[] = [
-    {header: 'User Management', text: 'User Management description User Management description User Management description User Management description', navigation: 'user'},
-    {header: 'Task Management', text: 'Task Management description Task Management description Task Management description Task Management description', navigation: 'task'}
+    {header: 'User Management', text: 'Here you can see list of users in the system and change their roles', navigation: 'user'},
+    {header: 'Task Management', text: 'Here you can create, edit and delete practical tasks which are avalable in the system', navigation: 'task'}
   ]
 
   selectedTabIndex: number;

@@ -20,6 +20,7 @@ import { Task } from 'src/app/shared/models/task.model';
 import { WritingAnswerRequirement } from 'src/app/shared/models/writing-answer-requirement.model';
 import { WritingTaskAnswer } from 'src/app/shared/models/writing-task-answer.model';
 import { WritingTaskResult } from 'src/app/shared/models/writing-task-result.model';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { AnalysisTaskResultComponent } from '../analysis-task/analysis-task-result/analysis-task-result.component';
 import { WritingTaskResultComponent } from './writing-task-result/writing-task-result.component';
@@ -49,6 +50,7 @@ export class WritingTaskComponent implements OnInit {
 
   requirementTypesObs: Observable<RequirementType[]>;
   requirementTypes: RequirementType[]
+  task: Task;
   
   constructor(
     private pageNameService: PageNameSyncService,
@@ -58,7 +60,8 @@ export class WritingTaskComponent implements OnInit {
     private answerWebService: AnswerWebService,
     private dialog: MatDialog,
     private router: Router,
-    private systemStateSyncService: SystemStateSyncService
+    private systemStateSyncService: SystemStateSyncService,
+    private notificationService : NotificationService
     ) { }
 
   ngOnInit(): void {
@@ -127,6 +130,7 @@ export class WritingTaskComponent implements OnInit {
       (params: Params) => {
         this.taskId = +params['id'];
         this.initExecution();
+        this.task = this.taskSyncService.tasks.find(task => task.id === this.taskId);
       })
   }
 
@@ -214,6 +218,7 @@ export class WritingTaskComponent implements OnInit {
   }
 
   showHint(){
+    this.notificationService.showInfo('', this.task.taskTip[this.usedTipsCount].description);
     this.usedTipsCount++;
   }
 

@@ -40,6 +40,7 @@ import { AdminGuardService } from '../shared/guards/admin.guard-service';
 import { RequirementTypeResolverService } from '../shared/resolvers/requirement-type.resolver-service';
 import { WritingTaskComponent } from './tasks/writing-task/writing-task.component';
 import { WritingTaskResultComponent } from './tasks/writing-task/writing-task-result/writing-task-result.component';
+import { TaskAccessGuardService } from '../shared/guards/task-access.guard-service';
 
 const routes: Routes = [
   { path: 'administration', component: ChooseManagementComponent, canActivate:[AuthGuardService, AdminGuardService], resolve:[UserResolverService]},
@@ -48,8 +49,8 @@ const routes: Routes = [
   { path: 'task', component: TaskManagementComponent, canActivate:[AuthGuardService], resolve:[UserResolverService]},
   { path: 'edit-task', component: EditTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
   { path: 'edit-task/:id', component: EditTaskComponent, canActivate:[AuthGuardService,AdminGuardService], resolve:[UserResolverService] },
-  { path: 'analysis-task/:id', component: AnalysisTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
-  { path: 'writing-task/:id', component: WritingTaskComponent, canActivate:[AuthGuardService], resolve:[UserResolverService] },
+  { path: 'analysis-task/:id', component: AnalysisTaskComponent, canActivate:[AuthGuardService, TaskAccessGuardService], resolve:[UserResolverService] },
+  { path: 'writing-task/:id', component: WritingTaskComponent, canActivate:[AuthGuardService, TaskAccessGuardService], resolve:[UserResolverService] },
 ];
 
 @NgModule({

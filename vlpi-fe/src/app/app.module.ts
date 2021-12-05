@@ -31,6 +31,7 @@ import { ExecutionModeResolverService } from './shared/resolvers/execution-mode.
 import { UtilsWebService } from './requirements/web-services/utils.web-service';
 import { EncodePipe } from './shared/pipes/encode.pipe';
 import { DashboardSyncService } from './requirements/services/dashboard.sync-service';
+import { ToastrModule } from 'ngx-toastr';
 
 export function tokenGetter(){
   return localStorage.getItem(ACCESS_TOKEN_KEY)
@@ -62,7 +63,10 @@ export function tokenGetter(){
         tokenGetter,
         allowedDomains: ['localhost:44310']
       }
-    })
+    }),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    }),
   ],
   providers: [
     {
