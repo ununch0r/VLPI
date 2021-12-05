@@ -19,8 +19,10 @@ import { Requirement } from 'src/app/shared/models/requirement.model';
 import { Task } from 'src/app/shared/models/task.model';
 import { WritingAnswerRequirement } from 'src/app/shared/models/writing-answer-requirement.model';
 import { WritingTaskAnswer } from 'src/app/shared/models/writing-task-answer.model';
+import { WritingTaskResult } from 'src/app/shared/models/writing-task-result.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { AnalysisTaskResultComponent } from '../analysis-task/analysis-task-result/analysis-task-result.component';
+import { WritingTaskResultComponent } from './writing-task-result/writing-task-result.component';
 
 @Component({
   selector: 'app-writing-task',
@@ -178,12 +180,12 @@ export class WritingTaskComponent implements OnInit {
 
     var answer = this.createAnswer();
     this.answerWebService.createWritingTaskAnswer(answer).subscribe(task => {
-      //this.showResultOverlay(task);
+      this.showResultOverlay(task);
     });
   }
 
-  showResultOverlay(task: AnalysisTaskResult){
-    const dialogRef = this.dialog.open(AnalysisTaskResultComponent,{
+  showResultOverlay(task: WritingTaskResult){
+    const dialogRef = this.dialog.open(WritingTaskResultComponent,{
       panelClass: 'custom-dialog-container',
       data: {taskResult: task}
     });

@@ -154,7 +154,7 @@ button[disabled=true]{
 
 .custom-dialog-container .mat-dialog-container {
   width: 60vw;
-  height: 40vw;
+  max-height: 40vw;
   padding: 0px;
   border-radius: 25px;
   background-color: $my-secondary-color;

@@ -103,6 +103,7 @@ namespace Business.Managers
         {
             return new WritingTaskResult
             {
+                SystemName = task.StandardAnswer.AcceptableSystemNames.First(),
                 Score = score,
                 TimeSpent = answer.TimeSpent,
                 Requirements = task.Requirement.Select(req => new WrittenRequirementTemplateAnswer

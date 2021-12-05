@@ -4,6 +4,7 @@ import { AnalysisTaskAnswer } from 'src/app/shared/models/analysis-task-answer.m
 import { Observable } from 'rxjs';
 import { AnalysisTaskResult } from 'src/app/shared/models/analysis-task-result.model';
 import { WritingTaskAnswer } from 'src/app/shared/models/writing-task-answer.model';
+import { WritingTaskResult } from 'src/app/shared/models/writing-task-result.model';
 
 const prefix: string = 'answer';
 
@@ -15,7 +16,7 @@ export class AnswerWebService {
     return this.http.post<AnalysisTaskResult>(prefix + '/' + 'analysis', analysisTaskAnswer);
   }
 
-  createWritingTaskAnswer(writingTaskAnswer: WritingTaskAnswer) : Observable<AnalysisTaskResult> {
-    return this.http.post<AnalysisTaskResult>(prefix + '/' + 'writing', writingTaskAnswer);
+  createWritingTaskAnswer(writingTaskAnswer: WritingTaskAnswer) : Observable<WritingTaskResult> {
+    return this.http.post<WritingTaskResult>(prefix + '/' + 'writing', writingTaskAnswer);
   }
 }

@@ -1,0 +1,27 @@
+<div class="header">
+    <p class="header-text"> Score: {{taskResult.score}}%    Time: {{taskResult.timeSpent}} seconds</p>
+</div>
+
+<div class="standart-asnwer-label">
+    STANDART ANSWER
+</div>
+
+<div class="standart-asnwer-label">
+    System name : {{taskResult.systemName}}
+</div>
+
+<div class="standart-asnwer-container">
+    <div class="requirements-container">
+        <div class="requirements-content">
+            <p class="section-header">Requirements</p>
+            <div class="requirement-box" *ngFor="let requirement of taskResult.requirements">
+                <p class="wrong-requirement-description">{{requirement.requirementStatement}}</p>
+                <p class="explanation-description">Type: {{requirement.requirementType}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="button-conainer">
+    <button class="overlay-button mat-raised-button mat-primary" (click)="onOk()">Ok</button>
+</div>
