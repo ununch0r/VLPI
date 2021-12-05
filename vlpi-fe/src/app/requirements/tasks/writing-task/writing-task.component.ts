@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { first, interval, map, Observable, Subject, takeUntil, takeWhile } from 'rxjs';
@@ -16,6 +17,8 @@ import { Explanation } from 'src/app/shared/models/explanation.model';
 import { RequirementType } from 'src/app/shared/models/requirement-type.model';
 import { Requirement } from 'src/app/shared/models/requirement.model';
 import { Task } from 'src/app/shared/models/task.model';
+import { WritingAnswerRequirement } from 'src/app/shared/models/writing-answer-requirement.model';
+import { WritingTaskAnswer } from 'src/app/shared/models/writing-task-answer.model';
 import { PageNameSyncService } from 'src/app/shared/services/page-name.sync-service';
 import { AnalysisTaskResultComponent } from '../analysis-task/analysis-task-result/analysis-task-result.component';
 
@@ -26,6 +29,7 @@ import { AnalysisTaskResultComponent } from '../analysis-task/analysis-task-resu
 })
 export class WritingTaskComponent implements OnInit {
 
+  writingForm : FormGroup;
   destroySubj = new Subject();
   countDownDestroySubj = new Subject();
 
@@ -35,22 +39,11 @@ export class WritingTaskComponent implements OnInit {
   executionMode: ExecutionMode;
   hintsEnabledObs: Observable<boolean>;
 
-  inputRequirements: Requirement[] = [];
-  explanations: Explanation[] = [];
   timeLeft: number;
   tipsCount: number;
   isStarted: boolean = false;
 
-  correctRequirements: Requirement[] = [];
-  wrongRequirements: Requirement[] = [];
   usedTipsCount: number = 0;
-
-  wrongRequirementsMock: Requirement[] = [
-    {id: 1, description: 'assfsdfa sfd sd sdf sd fsd fsdf sdf sdf dsf sdf f dfs  asf asd asfdasdf', isCorrect: false, explanationId: null},
-    {id: 2, description: 'assfsdfa asf asd asfdasdf dsfa', isCorrect: false, explanationId: null},
-    {id: 3, description: 'assfsdfa sadf asf asd asfdasdf dsfa', isCorrect: false, explanationId: null},
-  ]
-  explanationsMock: Explanation[] = [{id:1, explanation:'safsdf sdaf sadf kljasdfkl jksd jkfasdkj fkjlasdklj faksljd fkljasdlkj fjklsd '}, {id:2, explanation:'safsdf'}]
 
   requirementTypesObs: Observable<RequirementType[]>;
   requirementTypes: RequirementType[]
@@ -68,11 +61,39 @@ export class WritingTaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.taskSyncService.reloadTasks();
+    this.initializeTasks();
     this.trackTaskId();
     this.setPageName();
     this.setUpSystemTracking();
     this.initializeRequirementTypes()
     this.setRequirementTypes();
+    this.initForm();
+  }
+
+  private initializeTasks():void{
+    this.taskSyncService.reloadTasks();
+}
+
+  initForm() {
+    let task = this.taskSyncService.tasks.find(task => task.id === this.taskId);
+    let requirements = new FormArray([]);
+
+    if(task['requirement']){
+      for(let requirement of task.requirement){
+        requirements.push(
+          new FormGroup({
+            'description': new FormControl(requirement.description),
+            'requirementId' : new FormControl(requirement.id),
+            'continuation' : new FormControl(''),
+            'typeId': new FormControl(0,  [Validators.pattern(/^[1-9]+[0-9]*$/)])
+          })
+        );
+      }
+    }
+
+    this.writingForm = new FormGroup({
+      'requirements' : requirements,
+    })
   }
 
   private setRequirementTypes(){
@@ -126,25 +147,10 @@ export class WritingTaskComponent implements OnInit {
     this.taskObs
     .pipe(takeUntil(this.destroySubj))
     .subscribe(task => {
-      this.setupInputRequirements(task);
       this.setupTips(task);
-      this.setupExplanations(task);
     })
   }
 
-  setupExplanations(task: Task){
-    this.explanations = task.explanation;
-  }
-
-  setupInputRequirements(task: Task){
-    let requirements = shuffle(task.requirement);
-
-    let wrongRequirements = requirements.filter(req => !req.isCorrect).slice(0, this.executionMode.wrongRequirementsCount);
-    let correctRequirements = requirements.filter(req => req.isCorrect);
-
-    let combinedArray = [...wrongRequirements, ...correctRequirements];
-    this.inputRequirements = shuffle(combinedArray);
-  }
 
   setupTips(task: Task){
     this.tipsCount = task.taskTip.length;
@@ -171,9 +177,10 @@ export class WritingTaskComponent implements OnInit {
     this.countDownDestroySubj.next('');
 
     var answer = this.createAnswer();
-    this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(task => {
-      this.showResultOverlay(task);
-    });
+    console.log(answer);
+    // this.answerWebService.createAnalysisTaskAnswer(answer).subscribe(task => {
+    //   this.showResultOverlay(task);
+    // });
   }
 
   showResultOverlay(task: AnalysisTaskResult){
@@ -190,18 +197,18 @@ export class WritingTaskComponent implements OnInit {
     );
   }
 
-  createAnswer() : AnalysisTaskAnswer{
-    let correctRequirementIds = this.correctRequirements.map(req => req.id);
-    let wrongRequirements = this.wrongRequirements.map(req => 
-      ({requirementId: req.id, explanationId: req.explanationId} as CreateWrongRequirement));
+  createAnswer() : WritingTaskAnswer{
+    let formRequirements = this.writingForm.value.requirements;
+    let requirements: WritingAnswerRequirement[] = formRequirements.map(requirement =>({
+      requirementId: requirement.requirementId, continuation: requirement.continuation, typeId: requirement.typeId
+    }as WritingAnswerRequirement ));
 
     return {
+      systemName: this.systemName,
       taskId: this.taskId,
-      correctRequirements: correctRequirementIds,
-      wrongRequirements: wrongRequirements,
       timeSpent: this.executionMode.executionTime - this.timeLeft,
       usedTipsCount: this.usedTipsCount,
-      expectedWrongRequirementsCount: this.executionMode.wrongRequirementsCount,
+      requirements: requirements
     }
   }
 

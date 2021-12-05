@@ -20,7 +20,7 @@
         <button *ngIf="isStarted; else startButton"
                 (click)="onComplete()"
                 mat-raised-button color="primary" 
-                class="action complete-button">
+                class="submit action complete-button">
                 Complete
         </button>
         <ng-template #startButton>
@@ -33,20 +33,23 @@
     </div>
 </div>
 
-<div class="content-container" *ngIf="(taskObs | async) as task">
-    <div class="list-item" *ngFor="let requirement of task.requirement">
-        <div class="requirement">
-            <div class="requirement-with-continuation">
-                <p class="requirement-text">{{requirement.description}}</p>
-                <input class="continuation" type="text">
+<div class="content-container">
+    <form [formGroup] = "writingForm">
+        <div formArrayName="requirements">
+        <div class="list-item" *ngFor="let requirement of writingForm.get('requirements')['controls']; let i = index"
+            [formGroupName]="i">
+            <div class="requirement">
+                <div class="requirement-with-continuation">
+                    <p class="requirement-text">{{requirement.value.description | encode:!isStarted}}</p>
+                    <input class="continuation" type="text" placeholder="Continuation..."
+                    formControlName="continuation">
+                </div>
+                <select class="type-select" formControlName="typeId">
+                    <option *ngFor="let type of requirementTypes" [ngValue]="type.id">
+                        {{ type.name }}</option>
+                </select>
             </div>
-            <select class="type-select">
-                <option *ngFor="let type of requirementTypes" [ngValue]="type.id">
-                    {{ type.name }}</option>
-            </select>
-        </div>
-        <div class="type-select">
-            
         </div>
     </div>
+    </form>
 </div>
