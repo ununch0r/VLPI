@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { pipe, Subject, take, takeUntil } from 'rxjs';
 import { TaskSyncService } from 'src/app/requirements/services/task.sync-service';
 import { AnalysisTask } from 'src/app/shared/models/analysis-task.model';
@@ -30,7 +30,8 @@ export class EditTaskComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private pageNameService: PageNameSyncService,
-    private taskSyncService: TaskSyncService
+    private taskSyncService: TaskSyncService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -114,10 +115,12 @@ export class EditTaskComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(){
-    if(this.editMode){
+    this.initCreateTaskModel();
 
+    if(this.editMode){
+      this.taskSyncService.updateTask(this.id, this.createTask);
+      this.router.navigate(['task']);
     }else{
-      this.initCreateTaskModel();
       this.proccedWithCreation();
     }
   }

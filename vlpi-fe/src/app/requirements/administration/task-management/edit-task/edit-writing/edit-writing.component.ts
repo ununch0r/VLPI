@@ -83,7 +83,7 @@ export class EditWritingComponent implements OnInit {
   onSubmit(){
     this.initWritingTask();
     this.taskSyncService.createWritingTask(this.writingTask);
-    this.router.navigate(['task'])
+    this.router.navigate(['task']);
   }
 
   initWritingTask(){

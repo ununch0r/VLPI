@@ -47,10 +47,19 @@ namespace Vlpi.Web.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> CreateTaskAsync([FromBody] [Required] CreateTaskViewModel createTaskViewModel)
+        public async Task<IActionResult> CreateTaskAsync([FromBody][Required] CreateTaskViewModel createTaskViewModel)
         {
             var taskEntity = _mapper.Map<Task>(createTaskViewModel);
             await _taskManager.AddAsync(taskEntity);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateTaskAsync(int id, [FromBody][Required] UpdateTaskViewModel updateTaskViewModel)
+        {
+            var taskEntity = _mapper.Map<Task>(updateTaskViewModel);
+            await _taskManager.UpdateAsync(id, taskEntity);
             return Ok();
         }
 

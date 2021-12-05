@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Task } from 'src/app/shared/models/task.model';
 import { AnalysisTask } from 'src/app/shared/models/analysis-task.model';
 import { WritingTask } from 'src/app/shared/models/writing-task.model';
+import { CreateTask } from 'src/app/shared/models/create-task.model';
 
 const prefix: string = 'task';
 
@@ -24,5 +25,9 @@ export class TaskWebService {
 
   createWritingTask(task : WritingTask){
     return this.http.post(prefix+ '/' + 'writing', task)
+  }
+
+  updateTask(id: number, task : CreateTask){
+    return this.http.put(prefix+ '/' + id, task)
   }
 }

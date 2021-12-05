@@ -57,6 +57,7 @@ namespace Vlpi.Web.Mapper
                     opt => opt.MapFrom(src => src.TypeId));
             CreateMap<CreateTaskTipViewModel, TaskTip>();
             CreateMap<CreateTaskViewModel, Task>();
+            CreateMap<UpdateTaskViewModel, Task>();
             CreateMap<AnalysisAnswerViewModel, AnalysisAnswer>();
             CreateMap<AnswerViewModel, Answer>();
             CreateMap<WrongRequirementViewModel, WrongRequirement>();

@@ -92,11 +92,6 @@ namespace Business.Managers
 
         public async System.Threading.Tasks.Task UpdateAsync(int taskId, Task task)
         {
-            foreach (var requirement in task.Requirement)
-            {
-                requirement.TaskId = taskId;
-            }
-
             foreach (var taskTip in task.TaskTip)
             {
                 taskTip.TaskId = taskId;
