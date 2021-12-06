@@ -7,7 +7,7 @@ namespace Core.Entities.Custom.Task
         public string Objective { get; set; }
         public int Complexity { get; set; }
         public short TypeId { get; set; }
-        public string PhotoUrl { get; set; }
+        public string Description { get; set; }
 
         public IList<Requirement> CorrectRequirements { get; set; }
         public IList<Requirement> WrongRequirements { get; set; }

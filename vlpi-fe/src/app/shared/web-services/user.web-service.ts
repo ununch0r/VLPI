@@ -15,4 +15,15 @@ export class UserWebService {
   getUsers() {
     return this.http.get<User[]>(prefix + '/' + 'users');
   }
+
+  addAdminRole(id: number){
+    let roles = ['Admin'];
+    return this.http.post(prefix + '/' + 'user/' + id + '/roles', roles);
+
+  }
+
+  removeAdminRole(id: number){
+    let roles = ['Admin'];
+    return this.http.post(prefix + '/' + 'user/' + id + '/remove-roles', roles);
+  }
 }

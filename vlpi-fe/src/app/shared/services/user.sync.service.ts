@@ -12,6 +12,7 @@ export class UserSyncService {
     isUserAuthorizedObs: Observable<boolean>;
     userNameObs: Observable<string>;
     currentUser: User;
+    users: User[];
 
     constructor(private userWebService: UserWebService){
         this.userNameObs = this.userObs.pipe(map(user => {
@@ -30,6 +31,7 @@ export class UserSyncService {
       this.userWebService.getUsers().subscribe(users => 
         {
           this.usersSubj.next(users)
+          this.users = users;
         });
     }
 
@@ -49,5 +51,22 @@ export class UserSyncService {
 
     isUserAdmin(): boolean{
         return this.currentUser.roles.findIndex(role => role ==='Admin') !== -1;
+    }
+
+    isUserAdminById(userId: number){
+        let user = this.users.find(user => user.id === userId);
+        return user.roles.findIndex(role => role ==='Admin') !== -1;
+    }
+
+    addAdminRole(userId: number){
+        this.userWebService.addAdminRole(userId).subscribe(result => {
+            this.reloadUsers();
+        })
+    }
+
+    removeAdminRole(userId: number){
+        this.userWebService.removeAdminRole(userId).subscribe(result => {
+            this.reloadUsers();
+        })
     }
 }

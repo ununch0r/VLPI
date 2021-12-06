@@ -41,7 +41,13 @@ export class UserManagementComponent implements OnInit {
   }
 
   updateRole(event: any, userId){
-    console.log(event.target.checked, userId)
+    console.log(event.target.checked);
+    if(event.target.checked)
+    {
+      this.userSyncService.addAdminRole(userId);
+    }else{
+      this.userSyncService.removeAdminRole(userId);
+    }
   }
 
   showStatistic(userId: number){
@@ -49,5 +55,9 @@ export class UserManagementComponent implements OnInit {
       panelClass: 'short-statistic-dialog-container',
       data: {userId: userId}
     });
+  }
+
+  isAdmin(userId: number){
+    return this.userSyncService.isUserAdminById(userId);
   }
 }

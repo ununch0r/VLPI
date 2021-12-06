@@ -9,7 +9,7 @@
             <div class="admin-box-container">
                 <div class="admin-name">Admin:</div>
                 <div class="checkbox-admin">
-                    <input  type="checkbox" id="isAdmin" (change)="updateRole($event, user.id)" />
+                    <input  type="checkbox" id="isAdmin" (change)="updateRole($event, user.id)" [checked]="isAdmin(user.id)"/>
                 </div>
             </div>
             <div class="icon-display">

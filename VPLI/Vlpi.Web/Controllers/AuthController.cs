@@ -75,17 +75,17 @@ namespace Vlpi.Web.Controllers
 
         [Route("user/{id}/roles")]
         [HttpPost]
-        public async Task<IActionResult> AddUserRoles(int userId, [FromBody] string[] roles)
+        public async Task<IActionResult> AddUserRoles(int id, [FromBody] string[] roles)
         {
-            await _userManager.AddUserRolesAsync(userId, roles);
+            await _userManager.AddUserRolesAsync(id, roles);
             return Ok();
         }
 
-        [Route("user/{id}/roles")]
-        [HttpDelete]
-        public async Task<IActionResult> RemoveUserRoles(int userId, [FromBody] string[] roles)
+        [Route("user/{id}/remove-roles")]
+        [HttpPost]
+        public async Task<IActionResult> RemoveUserRoles(int id, [FromBody] string[] roles)
         {
-            await _userManager.RemoveUserRolesAsync(userId, roles);
+            await _userManager.RemoveUserRolesAsync(id, roles);
             return Ok();
         }
 
