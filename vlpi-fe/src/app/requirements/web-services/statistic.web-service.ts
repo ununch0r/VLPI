@@ -17,4 +17,8 @@ export class StatisticWebService {
   getUserShortStatistic() {
     return this.http.get<ShortStatistic[]>(prefix + '/' + 'user/generic');
   }
+
+  getUserShortStatisticById(id: number) {
+    return this.http.get<ShortStatistic[]>(prefix + '/' + 'user/generic/' + id);
+  }
 }

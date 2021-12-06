@@ -5,8 +5,10 @@ import { UserWebService } from "../web-services/user.web-service";
 
 @Injectable()
 export class UserSyncService {
+    private usersSubj = new Subject<User[]>();
     private userSubj = new Subject<User>();
     userObs = this.userSubj.asObservable();
+    usersObs = this.usersSubj.asObservable();
     isUserAuthorizedObs: Observable<boolean>;
     userNameObs: Observable<string>;
     currentUser: User;
@@ -21,6 +23,14 @@ export class UserSyncService {
             }
         }));
         this.isUserAuthorizedObs = this.userObs.pipe(map(user => !!user));
+    }
+
+    reloadUsers()
+    {
+      this.userWebService.getUsers().subscribe(users => 
+        {
+          this.usersSubj.next(users)
+        });
     }
 
     setCurrentUser(){

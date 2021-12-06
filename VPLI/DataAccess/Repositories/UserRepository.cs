@@ -45,7 +45,11 @@ namespace DataAccess.Repositories
 
         public async Task<IList<User>> ListAsync()
         {
-            return await _context.User.AsNoTracking().ToListAsync();
+            return await _context.User
+                .AsNoTracking()
+                .Include(u => u.UserRole)
+                .ThenInclude(ur => ur.Role)
+                .ToListAsync();
         }
 
         public async Task<User> GetAsync(int id)

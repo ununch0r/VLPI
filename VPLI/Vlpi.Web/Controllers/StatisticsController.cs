@@ -74,5 +74,14 @@ namespace Vlpi.Web.Controllers
             var userStatisticViewModel = _mapper.Map<GenericUserStatisticViewModel>(userStatistic);
             return Ok(userStatisticViewModel);
         }
+
+        [HttpGet]
+        [Route("user/generic/{id}")]
+        public async Task<IActionResult> GetGenericUserStatisticById(int id)
+        {
+            var userStatistic = await _statisticManager.GetGenericUserStatisticAsync(id);
+            var userStatisticViewModel = _mapper.Map<GenericUserStatisticViewModel>(userStatistic);
+            return Ok(userStatisticViewModel);
+        }
     }
 }

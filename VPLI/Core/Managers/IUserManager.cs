@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using System.Collections.Generic;
+using Core.Entities;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
@@ -8,6 +9,7 @@ namespace Core.Managers
     {
         Task AddAsync(User user);
         Task<User> GetAsync(int id);
+        Task<IList<User>> ListAsync();
         Task<User> AuthenticateUserAsync(string email, string password);
         Task AddUserRolesAsync(int userId, string[] roles);
         Task RemoveUserRolesAsync(int userId, string[] roles);

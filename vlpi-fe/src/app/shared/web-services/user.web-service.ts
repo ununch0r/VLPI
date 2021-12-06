@@ -11,4 +11,8 @@ export class UserWebService {
   getCurrentUser() {
     return this.http.get<User>(prefix + '/' + 'user');
   }
+
+  getUsers() {
+    return this.http.get<User[]>(prefix + '/' + 'users');
+  }
 }

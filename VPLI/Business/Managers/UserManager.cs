@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using System.Collections.Generic;
+using Core.Entities;
 using Core.Managers;
 using Core.Repositories;
 using System.Threading.Tasks;
@@ -23,6 +24,11 @@ namespace Business.Managers
         public async Task<User> GetAsync(int id)
         {
             return await _userRepository.GetAsync(id);
+        }
+
+        public async Task<IList<User>> ListAsync()
+        {
+            return await _userRepository.ListAsync();
         }
 
         public async Task<User> AuthenticateUserAsync(string email, string password)

@@ -38,4 +38,14 @@ export class StatisticSyncService {
 
     return this.userShortStatistic;   
   }
+
+  reloadShortStatisticByUserId(userId: number){
+    this.statisticWebService.getUserShortStatisticById(userId).subscribe(statistic => 
+      {
+          this.userShortStatisticSubj.next(statistic);
+          this.userShortStatistic = statistic;
+      });
+
+  return this.userShortStatistic;   
+  }
 }

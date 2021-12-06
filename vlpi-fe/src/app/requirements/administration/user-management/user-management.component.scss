@@ -1,0 +1,89 @@
+@import "../../../../styles.scss";
+
+  mat-list{
+    overflow: auto !important;
+    max-height: 80%;
+    margin: 0% 20%;
+    min-height: 120px;
+  }
+  
+  mat-list-item{
+    background-color: #BBD4CE;
+    margin-bottom: 10px;
+    height: 80px !important;
+    min-width: 50% !important;
+    border-radius: 50px;
+    font-size: 36px !important;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+  }
+
+.list-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.icon-display{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+}
+
+.icon-display>mat-icon {
+    transform: scale(3);
+ }
+
+ .checkbox-admin{
+     width: 50%;
+     margin-left: 10px;
+ }
+
+ .admin-name{
+     width: 50%;
+     text-align: center;
+ }
+
+.admin-box-container{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    width: 25%;
+    color: $my-dark-color;
+    justify-content: center;
+}
+
+ .task-name{
+     padding: 5px;
+     font-size: 25px;
+     width: 30%;
+     width: 65%;
+     display: flex;
+     flex-direction: column;
+ }
+
+ .button-container{
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 100%;
+     height: 15%;
+}
+
+.add-button{
+    font-size: 36px !important;
+    min-width: 120px !important;
+    height: 70% !important;
+    border-radius: 25px !important;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+}
+
+mat-icon{
+  color: $my-dark-color;
+}

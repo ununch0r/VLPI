@@ -53,7 +53,8 @@ export class StatisticsListComponent implements OnInit {
 
   onShortStat(){
     const dialogRef = this.dialog.open(ShortStatisticsComponent, {
-      panelClass: 'short-statistic-dialog-container'
+      panelClass: 'short-statistic-dialog-container',
+      data: {userId: null}
     });
   }
 

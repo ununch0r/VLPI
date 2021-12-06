@@ -68,13 +68,26 @@ namespace Business.Managers
         {
             var userAnswers = await _answerManager.GetAnswersByUserAsync(userId);
 
-            return new GenericUserStatistic
+            if (userAnswers.Any())
             {
-                Attempts = userAnswers.Count,
-                AverageScore = userAnswers.Average(ua => ua.Score),
-                AverageTime = (int)userAnswers.Average(ua => ua.TimeSpent),
-                PassedAttempts = userAnswers.Count(ua => ua.Score == 100)
-            };
+                return new GenericUserStatistic
+                {
+                    Attempts = userAnswers.Count,
+                    AverageScore = userAnswers.Average(ua => ua.Score),
+                    AverageTime = (int)userAnswers.Average(ua => ua.TimeSpent),
+                    PassedAttempts = userAnswers.Count(ua => ua.Score == 100)
+                };
+            }
+            else
+            {
+                return new GenericUserStatistic
+                {
+                    Attempts = 0,
+                    AverageScore = 0,
+                    AverageTime = 0,
+                    PassedAttempts = 0
+                };
+            }
         }
 
         public async Task<ICollection<UserTaskStatistic>> GetUserStatisticAsync(int userId)

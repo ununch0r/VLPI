@@ -1,1 +1,20 @@
-<p>user-management works!</p>
+<div style="height: 5%"></div>
+<mat-list role="list">
+    <mat-list-item mat-button role="listitem" *ngFor="let user of usersObs | async">
+        <div class="list-item">
+            <div class="task-name">
+                <div style="margin-bottom: 5px;" class="task-title">Email: {{user.email}}</div>
+                <div class="task-title">User: {{user.firstName}} {{user.lastName}}</div>
+            </div>
+            <div class="admin-box-container">
+                <div class="admin-name">Admin:</div>
+                <div class="checkbox-admin">
+                    <input  type="checkbox" id="isAdmin" (change)="updateRole($event, user.id)" />
+                </div>
+            </div>
+            <div class="icon-display">
+                <mat-icon (click)="showStatistic(user.id)" >bar_chart</mat-icon>
+            </div>
+        </div>
+    </mat-list-item>
+</mat-list>

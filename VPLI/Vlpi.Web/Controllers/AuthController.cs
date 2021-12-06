@@ -64,6 +64,15 @@ namespace Vlpi.Web.Controllers
             return Ok(userViewModel);
         }
 
+        [Route("users")]
+        [HttpGet]
+        public async Task<IActionResult> GetUsersAsync()
+        {
+            var users = await _userManager.ListAsync();
+            var userViewModels = _mapper.Map<ICollection<UserViewModel>>(users);
+            return Ok(userViewModels);
+        }
+
         [Route("user/{id}/roles")]
         [HttpPost]
         public async Task<IActionResult> AddUserRoles(int userId, [FromBody] string[] roles)
